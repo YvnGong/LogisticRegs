@@ -1,0 +1,41 @@
+.skin-blue .main-header>.navbar {
+background-color: #ffb6c1;
+}
+.content-wrapper,.right-side {
+background-color: white;
+}
+.skin-blue .main-header .logo {
+background-color: #ffb6c1;
+color: white;
+}
+.skin-blue .main-header .logo:hover {
+background-color: black;
+}
+aside.main-sidebar {
+background-color: black !important;
+}
+.main-header .logo {
+font-family: "Georgia", Times, "Times New Roman", serif;
+font-weight: bold;
+font-size: 15px;
+}
+.popover-title {
+color: white;
+font-size: 15px;
+background-color:#ffb6c1;
+}
+.popover-content {
+color: #1C2C5B;
+font-size: 13px;
+}
+.btn-myClass {
+    background-color: #000000;
+    border: none;
+    color: white;
+}
+
+#gameMessage {
+  font-family: "Georgia", Times, "Times New Roman", serif;
+font-weight: bold;
+font-size: 15px;
+}
