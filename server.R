@@ -15,13 +15,15 @@ library(RColorBrewer)
 
 #bankc for challenge bank
 
-bankc <- read.csv("ChallengeOutput.csv")
-bankc = data.frame(lapply(bankc, as.character), stringsAsFactors = FALSE)
+bankc <- 
+  read.csv("ChallengeOutput.csv")
+bankc = 
+  data.frame(lapply(bankc, as.character), stringsAsFactors = FALSE)
 
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output,session) {
-  
+
   ##########################Go buttons##################################### 
   observeEvent(input$infoex,{
     sendSweetAlert(
@@ -51,9 +53,9 @@ shinyServer(function(input, output,session) {
   observeEvent(input$begin,{
     updateTabItems(session, "tabs", "qqq")
   })
-  ############################Gray out buttons###############################
-  
-  
+ ############################Gray out buttons###############################
+ 
+ 
   observeEvent(input$start, {
     updateButton(session, "answer", disabled = TRUE)
   })
@@ -71,51 +73,51 @@ shinyServer(function(input, output,session) {
   })
   
   
-  #############################plot outputs#################################
+#############################plot outputs#################################
   observeEvent(input$go | input$submitD, {
     output$plots=
       renderPlot({
+       
+      if(input$model== "Model 1"){
+        nonex<- rnorm(input$n,3,input$x1v)
+        nonex2<- rnorm(input$n,3,input$x2v)
+        e<- rnorm(input$n,0,.2**2)
+        y<- (rnorm(input$n,3,input$yv))**2
         
-        if(input$model== "Model 1"){
-          nonex<- rnorm(input$n,3,input$x1v)
-          nonex2<- rnorm(input$n,3,input$x2v)
-          e<- rnorm(input$n,0,.2**2)
-          y<- (rnorm(input$n,3,input$yv))**2
-          
-          logx<- log(nonex)
-          logx2<-log(nonex2)
-          logy<- log(y)
-          
-          expx<- sqrt(nonex)
-          expx2<- sqrt(nonex2)
-          expy<- sqrt(y)
-        } else if (input$model == "Model 2"){
-          nonex<- rnorm(input$n,3,input$x1v)**2
-          nonex2<- rnorm(input$n,3,input$x2v)**2
-          e<- rnorm(input$n,0,.2**2)
-          y<- (rnorm(input$n,3,input$yv))
-          
-          logx<- log(nonex)
-          logx2<-log(nonex2)
-          logy<- log(y)
-          
-          expx<- sqrt(nonex)
-          expx2<- sqrt(nonex2)
-          expy<- sqrt(y)
-        }else{
-          nonex<- rnorm(input$n,3,input$x1v)**2
-          nonex2<- rnorm(input$n,3,input$x2v)**2
-          e<- rnorm(input$n,0,.2**2)
-          y<- (rnorm(input$n,3,input$yv))**2
-          
-          logx<- log(nonex)
-          logx2<-log(nonex2)
-          logy<- log(y)
-          
-          expx<- sqrt(nonex)
-          expx2<- sqrt(nonex2)
-          expy<- sqrt(y)
-        }
+        logx<- log(nonex)
+        logx2<-log(nonex2)
+        logy<- log(y)
+        
+        expx<- sqrt(nonex)
+        expx2<- sqrt(nonex2)
+        expy<- sqrt(y)
+      } else if (input$model == "Model 2"){
+        nonex<- rnorm(input$n,3,input$x1v)**2
+        nonex2<- rnorm(input$n,3,input$x2v)**2
+        e<- rnorm(input$n,0,.2**2)
+        y<- (rnorm(input$n,3,input$yv))
+        
+        logx<- log(nonex)
+        logx2<-log(nonex2)
+        logy<- log(y)
+        
+        expx<- sqrt(nonex)
+        expx2<- sqrt(nonex2)
+        expy<- sqrt(y)
+      }else{
+        nonex<- rnorm(input$n,3,input$x1v)**2
+        nonex2<- rnorm(input$n,3,input$x2v)**2
+        e<- rnorm(input$n,0,.2**2)
+        y<- (rnorm(input$n,3,input$yv))**2
+        
+        logx<- log(nonex)
+        logx2<-log(nonex2)
+        logy<- log(y)
+        
+        expx<- sqrt(nonex)
+        expx2<- sqrt(nonex2)
+        expy<- sqrt(y)
+      }
         
         for (i in c(input$x)){ for(j in c(input$x2)) {for( k in  c(input$y)){
           if (any(i == "none")& any(j== "none")&any(k== "none")){
@@ -134,8 +136,8 @@ shinyServer(function(input, output,session) {
             model3= lm(y~nonex+expx2+e)
             plot(model3)
           }
-          
-          else if(any(i == "logx")& any(j== "none")&any(k== "none")){
+         
+           else if(any(i == "logx")& any(j== "none")&any(k== "none")){
             par(mfrow=c(2,2))
             model4= lm(y~logx+nonex2+e)
             plot(model4)
@@ -278,18 +280,18 @@ shinyServer(function(input, output,session) {
             model27= lm(expy~expx+expx2+e)
             plot(model27)
           }
-        }}} 
+             }}} 
       })
-    
-    
-    ####end of observeeventsubmit     
+      
+        
+ ####end of observeeventsubmit     
   })
   
   index <- reactiveValues(index=7)
   
   ######################### This section is to output a new activity ############################
   
-  observeEvent(input$challenge | input$go, {
+   observeEvent(input$challenge | input$go, {
     index$index <- sample(1:20,1, replace=FALSE, prob=NULL)
     
     output$challenges <- renderUI ({
@@ -357,7 +359,7 @@ shinyServer(function(input, output,session) {
     }
     )
     
-  })
+     })
   
   ########################## Output for answer box when nothing is in the box #############################
   
@@ -368,12 +370,12 @@ shinyServer(function(input, output,session) {
   observeEvent(input$go,{
     output$answers <- renderText("Please hit the view feedback button for feedback")
   })  
-  
+   
   ###################### output of the answers ################################
   
   observeEvent(input$answer,{
-    
-    
+   
+  
     output$answers <- renderUI ({
       if (index$index == 1){
         h4(bankc[1,3])
@@ -438,13 +440,13 @@ shinyServer(function(input, output,session) {
       
     }
     )
-  }
-  )
+   }
+ )
+ 
+
   
   
-  
-  
-  #######TICTAC
+#######TICTAC
   
   #### question bank ####
   bank <- read.csv('bank.csv', stringsAsFactors = FALSE)
@@ -455,7 +457,7 @@ shinyServer(function(input, output,session) {
   
   ######## MY SERVER CODE ##########
   
-  
+ 
   X.icon <- makeIcon(iconUrl = 'X.PNG', iconWidth= 90)
   O.icon <- makeIcon(iconUrl= 'O.PNG',iconWidth= 105)
   value <- matrix(rep(-3,9),3,3)
@@ -520,8 +522,8 @@ shinyServer(function(input, output,session) {
     #if the previous is true (if the game is over) then this will fire through as well
     #this will also fire through if the board is full, regardless of whether the previous if() has executed
     #i dont know why these two statements should both be here
-    
-    if(length(which(value!=-3))==9){
+   
+     if(length(which(value!=-3))==9){
       if(total.1==0 | total.2==0 | total.3==0 | total.4==0 | total.1==3 | total.2==3 | total.3==3 | total.4==3){
         #if(total.1==0 | total.2==0 | total.3==0 | total.4==0){
         #  title(sub=list("You Are a Loser !", col="darkblue", font=2, cex=2.5), line=2)
@@ -621,8 +623,8 @@ shinyServer(function(input, output,session) {
   })
   
   game <- reactiveVal(NULL)
-  
-  #contains the board as it changes throughout the game
+ 
+   #contains the board as it changes throughout the game
   #will store markers in XsAndOs list
   #as this event fires, only one marker will be added to the XsAndOs list each time
   #the first if statement will store an empty marker, when a box is chosen. Then,
@@ -650,8 +652,8 @@ shinyServer(function(input, output,session) {
         }
       }
       
-      
-      warning(ID)
+     
+     warning(ID)
       
       #statement that checks the ID return from either of the input triggering events. choice or answer
       
@@ -752,8 +754,8 @@ shinyServer(function(input, output,session) {
     
     #create arbitrary cut off of 9 questions (i would say its reasonable) keep in mind the quesiton bank has 18 questions
     #if more than 9 questions have been answered, then we reset the question bank so that all questions can be drawn from
-    
-    if(length(which(answers() %in% c("correct","incorrect")))>9){
+   
+     if(length(which(answers() %in% c("correct","incorrect")))>9){
       numbers$question <- c()
     }else{
       #put the incorrectly answered questions back into play
@@ -779,8 +781,8 @@ shinyServer(function(input, output,session) {
     updateButton(session, 'nextButton',  disabled = TRUE, style= 'danger')
     output$directions <- renderText({"Begin by selecting the square on the plot you would like"})
   })
-  
-  #temporary place holders, will be used as a logical pass to the conditional panel containing the renderUI output
+ 
+   #temporary place holders, will be used as a logical pass to the conditional panel containing the renderUI output
   
   observeEvent(input$image_click, {
     validate(need(is.null(game()), label='Game is over'))
@@ -806,9 +808,9 @@ shinyServer(function(input, output,session) {
     validate(need((ans %in% c("A", "B", "C", "D", seq(0:1000))), label='please select one of the multiple choice responses'))
     
     updateButton(session, 'nextButton', 
-                 disabled = TRUE)
+                  disabled = TRUE)
     updateButton(session, 'submit', 
-                 disabled = TRUE)
+                  disabled = TRUE)
     output$directions <- renderText({"If you would like to play again, press 'Start new game'!"})
   })
   
@@ -979,3 +981,8 @@ shinyServer(function(input, output,session) {
   
   
 })
+ 
+
+
+
+
