@@ -11,6 +11,7 @@ library(raster)
 library(DT)
 library(rgdal)
 library(RColorBrewer)
+library(ggplot2)
 
 
 #bankc for challenge bank
@@ -74,6 +75,21 @@ shinyServer(function(input, output,session) {
   
   
 #############################plot outputs#################################
+  output$logplot<-renderPlot({
+    intercept <-as.numeric(input$b0)
+    bet <- as.numeric(input$b1)
+    x <- rnorm(as.numeric(input$sampleSize))
+    pr <- exp(x * bet) / (1 + exp(x * bet))
+    failures <- rbinom(as.numeric(input$sampleSize), 1, pr)
+    df = data.frame(x,failures)
+    ggplot(aes(x=x,y=failures),data = df)+geom_smooth(method = 'glm', method.args=list(family='binomial'))+
+      geom_point()+
+      ylab('y')+
+      ggtitle("Logistic Regression Model")
+  })
+  
+  
+  
   observeEvent(input$go | input$submitD, {
     output$plots=
       renderPlot({
