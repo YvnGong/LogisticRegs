@@ -121,6 +121,9 @@ shinyUI <- dashboardPage(
                                    #     tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19)),
                                    #     circleButton("infoex",icon = icon("info"), status = "myClass",size = "xs")
                                    # ),
+                                   h3(strong("Logistic Regression")),
+                                   h4("This app will allow you to explore how to create and interprete logistic regression."),
+                                   br(),
                                    sidebarLayout(
                                      sidebarPanel(
                                        sliderInput("sampleSize", "Sample Size:",
@@ -131,10 +134,15 @@ shinyUI <- dashboardPage(
                                        ),
                                        sliderInput("b1", "β1 (coefficient):",
                                                    min = -10, max = 10, value = 3
-                                       )
+                                       ),
+                                       selectInput(inputId="residualType", label = "Residual Type",
+                                                   choices = c("pearson", "deviance"), selected="pearson")
                                      ),
                                      mainPanel(
-                                       plotOutput("logplot")
+                                       plotOutput("logplot"),
+                                       br(),
+                                       p("Best results are no patterns or residual values > |2|"),
+                                       plotOutput("residualPlot")
                                      )
                                    )
                                   ),
