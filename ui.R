@@ -138,7 +138,7 @@ shinyUI <- dashboardPage(
                                        sliderInput("ci", "confidence interval level",
                                                    min = 0, max = 0.999, value = 0.95),
                                        selectInput(inputId="residualType", label = "Residual Type",
-                                                   choices = c("pearson", "deviance"), selected="pearson")
+                                                   choices = c("deviance", "pearson"), selected="deviance")
                                      ),
                                      mainPanel(
                                        plotOutput("logplot"),
@@ -151,12 +151,26 @@ shinyUI <- dashboardPage(
                                   ),
 
                             tabItem(tabName = "qqq",
-                                    # div(style="display: inline-block;vertical-align:top;",
-                                    #     tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19))
-                                    # ),
-                                    div(style="display: inline-block;vertical-align:top;",
-                                        circleButton("info",icon = icon("info"), status = "myClass",size = "xs")
+                                    h3("Game Section"),
+                                    p("Introduction is still working in progress"),
+                                    
+                                    sidebarLayout(
+                                      sidebarPanel(
+                                        
+                                      ),
+                                      
+                                      mainPanel(
+                                        br(),
+                                        
+                                        fluidRow(
+                                          column(6, offset = 2,
+                                                 uiOutput("distPlot", width = "100%"))),
+                                        
+                                        br(),
+                                        br()
+                                      )
                                     )
+                                    
                            )
                          )
                          )
