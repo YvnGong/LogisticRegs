@@ -12,6 +12,7 @@ library(DT)
 library(rgdal)
 library(RColorBrewer)
 library(ggplot2)
+library(data.table)
 
 
 #bankc for challenge bank
@@ -75,26 +76,34 @@ shinyServer(function(input, output,session) {
   
   
 #############################plot outputs#################################
-  output$logplot<-renderPlot({
-    intercept <-as.numeric(input$b0)
-    bet <- as.numeric(input$b1)
-    x <- rnorm(as.numeric(input$sampleSize))
+  df<-function(b0, b1, sampleSize){
+    intercept <-as.numeric(b0)
+    bet <- as.numeric(b1)
+    x <- rnorm(as.numeric(sampleSize))
     pr <- exp(x * bet) / (1 + exp(x * bet))
-    failures <- rbinom(as.numeric(input$sampleSize), 1, pr)
+    failures <- rbinom(as.numeric(sampleSize), 1, pr)
     df = data.frame(x,failures)
-    ggplot(aes(x=x,y=failures),data = df)+geom_smooth(method = 'glm', method.args=list(family='binomial'))+
+    return(df)
+  }
+  
+  output$logplot<-renderPlot({
+    df = df(input$b0, input$b1, input$sampleSize)
+    ggplot(aes(x=x,y=failures),data = df)+geom_smooth(method = 'glm', method.args=list(family='binomial'), level=input$ci)+
       geom_point()+
       ylab('y')+
       ggtitle("Logistic Regression Model")
   })
   
+  output$citable<-renderTable({
+    df = df(input$b0, input$b1, input$sampleSize)
+    logit <- glm(failures ~ x, family=binomial, data=df)
+    citable<-data.table(confint(logit, level = input$ci))
+    citable<-cbind(CI=c("Intercept", "x"), citable)
+    citable
+  })
+  
   output$residualPlot<-renderPlot({
-    intercept <-as.numeric(input$b0)
-    bet <- as.numeric(input$b1)
-    x <- rnorm(as.numeric(input$sampleSize))
-    pr <- exp(x * bet) / (1 + exp(x * bet))
-    failures <- rbinom(as.numeric(input$sampleSize), 1, pr)
-    df = data.frame(x,failures)
+    df = df(input$b0, input$b1, input$sampleSize)
     logit <- glm(failures ~ x, family=binomial, data=df)
     if(input$residualType == "pearson"){
       plot(residuals(logit, type="pearson"), type="b", main="Pearson Res - Logit")
@@ -103,6 +112,8 @@ shinyServer(function(input, output,session) {
       plot(residuals(logit, type="deviance"), type="b", main="Deviance Res - Logit")  #Residual Deviance
     }
   })
+  
+  
   
 #  #  observeEvent(input$go | input$submitD, {
 #  #    output$plots=

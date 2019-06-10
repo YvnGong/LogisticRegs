@@ -135,12 +135,15 @@ shinyUI <- dashboardPage(
                                        sliderInput("b1", "β1 (coefficient):",
                                                    min = -10, max = 10, value = 3
                                        ),
+                                       sliderInput("ci", "confidence interval level",
+                                                   min = 0, max = 0.999, value = 0.95),
                                        selectInput(inputId="residualType", label = "Residual Type",
                                                    choices = c("pearson", "deviance"), selected="pearson")
                                      ),
                                      mainPanel(
                                        plotOutput("logplot"),
                                        br(),
+                                       tableOutput("citable"),
                                        p("Best results are no patterns or residual values > |2|"),
                                        plotOutput("residualPlot")
                                      )
