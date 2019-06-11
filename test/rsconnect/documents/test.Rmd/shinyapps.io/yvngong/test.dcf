@@ -1,0 +1,12 @@
+name: test
+title: test
+username:
+account: yvngong
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 976198
+bundleId: 2145621
+url: https://yvngong.shinyapps.io/test/
+when: 1560264674.8373
+asMultiple: FALSE
+asStatic: FALSE
