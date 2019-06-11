@@ -144,7 +144,7 @@ shinyUI <- dashboardPage(
                                        plotOutput("logplot"),
                                        br(),
                                        tableOutput("citable"),
-                                       p("Best results are no patterns or residual values > |2|"),
+                                       #p("Best results are no patterns or residual values > |2|"),
                                        plotOutput("residualPlot")
                                      )
                                    )
