@@ -88,10 +88,20 @@ shinyServer(function(input, output,session) {
   
   output$logplot<-renderPlot({
     df = df(input$b0, input$b1, input$sampleSize)
-    ggplot(aes(x=x,y=failures),data = df)+geom_smooth(method = 'glm', method.args=list(family='binomial'), level=input$ci)+
+    theme_set(theme_bw())
+    p <- ggplot(aes(x=x,y=failures),data = df)+geom_smooth(method = 'glm',color = "red", size = 1.5, method.args=list(family='binomial'), level=input$ci)+
       geom_point()+
       ylab('y')+
-      ggtitle("Logistic Regression Model")
+      ggtitle("Logistic Regression Model \n")+
+      theme(plot.title = element_text(hjust = 0.5),
+            text = element_text(size=15))
+
+    p + theme(
+      plot.title = element_text(color="black", size=15, face="bold"),
+      axis.title.x = element_text(color="black", size = 15),
+      axis.title.y = element_text(color="black", size = 15)
+      
+    )
   })
   
   output$citable<-renderTable({

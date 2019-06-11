@@ -15,7 +15,7 @@ library(car)
 library(rgdal)
 library(shinyWidgets)
 
-library(rlocker)
+#library(rlocker)
 #smiles
 
 shinyUI <- dashboardPage(
@@ -141,11 +141,11 @@ shinyUI <- dashboardPage(
                                                    choices = c("deviance", "pearson"), selected="deviance")
                                      ),
                                      mainPanel(
-                                       plotOutput("logplot"),
+                                       plotOutput("logplot", width = "82%"),
                                        br(),
                                        tableOutput("citable"),
                                        #p("Best results are no patterns or residual values > |2|"),
-                                       plotOutput("residualPlot")
+                                       plotOutput("residualPlot", width = "85%")
                                      )
                                    )
                                   ),
