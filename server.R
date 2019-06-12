@@ -94,28 +94,22 @@ shinyServer(function(input, output,session) {
     p <- ggplot(aes(x=x,y=failures),data = df)+
       geom_smooth(aes(linetype="fitted probability"),method = 'glm', size = 1.5, color="maroon", 
                   method.args=list(family='binomial'), se=FALSE, level=input$ci)+
-      geom_ribbon(aes(linetype="confidence interval"),stat="smooth", method="glm", alpha=0.15, method.args=list(family='binomial'))+
+      geom_ribbon(aes(linetype="confidence interval"),stat="smooth", method="glm", alpha=0.15, 
+                  method.args=list(family='binomial'))+
       geom_point()+
       ylab('observed Bernoulli')+
       xlab('explanatory variables')+
       ggtitle("Logistic Regression Model \n")+
-      theme(plot.title = element_text(hjust = 0.5),
-            text = element_text(size=15))+
-      # annotate("text", x = 0, y = 0.5, size = 3, alpha = 0.6,
-      #          label = "red line = fitted probability\nshaded area = confidence interval",
-      #          parse = TRUE)+
-      scale_linetype_manual(name="\n",values=c("fitted probability", "confidence interval"))+
-      # scale_colour_manual(name='',values=c('confidence interval'='grey'))+
+      scale_linetype_manual(values=c("fitted probability", "confidence interval"))+
       theme(
       plot.title = element_text(color="black", size=15, face="bold"),
       axis.title.x = element_text(color="black", size = 15),
       axis.title.y = element_text(color="black", size = 15)
-      
     )
+
     p<-
       ggplotly(p)%>%
-      layout(hovermode = 'x')
-    
+      layout(hovermode = 'x', legend = list(x = 0.1, y = 0.5))
   })
   
   # output$citable<-renderTable({

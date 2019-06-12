@@ -119,37 +119,50 @@ shinyUI <- dashboardPage(
                              ),
 
                            tabItem(tabName = "explore",
+                                   
                                    # div(style="display: inline-block;vertical-align:top;",
                                    #     tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19)),
                                    #     circleButton("infoex",icon = icon("info"), status = "myClass",size = "xs")
                                    # ),
-                                   h3(strong("Logistic Regression")),
-                                   h4("This app will allow you to explore how to create and interprete logistic regression."),
-                                   br(),
-                                   sidebarLayout(
-                                     sidebarPanel(
-                                       sliderInput("sampleSize", "Sample Size:",
-                                                   min = 0, max = 300, value = 150
-                                       ),
-                                       sliderInput("b0", "β0 (intercept):",
-                                                   min = -10, max = 10, value = 0
-                                       ),
-                                       sliderInput("b1", "β1 (coefficient):",
-                                                   min = -10, max = 10, value = 3
-                                       ),
-                                       sliderInput("ci", "confidence interval level",
-                                                   min = 0, max = 0.999, value = 0.95),
-                                       selectInput(inputId="residualType", label = "Residual Type",
-                                                   choices = c("deviance", "pearson"), selected="deviance")
+                                   tabsetPanel(
+                                     type="tabs",
+                                     ######Single Regression
+                                     tabPanel("Single Logistic Regression",
+                                              h3(strong("Single Logistic Regression")),
+                                              h4("This app will allow you to explore how to create and interprete logistic regression."),
+                                              br(),
+                                              sidebarLayout(
+                                                sidebarPanel(
+                                                  sliderInput("sampleSize", "Sample Size:",
+                                                              min = 0, max = 300, value = 150
+                                                  ),
+                                                  sliderInput("b0", "β0 (intercept):",
+                                                              min = -10, max = 10, value = 0
+                                                  ),
+                                                  sliderInput("b1", "β1 (coefficient):",
+                                                              min = -10, max = 10, value = 3
+                                                  ),
+                                                  sliderInput("ci", "confidence interval level",
+                                                              min = 0, max = 0.999, value = 0.95),
+                                                  selectInput(inputId="residualType", label = "Residual Type",
+                                                              choices = c("deviance", "pearson"), selected="deviance")
+                                                ),
+                                                mainPanel(
+                                                  plotlyOutput("logplot", width = "100%"),
+                                                  br(),
+                                                  #tableOutput("citable"),
+                                                  #p("Best results are no patterns or residual values > |2|"),
+                                                  plotOutput("residualPlot", width = "100%")
+                                                )
+                                              )
+                                       
                                      ),
-                                     mainPanel(
-                                       plotlyOutput("logplot", width = "100%"),
-                                       br(),
-                                       #tableOutput("citable"),
-                                       #p("Best results are no patterns or residual values > |2|"),
-                                       plotOutput("residualPlot", width = "100%")
+                                     
+                                     tabPanel("Multiple Logistic Regression",
+                                              h3(strong("Multiple Logistic Regression"))
                                      )
                                    )
+                                   
                                   ),
 
                             tabItem(tabName = "qqq",
