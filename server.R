@@ -91,8 +91,10 @@ shinyServer(function(input, output,session) {
     df = df(input$b0, input$b1, input$sampleSize)
     theme_set(theme_bw())
     
-    p <- ggplot(aes(x=x,y=failures,linetype="fitted probability"),data = df)+
-      geom_smooth(method = 'glm', size = 1.5, method.args=list(family='binomial'), level=input$ci)+
+    p <- ggplot(aes(x=x,y=failures),data = df)+
+      geom_smooth(aes(linetype="fitted probability"),method = 'glm', size = 1.5, color="maroon", 
+                  method.args=list(family='binomial'), se=FALSE, level=input$ci)+
+      geom_ribbon(aes(linetype="confidence interval"),stat="smooth", method="glm", alpha=0.15, method.args=list(family='binomial'))+
       geom_point()+
       ylab('observed Bernoulli')+
       xlab('explanatory variables')+
@@ -102,7 +104,7 @@ shinyServer(function(input, output,session) {
       # annotate("text", x = 0, y = 0.5, size = 3, alpha = 0.6,
       #          label = "red line = fitted probability\nshaded area = confidence interval",
       #          parse = TRUE)+
-      scale_linetype_manual(name="\n",values="fitted probability")+
+      scale_linetype_manual(name="\n",values=c("fitted probability", "confidence interval"))+
       # scale_colour_manual(name='',values=c('confidence interval'='grey'))+
       theme(
       plot.title = element_text(color="black", size=15, face="bold"),
