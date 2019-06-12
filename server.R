@@ -90,24 +90,30 @@ shinyServer(function(input, output,session) {
   output$logplot<-renderPlotly({
     df = df(input$b0, input$b1, input$sampleSize)
     theme_set(theme_bw())
-    p <- ggplot(aes(x=x,y=failures),data = df)+
-      geom_smooth(method = 'glm',color = "red", size = 1.5, method.args=list(family='binomial'), level=input$ci)+
+    
+    p <- ggplot(aes(x=x,y=failures,linetype="fitted probability"),data = df)+
+      geom_smooth(method = 'glm', size = 1.5, method.args=list(family='binomial'), level=input$ci)+
       geom_point()+
       ylab('observed Bernoulli')+
       xlab('explanatory variables')+
       ggtitle("Logistic Regression Model \n")+
       theme(plot.title = element_text(hjust = 0.5),
             text = element_text(size=15))+
-      annotate("text", x = 0, y = 0.5, size = 3, alpha = 0.6,
-               label = "red line = fitted probability\nshaded area = confidence interval",
-               parse = TRUE)
-
-    p + theme(
+      # annotate("text", x = 0, y = 0.5, size = 3, alpha = 0.6,
+      #          label = "red line = fitted probability\nshaded area = confidence interval",
+      #          parse = TRUE)+
+      scale_linetype_manual(name="\n",values="fitted probability")+
+      # scale_colour_manual(name='',values=c('confidence interval'='grey'))+
+      theme(
       plot.title = element_text(color="black", size=15, face="bold"),
       axis.title.x = element_text(color="black", size = 15),
       axis.title.y = element_text(color="black", size = 15)
       
     )
+    p<-
+      ggplotly(p)%>%
+      layout(hovermode = 'x')
+    
   })
   
   # output$citable<-renderTable({

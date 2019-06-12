@@ -143,11 +143,11 @@ shinyUI <- dashboardPage(
                                                    choices = c("deviance", "pearson"), selected="deviance")
                                      ),
                                      mainPanel(
-                                       plotlyOutput("logplot", width = "82%"),
+                                       plotlyOutput("logplot", width = "100%"),
                                        br(),
                                        #tableOutput("citable"),
                                        #p("Best results are no patterns or residual values > |2|"),
-                                       plotOutput("residualPlot", width = "85%")
+                                       plotOutput("residualPlot", width = "100%")
                                      )
                                    )
                                   ),
