@@ -12,6 +12,7 @@ library(DT)
 library(rgdal)
 library(RColorBrewer)
 library(ggplot2)
+library(plotly)
 library(data.table)
 
 
@@ -86,15 +87,20 @@ shinyServer(function(input, output,session) {
     return(df)
   }
   
-  output$logplot<-renderPlot({
+  output$logplot<-renderPlotly({
     df = df(input$b0, input$b1, input$sampleSize)
     theme_set(theme_bw())
-    p <- ggplot(aes(x=x,y=failures),data = df)+geom_smooth(method = 'glm',color = "red", size = 1.5, method.args=list(family='binomial'), level=input$ci)+
+    p <- ggplot(aes(x=x,y=failures),data = df)+
+      geom_smooth(method = 'glm',color = "red", size = 1.5, method.args=list(family='binomial'), level=input$ci)+
       geom_point()+
-      ylab('y')+
+      ylab('observed Bernoulli')+
+      xlab('explanatory variables')+
       ggtitle("Logistic Regression Model \n")+
       theme(plot.title = element_text(hjust = 0.5),
-            text = element_text(size=15))
+            text = element_text(size=15))+
+      annotate("text", x = 0, y = 0.5, size = 3, alpha = 0.6,
+               label = "red line = fitted probability\nshaded area = confidence interval",
+               parse = TRUE)
 
     p + theme(
       plot.title = element_text(color="black", size=15, face="bold"),
@@ -104,13 +110,13 @@ shinyServer(function(input, output,session) {
     )
   })
   
-  output$citable<-renderTable({
-    df = df(input$b0, input$b1, input$sampleSize)
-    logit <- glm(failures ~ x, family=binomial, data=df)
-    citable<-data.table(confint(logit, level = input$ci))
-    citable<-cbind(CI=c("Intercept", "x"), citable)
-    citable
-  })
+  # output$citable<-renderTable({
+  #   df = df(input$b0, input$b1, input$sampleSize)
+  #   logit <- glm(failures ~ x, family=binomial, data=df)
+  #   citable<-data.table(confint(logit, level = input$ci))
+  #   citable<-cbind(CI=c("Intercept", "x"), citable)
+  #   citable
+  # })
   
   output$residualPlot<-renderPlot({
     df = df(input$b0, input$b1, input$sampleSize)

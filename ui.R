@@ -14,6 +14,8 @@ library(RColorBrewer)
 library(car)
 library(rgdal)
 library(shinyWidgets)
+library(ggplot2)
+library(plotly)
 
 #library(rlocker)
 #smiles
@@ -127,7 +129,7 @@ shinyUI <- dashboardPage(
                                    sidebarLayout(
                                      sidebarPanel(
                                        sliderInput("sampleSize", "Sample Size:",
-                                                   min = 0, max = 500, value = 250
+                                                   min = 0, max = 300, value = 150
                                        ),
                                        sliderInput("b0", "β0 (intercept):",
                                                    min = -10, max = 10, value = 0
@@ -141,9 +143,9 @@ shinyUI <- dashboardPage(
                                                    choices = c("deviance", "pearson"), selected="deviance")
                                      ),
                                      mainPanel(
-                                       plotOutput("logplot", width = "82%"),
+                                       plotlyOutput("logplot", width = "82%"),
                                        br(),
-                                       tableOutput("citable"),
+                                       #tableOutput("citable"),
                                        #p("Best results are no patterns or residual values > |2|"),
                                        plotOutput("residualPlot", width = "85%")
                                      )
