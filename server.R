@@ -87,6 +87,16 @@ shinyServer(function(input, output,session) {
     return(df)
   }
   
+  df2<-function(b0, b1, b2, sampleSize){
+    x1 = rnorm(sampleSize)           
+    x2 = rnorm(sampleSize)
+    z = b0+b1*x1+b2*x2        # linear combination with a bias
+    pr = 1/(1+exp(-z))         # pass through an inv-logit function
+    y = rbinom(sampleSize,1,pr)      # bernoulli response variable
+    df = data.frame(y=y,x1=x1,x2=x2)
+    return(df)
+  }
+  
   output$logplot<-renderPlotly({
     df = df(input$b0, input$b1, input$sampleSize)
     theme_set(theme_bw())
@@ -133,6 +143,14 @@ shinyServer(function(input, output,session) {
     }
   })
   
+  output$multix<-renderPlot({
+    df<-df2(input$b02, input$b12, input$b2, input$sampleSize2)
+    p<-glm(y~x1+x2,data=df,family="binomial")
+    par(mfrow=c(2,2))
+    plot(p)
+  })
+  
+  
   ##### goodness of fit#####
   output$lemeshowTest<-renderPrint({
     df = df(input$b0, input$b1, input$sampleSize)
@@ -150,15 +168,19 @@ shinyServer(function(input, output,session) {
     cbind(hl$expected, hl$observed)
   })
   
-  output$multix<-renderPlot({
-    x1 = rnorm(input$sampleSize2)           
-    x2 = rnorm(input$sampleSize2)
-    z = input$b02+input$b12*x1+input$b2*x2        # linear combination with a bias
-    pr = 1/(1+exp(-z))         # pass through an inv-logit function
-    y = rbinom(input$sampleSize2,1,pr)      # bernoulli response variable
-    df = data.frame(y=y,x1=x1,x2=x2)
+  output$lemeshowTest2<-renderPrint({
+    df<-df2(input$b02, input$b12, input$b2, input$sampleSize2)
+    mod<-glm(y~x1+x2,data=df,family="binomial")
+    hl<-hoslem.test(mod$y, fitted(mod), g=10)
+    hl
+  }
+  )
+  
+  output$obsexp2<-renderPrint({
+    df<-df2(input$b02, input$b12, input$b2, input$sampleSize2)
     p<-glm(y~x1+x2,data=df,family="binomial")
-    plot(p)
+    hl<-hoslem.test(p$y, fitted(p), g=10)
+    cbind(hl$expected, hl$observed)
   })
   
 
