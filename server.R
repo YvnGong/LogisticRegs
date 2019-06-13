@@ -92,9 +92,9 @@ shinyServer(function(input, output,session) {
     theme_set(theme_bw())
     
     p <- ggplot(aes(x=x,y=failures),data = df)+
-      geom_smooth(aes(linetype="fitted probability"),method = 'glm', size = 1.5, color="maroon", 
+      geom_smooth(aes(linetype="fitted\n probability"),method = 'glm', size = 1.5, color="maroon", 
                   method.args=list(family='binomial'), se=FALSE, level=input$ci)+
-      geom_ribbon(aes(linetype="confidence interval"),stat="smooth", method="glm", alpha=0.15, 
+      geom_ribbon(aes(linetype="confidence\n interval"),stat="smooth", method="glm", alpha=0.15, 
                   method.args=list(family='binomial'))+
       geom_point()+
       ylab('observed Bernoulli')+
@@ -103,13 +103,14 @@ shinyServer(function(input, output,session) {
       scale_linetype_manual(values=c("fitted probability", "confidence interval"))+
       theme(
       plot.title = element_text(color="black", size=15, face="bold"),
+      axis.text = element_text(color="black", size = 12),
       axis.title.x = element_text(color="black", size = 15),
       axis.title.y = element_text(color="black", size = 15)
     )
 
     p<-
       ggplotly(p)%>%
-      layout(hovermode = 'x', legend = list(x = 0.1, y = 0.5))
+      layout(hovermode = 'x', legend = list(x = 0.7, y = 0.15))
   })
   
   # output$citable<-renderTable({
