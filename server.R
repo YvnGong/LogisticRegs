@@ -113,6 +113,7 @@ shinyServer(function(input, output,session) {
       layout(hovermode = 'x', legend = list(x = 0.7, y = 0.15))
   })
   
+  
   # output$citable<-renderTable({
   #   df = df(input$b0, input$b1, input$sampleSize)
   #   logit <- glm(failures ~ x, family=binomial, data=df)
@@ -147,6 +148,17 @@ shinyServer(function(input, output,session) {
     hl <- hoslem.test(mod$y, fitted(mod))
     hl
     cbind(hl$expected, hl$observed)
+  })
+  
+  output$multix<-renderPlot({
+    x1 = rnorm(input$sampleSize2)           
+    x2 = rnorm(input$sampleSize2)
+    z = input$b02+input$b12*x1+input$b2*x2        # linear combination with a bias
+    pr = 1/(1+exp(-z))         # pass through an inv-logit function
+    y = rbinom(input$sampleSize2,1,pr)      # bernoulli response variable
+    df = data.frame(y=y,x1=x1,x2=x2)
+    p<-glm(y~x1+x2,data=df,family="binomial")
+    plot(p)
   })
   
 

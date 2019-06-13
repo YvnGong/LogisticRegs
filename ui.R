@@ -164,7 +164,30 @@ shinyUI <- dashboardPage(
                                      ),
                                      
                                      tabPanel("Multiple Logistic Regression",
-                                              h3(strong("Multiple Logistic Regression"))
+                                              h3(strong("Multiple Logistic Regression")),
+                                              br(),
+                                              sidebarLayout(
+                                                sidebarPanel(
+                                                  sliderInput("sampleSize2", "Sample Size:",
+                                                              min = 0, max = 300, value = 150
+                                                  ),
+                                                  sliderInput("b02", "β0 (intercept):",
+                                                              min = -10, max = 10, value = 0
+                                                  ),
+                                                  sliderInput("b12", "β1 (coefficient):",
+                                                              min = -10, max = 10, value = 3
+                                                  ),
+                                                  sliderInput("b2", "β2 (coefficient):",
+                                                              min = -10, max = 10, value = 3
+                                                  ),
+                                                  sliderInput("ci2", "confidence interval level",
+                                                              min = 0, max = 0.999, value = 0.95)
+                                              
+                                                ),
+                                                mainPanel(
+                                                  plotOutput("multix")
+                                                  )
+                                              )
                                      )
                                    )
                                    
