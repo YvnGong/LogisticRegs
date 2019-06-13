@@ -125,10 +125,10 @@ shinyServer(function(input, output,session) {
     df = df(input$b0, input$b1, input$sampleSize)
     logit <- glm(y ~ x, family=binomial, data=df)
     if(input$residualType == "pearson"){
-      plot(residuals(logit, type="pearson"), type="b", main="Pearson Res - Logit")
+      plot(residuals(logit, type="pearson"), type="b", main="Pearson Res - Logit", cex.axis = 1.3, cex.lab = 1.5, cex.main =1.5, pch=16, las=1)
     }
     else{
-      plot(residuals(logit, type="deviance"), type="b", main="Deviance Res - Logit")  #Residual Deviance
+      plot(residuals(logit, type="deviance"), type="b", main="Deviance Res - Logit", cex.axis = 1.3, cex.lab = 1.5, cex.main =1.5, pch=16,las=1)  #Residual Deviance
     }
   })
   

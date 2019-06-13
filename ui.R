@@ -148,11 +148,14 @@ shinyUI <- dashboardPage(
                                                               choices = c("deviance", "pearson"), selected="deviance")
                                                 ),
                                                 mainPanel(
-                                                  plotlyOutput("logplot", width = "100%"),
+                                                  plotlyOutput("logplot", width = "98%"),
+                                                  br(),
                                                   br(),
                                                   #tableOutput("citable"),
                                                   #p("Best results are no patterns or residual values > |2|"),
                                                   plotOutput("residualPlot", width = "100%"),
+                                                  tags$style(type='text/css', '#lemeshowTest, #obsexp {background-color: rgba(219,193,195,0.20); 
+                                                             color: maroon;text-align: center}'), 
                                                   verbatimTextOutput("lemeshowTest"),
                                                   verbatimTextOutput("obsexp")
                                                 )
