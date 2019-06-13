@@ -152,7 +152,9 @@ shinyUI <- dashboardPage(
                                                   br(),
                                                   #tableOutput("citable"),
                                                   #p("Best results are no patterns or residual values > |2|"),
-                                                  plotOutput("residualPlot", width = "100%")
+                                                  plotOutput("residualPlot", width = "100%"),
+                                                  verbatimTextOutput("lemeshowTest"),
+                                                  verbatimTextOutput("obsexp")
                                                 )
                                               )
                                        

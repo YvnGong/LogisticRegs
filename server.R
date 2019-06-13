@@ -14,7 +14,7 @@ library(RColorBrewer)
 library(ggplot2)
 library(plotly)
 library(data.table)
-
+library(ResourceSelection)
 
 #bankc for challenge bank
 
@@ -82,8 +82,8 @@ shinyServer(function(input, output,session) {
     bet <- as.numeric(b1)
     x <- rnorm(as.numeric(sampleSize))
     pr <- exp(x * bet) / (1 + exp(x * bet))
-    failures <- rbinom(as.numeric(sampleSize), 1, pr)
-    df = data.frame(x,failures)
+    y <- rbinom(as.numeric(sampleSize), 1, pr)
+    df = data.frame(x,y)
     return(df)
   }
   
@@ -91,8 +91,8 @@ shinyServer(function(input, output,session) {
     df = df(input$b0, input$b1, input$sampleSize)
     theme_set(theme_bw())
     
-    p <- ggplot(aes(x=x,y=failures),data = df)+
-      geom_smooth(aes(linetype="fitted\n probability"),method = 'glm', size = 1.5, color="maroon", 
+    p <- ggplot(aes(x=x,y=y),data = df)+
+      geom_smooth(aes(linetype="fitted probability"),method = 'glm', size = 1.5, color="maroon", 
                   method.args=list(family='binomial'), se=FALSE, level=input$ci)+
       geom_ribbon(aes(linetype="confidence\n interval"),stat="smooth", method="glm", alpha=0.15, 
                   method.args=list(family='binomial'))+
@@ -102,12 +102,12 @@ shinyServer(function(input, output,session) {
       ggtitle("Logistic Regression Model \n")+
       scale_linetype_manual(values=c("fitted probability", "confidence interval"))+
       theme(
-      plot.title = element_text(color="black", size=15, face="bold"),
-      axis.text = element_text(color="black", size = 12),
-      axis.title.x = element_text(color="black", size = 15),
-      axis.title.y = element_text(color="black", size = 15)
-    )
-
+        plot.title = element_text(color="black", size=15, face="bold"),
+        axis.text = element_text(color="black", size = 12),
+        axis.title.x = element_text(color="black", size = 15),
+        axis.title.y = element_text(color="black", size = 15)
+      )
+    
     p<-
       ggplotly(p)%>%
       layout(hovermode = 'x', legend = list(x = 0.7, y = 0.15))
@@ -123,13 +123,30 @@ shinyServer(function(input, output,session) {
   
   output$residualPlot<-renderPlot({
     df = df(input$b0, input$b1, input$sampleSize)
-    logit <- glm(failures ~ x, family=binomial, data=df)
+    logit <- glm(y ~ x, family=binomial, data=df)
     if(input$residualType == "pearson"){
       plot(residuals(logit, type="pearson"), type="b", main="Pearson Res - Logit")
     }
     else{
       plot(residuals(logit, type="deviance"), type="b", main="Deviance Res - Logit")  #Residual Deviance
     }
+  })
+  
+  ##### goodness of fit#####
+  output$lemeshowTest<-renderPrint({
+    df = df(input$b0, input$b1, input$sampleSize)
+    mod <- glm (y~x, data=df, family = binomial)
+    hl <- hoslem.test(mod$y, fitted(mod))
+    hl
+  }
+  )
+  
+  output$obsexp<-renderPrint({
+    df = df(input$b0, input$b1, input$sampleSize)
+    mod <- glm (y~x, data=df, family = binomial)
+    hl <- hoslem.test(mod$y, fitted(mod))
+    hl
+    cbind(hl$expected, hl$observed)
   })
   
 
