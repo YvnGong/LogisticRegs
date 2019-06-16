@@ -88,7 +88,11 @@ shinyUI <- dashboardPage(
                                     h4("This app allows you to explore how different factors can affect the outcome of the Logistic Regression Model and Multiple Logistic Model."),
                                     br(),
                                     h3(strong("Instructions:")),
-                                    h4(tags$li("Adjust the sliders to watch how diagnostic plots changes in the Multiple Logistic Model.")),
+                                    h4(tags$li("There are two types of logistic model, Single Logistic Regression and Multiple Logistic Regression, included in this app.")),
+                                    h4(tags$li("For each model, adjust the sliders to change the sample size and corresponding beta coefficients.")),
+                                    h4(tags$li("Watch how the plot of Logistic Regression Model changes as well as the plot of Residual and the diagnostic plots changes under the Multiple Logistic Model tab.")),
+                                    h4(tags$li("Each Logistic Regression plot is made on a random sample.")),
+                                    h4(tags$li("After working with the explore section, you can start the game to test your understanding of the concepts.")),
                                     br(),
                                     div(style = "text-align: center",
                                         bsButton(inputId = "go", label =  "Go to Exploration",icon("bolt"), style= "danger", size= "large", class="circle grow")
