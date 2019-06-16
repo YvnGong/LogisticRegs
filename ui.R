@@ -85,46 +85,48 @@ shinyUI <- dashboardPage(
                                      tags$a(href='http://stat.psu.edu/',tags$img(src='logo.png', align = "left", width = 180)),
                                     br(),br(),br(),
                                     h3(strong("About:")),
-                                    h4("This app will allow you to explore how to read diagnostic plots while interacting with different transformations
-       to help you better understand the assumptions of regression."),
+                                    h4("This app allows you to explore how different factors can affect the outcome of the Logistic Regression Model and Multiple Logistic Model."),
                                     br(),
                                     h3(strong("Instructions:")),
-                                    h4(tags$li("Each 'Mystery Model' on the exploration page is generated with variables or their transformations being the response (Y) 
-      or the predictor variables (X1, X2).")),
-                                    h4(tags$li("Watch how diagnostic plots change when you adjust the predictors and response variables using different transformations. 
-       Note that transforming the y variable will effect certain plots more, and transforming the x variable will effect other 
-                                       plots more.")),
-                                    h4(tags$li('You also have the option to change the variances of each term, and the sample size.')),
-                                    h4(tags$li('The instructions in the activity provide some ideas for exploration.')),
-                                    h4(tags$li("In the game, the object is to win at tic-tac-toe where you are playing X's.  Select a square, then answer the question.
-       If you get the question correct, an X goes in the square.  If you get it wrong, an O goes in the square.")),
+                                    h4(tags$li("Adjust the sliders to watch how diagnostic plots changes in the Multiple Logistic Model.")),
+                                    br(),
                                     div(style = "text-align: center",
                                         bsButton(inputId = "go", label =  "Go to Exploration",icon("bolt"), style= "danger", size= "large", class="circle grow")
                                     ),
                                     br(),
                                     h3(strong("Acknowledgements:")),
-                                    h4("This app was developed and coded by TJ McIntyre, with the help of Ryan Voyack.")
+                                    h4("This app was developed and coded by Yiyun Gong and Ruisi Wang.")
 
                              ),
 
                              #Adding pre-requisites page to remove background from instructions page
 
                              tabItem(tabName="prereq",
-                                     h3(strong("Background: Assumptions and Diagnostic Plots in Regression")),
-                                     h4(tags$li("Transforming the x values is appropriate when non-linearity is the only problem 
-       (i.e., the independence, normality, and equal variance conditions are met). Transforming the y values should be
-                                        considered when non-normality and/or unequal variances are the problems with the model.")),
-                                     h4(tags$li("The Fitted vs Residuals plot can be used to check the assumption of linearity (any location on the x axis, the 
-       average residual should be close to 0) and it can also be used to check the assumption of equal variances 
-                                        (at any location on the x axis, the variability of the residual should be similar).")),
-                                     h4(tags$li("The Normal Q-Q plot can be used to check the assumption of normal errors: i.e. the majority of the points should 
-       be a straight line. Skewness can also be seen by this plot.  See the ", a(href='https://rstudio.aws.science.psu.edu:3838/Boast/Regression/QQ_plot/', 'Q-Q plot')," app for further exploration.")),
-                                     h4(tags$li("The Scale-Location plot can be used to check the assumption of equal variances, at any location of the x axis,
-        the upper bound of the residuals should be similar.")),
-                                     h4(tags$li("The Cook's Distance plot shows the values of leverage, standardized residuals, and Cook's Distance of each data point
-       which can be used to determine high leverage points, outliers and influential points.")),br(),
+                                     h3(strong("Background: Logistic Regression Analysis")),
+                                     br(),
+                                     h4(tags$li("The logistic regression model explains the relationship 
+                                                between one (or more) explanatory variable and the binary outcome.")),
                                      
-                                    div(style = "text-align: center",bsButton("start","Go to the overview",icon("bolt"),style = "danger",size = "large",class="circle grow"))
+                                     br(),
+                                     withMathJax(),
+                                     helpText('In the logistic regression the constant \\(\\beta_0\\)
+                                                moves the curve left and right and the slope
+                                                \\(\\beta_1\\) defines the steepness of the curve.
+                                              $${ln({p\\over1-p})} = {\\beta_0+\\beta_1x}$$'),
+                                     h4(tags$li("Deviance Residual and Pearson Residual check the model fit. Best 
+                                                results are no patterns or residual values > |2|")),
+                                     h4(tags$li("Hosmer and Lemeshow test check the goodness of fit in the model 
+                                                where data is divided into recommended 10 groups. The p-value can 
+                                                determine the significance of the result.")),
+                                     br(),
+                                     helpText('Hosmer-Lemeshow Test Statstics
+                                                $${\\sum_{i=1}^g}{\\sum_{j=1}^2} = {{(obs_{ij} - exp_{ij})^2} 
+                                              \\over exp_{ij}}$$'),
+                                     br(),
+                                     br(),
+                                     div(style = "text-align: center",bsButton("start","Go to the overview",
+                                                                               icon("bolt"),style = "danger",
+                                                                               size = "large",class="circle grow"))
 
                              ),
 
