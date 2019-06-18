@@ -107,7 +107,7 @@ shinyServer(function(input, output,session) {
       geom_ribbon(aes(linetype="confidence\n interval"),stat="smooth", method="glm", alpha=0.15, 
                   method.args=list(family='binomial'))+
       geom_point()+
-      ylab('observed Bernoulli')+
+      ylab('Observed Bernoulli')+
       xlab('explanatory variables')+
       ggtitle("Logistic Regression Model \n")+
       scale_linetype_manual(values=c("fitted probability", "confidence interval"))+
@@ -136,10 +136,16 @@ shinyServer(function(input, output,session) {
     df = df(input$b0, input$b1, input$sampleSize)
     logit <- glm(y ~ x, family=binomial, data=df)
     if(input$residualType == "pearson"){
-      plot(residuals(logit, type="pearson"), type="b", main="Pearson Res - Logit", cex.axis = 1.3, cex.lab = 1.5, cex.main =1.5, pch=16, las=1)
+      plot(residuals(logit, type="pearson"), type="b", 
+           main="Pearson Res- logit", ylab= "Pearson Residual", 
+           cex.axis = 1.3, cex.lab = 1.5, 
+           cex.main =1.5, pch=16, las=1)
     }
     else{
-      plot(residuals(logit, type="deviance"), type="b", main="Deviance Res - Logit", cex.axis = 1.3, cex.lab = 1.5, cex.main =1.5, pch=16,las=1)  #Residual Deviance
+      plot(residuals(logit, type="deviance"), 
+           type="b", main="Deviance Res- logit", ylab= "Deviance Residual", 
+           cex.axis = 1.3, cex.lab = 1.5, 
+           cex.main =1.5, pch=16,las=1)  
     }
   })
   

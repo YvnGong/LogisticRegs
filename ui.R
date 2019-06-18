@@ -98,7 +98,7 @@ shinyUI <- dashboardPage(
                                         bsButton(inputId = "go", label =  "Go to Exploration",icon("bolt"), style= "danger", size= "large", class="circle grow")
                                     ),
                                     br(),
-                                    h3(strong("Acknowledgments:")),
+                                    h3(strong("Acknowledgements:")),
                                     h4("This app was developed and coded by Yiyun Gong and Ruisi Wang.")
 
                              ),
@@ -124,7 +124,7 @@ shinyUI <- dashboardPage(
                                                 determine the significance of the result.")),
                                      br(),
                                      helpText('Hosmer-Lemeshow Test Statstics
-                                                $${\\sum_{i=1}^g}{\\sum_{j=1}^2} = {{(obs_{ij} - exp_{ij})^2} 
+                                                $${\\sum_{i=1}^g}{\\sum_{j=1}^2}{{(obs_{ij} - exp_{ij})^2} 
                                               \\over exp_{ij}}$$'),
                                      br(),
                                      br(),
@@ -173,7 +173,9 @@ shinyUI <- dashboardPage(
                                                   tags$style(type='text/css', '#lemeshowTest, #obsexp {background-color: rgba(219,193,195,0.20); 
                                                              color: maroon;text-align: center}'), 
                                                   verbatimTextOutput("lemeshowTest"),
-                                                  verbatimTextOutput("obsexp")
+                                                  verbatimTextOutput("obsexp"),
+                                                  bsPopover("lemeshowTest"," ","The Hosmer-Lemeshow Test is a goodness of fit test. Recommended number of groups = 10 which we use here. P is number of covariate. Number of subgroups, g, usually uses the formula g> P + 1. Degree of freedom equals g-2. Null hypothesis assumes that there is no significant difference between the observed and the expected value. ", trigger = "hover",place="left"),
+                                                  bsPopover("obsexp"," ","There are 10 rows meaning g=10.", trigger = "hover",place="left")
                                                 )
                                               )
                                        
