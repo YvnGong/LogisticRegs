@@ -33,7 +33,9 @@ font-size: 13px;
     border: none;
     color: white;
 }
-
+.circle:hover{
+  border-radius:50%;
+}
 #gameMessage {
   font-family: "Georgia", Times, "Times New Roman", serif;
 font-weight: bold;

@@ -108,7 +108,7 @@ shinyUI <- dashboardPage(
                                     h4(tags$li("After working with the explore section, you can start the game to test your understanding of the concepts.")),
                                     br(),
                                     div(style = "text-align: center",
-                                        bsButton(inputId = "go", label =  "Go to Exploration",icon("bolt"), style= "danger", size= "large", class="circle grow")
+                                        bsButton(inputId = "go", label =  "Go",icon("bolt"), style= "danger", size= "large", class='circle grow')
                                     ),
                                     br(),
                                     h3(strong("Acknowledgements:")),
@@ -126,19 +126,19 @@ shinyUI <- dashboardPage(
                                      
                                      br(),
                                      withMathJax(),
-                                     helpText('In the logistic regression the constant \\(\\beta_0\\)
+                                     h4(tags$li("In the logistic regression the constant \\(\\beta_0\\)
                                                 moves the curve left and right and the slope
-                                                \\(\\beta_1\\) defines the steepness of the curve.
-                                              $${ln({p\\over1-p})} = {\\beta_0+\\beta_1x}$$'),
+                                                \\(\\beta_1\\) defines the steepness of the curve.")),
+                                     div(style="font-size: 1.6em", helpText('$${ln({p\\over1-p})} = {\\beta_0+\\beta_1x}$$')),
                                      h4(tags$li("Deviance Residual and Pearson Residual check the model fit. Best 
                                                 results are no patterns or residual values > |2|")),
                                      h4(tags$li("Hosmer and Lemeshow test check the goodness of fit in the model 
                                                 where data is divided into recommended 10 groups. The p-value can 
                                                 determine the significance of the result.")),
                                      br(),
-                                     helpText('Hosmer-Lemeshow Test Statstics
-                                                $${\\sum_{i=1}^g}{\\sum_{j=1}^2}{{(obs_{ij} - exp_{ij})^2} 
-                                              \\over exp_{ij}}$$'),
+                                     h4(tags$li("Hosmer-Lemeshow Test Statstics")),
+                                     div(style="font-size: 1.6em", helpText('$${\\sum_{i=1}^g}{\\sum_{j=1}^2}{{(obs_{ij} - exp_{ij})^2} 
+                                              \\over exp_{ij}}$$')),
                                      br(),
                                      br(),
                                      div(style = "text-align: center",bsButton("start","Go to the overview",
