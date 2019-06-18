@@ -98,7 +98,7 @@ shinyUI <- dashboardPage(
                                         bsButton(inputId = "go", label =  "Go to Exploration",icon("bolt"), style= "danger", size= "large", class="circle grow")
                                     ),
                                     br(),
-                                    h3(strong("Acknowledgements:")),
+                                    h3(strong("Acknowledgments:")),
                                     h4("This app was developed and coded by Yiyun Gong and Ruisi Wang.")
 
                              ),
