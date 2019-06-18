@@ -26,7 +26,7 @@ bankc =
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output,session) {
-
+  
   ##########################Go buttons##################################### 
   observeEvent(input$infoex,{
     sendSweetAlert(
