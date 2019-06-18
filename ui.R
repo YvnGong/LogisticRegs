@@ -167,7 +167,7 @@ shinyUI <- dashboardPage(
                                                   plotlyOutput("logplot", width = "98%"),
                                                   br(),
                                                   br(),
-                                                  #tableOutput("citable"),
+                                                  tableOutput("citable"),
                                                   #p("Best results are no patterns or residual values > |2|"),
                                                   plotOutput("residualPlot", width = "100%"),
                                                   tags$style(type='text/css', '#lemeshowTest, #obsexp {background-color: rgba(219,193,195,0.20); 
@@ -196,9 +196,6 @@ shinyUI <- dashboardPage(
                                                   sliderInput("b2", "β2 (coefficient):",
                                                               min = -10, max = 10, value = 3
                                                   )
-                                                  # sliderInput("ci2", "confidence interval level",
-                                                  #             min = 0, max = 0.999, value = 0.95)
-                                              
                                                 ),
                                                 mainPanel(
                                                   plotOutput("multix"),

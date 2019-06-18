@@ -102,10 +102,10 @@ shinyServer(function(input, output,session) {
     theme_set(theme_bw())
     
     p <- ggplot(aes(x=x,y=y),data = df)+
-      geom_smooth(aes(linetype="fitted probability"),method = 'glm', size = 1.5, color="maroon", 
-                  method.args=list(family='binomial'), se=FALSE, level=input$ci)+
+      geom_smooth(aes(linetype="fitted probability"),method = 'glm', size = 1, color="maroon", 
+                  method.args=list(family='binomial'), se=FALSE)+
       geom_ribbon(aes(linetype="confidence\n interval"),stat="smooth", method="glm", alpha=0.15, 
-                  method.args=list(family='binomial'))+
+                  level=input$ci, method.args=list(family='binomial'))+
       geom_point()+
       ylab('observed Bernoulli')+
       xlab('explanatory variables')+
@@ -122,15 +122,6 @@ shinyServer(function(input, output,session) {
       ggplotly(p)%>%
       layout(hovermode = 'x', legend = list(x = 0.7, y = 0.15))
   })
-  
-  
-  # output$citable<-renderTable({
-  #   df = df(input$b0, input$b1, input$sampleSize)
-  #   logit <- glm(failures ~ x, family=binomial, data=df)
-  #   citable<-data.table(confint(logit, level = input$ci))
-  #   citable<-cbind(CI=c("Intercept", "x"), citable)
-  #   citable
-  # })
   
   output$residualPlot<-renderPlot({
     df = df(input$b0, input$b1, input$sampleSize)
