@@ -154,7 +154,7 @@ shinyServer(function(input, output,session) {
   output$lemeshowDF<-renderTable({
     hl<-HLresult()
     hs<-data.frame(hl$statistic, hl$parameter, hl$p.value)
-    names(hs)<-c('X-squared', 'df', 'p-value')
+    names(hs)<-c('χ2', 'df', 'p-value')
     rownames(hs)<-NULL
     hs
   }, striped = TRUE, width = "100%", align = 'c', hover = TRUE, bordered = TRUE)
@@ -163,8 +163,8 @@ shinyServer(function(input, output,session) {
     hl<-HLresult()
     hob<-data.frame(cbind(hl$expected, hl$observed))
     hob<-setDT(hob, keep.rownames = TRUE)[]
-    names(hob)<-c("interval","number of 0 expeted", "number of 1 expected", 
-                  "number of 0 in group", "number of 1 in group")
+    names(hob)<-c("interval","number of 0s expected", "number of 1s expected", 
+                  "number of 0s in group", "number of 1s in group")
     hob
   }, striped = TRUE, width = "100%", align = 'c', hover = TRUE, bordered = TRUE, rownames = TRUE)
   
