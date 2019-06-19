@@ -32,6 +32,13 @@ sliderInput3 <- function(inputId, label, min, max, value, step=NULL, from_min, f
                                "data-from-shadow" = TRUE)
   x
 }
+sliderInput4 <- function(inputId, label, min, max, value, step=NULL, from_min, from_max){
+  x <- sliderInput(inputId, label, min, max, value, step)
+  x$children[[2]]$attribs <- c(x$children[[2]]$attribs, 
+                               "data-from-min" = from_min,
+                               "data-from-shadow" = TRUE)
+  x
+}
 shinyUI <- dashboardPage(
                          dashboardHeader(title = "Logistic Regression",
                                          titleWidth = 200),
@@ -216,8 +223,12 @@ shinyUI <- dashboardPage(
                                               br(),
                                               sidebarLayout(
                                                 sidebarPanel(
-                                                  sliderInput("sampleSize2", "Sample Size:",
-                                                              min = 0, max = 300, value = 150
+                                                  sliderInput4("sampleSize2", "Sample Size:",
+                                                               min = 0, 
+                                                               max = 300, 
+                                                               value = 150, 
+                                                               step = 1, 
+                                                               from_min = 10
                                                   ),
                                                   sliderInput("b02", "β0 (intercept):",
                                                               min = -10, max = 10, value = 0

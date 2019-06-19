@@ -188,8 +188,14 @@ shinyServer(function(input, output,session) {
   output$multix<-renderPlot({
     df<-df2(input$b02, input$b12, input$b2, input$sampleSize2)
     p<-glm(y~x1+x2,data=df,family="binomial")
-    par(mfrow=c(2,2))
-    plot(p)
+    par(mfrow=c(1,3))
+    # plot(p,which=c(4,2,1), add.smooth = getOption("add.smooth"), 
+    #      las=1, cex.caption=1.5, cex.axis=1.3, cex.lab=1.7)
+    plot(p,which=1, add.smooth = getOption("add.smooth"), 
+         las=1, cex.caption=1.5, cex.axis=1.3, cex.lab=1.7)
+    legend("topleft", legend="fitted line", col="red", lty=1:2, cex=1.5, box.lty=0)
+    #second and third plot
+    plot(p,which=c(4,2), las=1, cex.caption=1.5, cex.axis=1.3, cex.lab=1.7)
   })
   
   #####Multiple Goodness of fit
