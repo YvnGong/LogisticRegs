@@ -196,13 +196,16 @@ shinyUI <- dashboardPage(
                                                   #p("Best results are no patterns or residual values > |2|"),
                                                   plotOutput("residualPlot", width = "100%"),
                                                   tags$style(type='text/css', '#lemeshowTest, #obsexp {background-color: rgba(219,193,195,0.20); 
-                                                             color: maroon;text-align: center}'), 
+                                                             color: maroon; text-align: center}', '#title{color: maroon}'), 
                                                   #verbatimTextOutput("lemeshowTest"),
+                                                  br(),
+                                                  div(style="text-align: center", h3(id='title', "Hosmer and Lemeshow goodness of fit (GOF) test")),
+                                                  br(),
                                                   tableOutput("lemeshowDF"),
                                                   tableOutput("obsexpDF"),
                                                   #verbatimTextOutput("obsexp"),
-                                                  bsPopover("lemeshowTest"," ","The Hosmer-Lemeshow Test is a goodness of fit test for the logistic model. Here is the result of the Hosmer-Lemeshow Test for ten groups. Number of subgroups, g, usually uses the formula g > P + 1. P is number of covariates. Degree of freedom equals g-2. ", trigger = "hover",place="left"),
-                                                  bsPopover("obsexp"," ","There are 10 rows meaning g=10.", trigger = "hover",place="left")
+                                                  bsPopover("lemeshowDF"," ","The Hosmer-Lemeshow Test is a goodness of fit test for the logistic model. Here is the result of the Hosmer-Lemeshow Test for ten groups. Number of subgroups, g, usually uses the formula g > P + 1. P is number of covariates. Degree of freedom equals g-2. ", trigger = "hover",place="left"),
+                                                  bsPopover("obsexpDF"," ","There are 10 rows meaning g=10.", trigger = "hover",place="left")
                                                 )
                                               )
                                        

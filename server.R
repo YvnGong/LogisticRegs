@@ -157,7 +157,7 @@ shinyServer(function(input, output,session) {
     names(hs)<-c('X-squared', 'df', 'p-value')
     rownames(hs)<-NULL
     hs
-  }, striped = TRUE, width = "100%", align = 'c')
+  }, striped = TRUE, width = "100%", align = 'c', hover = TRUE, bordered = TRUE)
   
   output$obsexpDF<-renderTable({
     hl<-HLresult()
@@ -166,7 +166,7 @@ shinyServer(function(input, output,session) {
     names(hob)<-c("interval","number of 0 expeted", "number of 1 expected", 
                   "number of 0 in group", "number of 1 in group")
     hob
-  }, striped = TRUE, width = "100%", align = 'c')
+  }, striped = TRUE, width = "100%", align = 'c', hover = TRUE, bordered = TRUE, rownames = TRUE)
   
   output$obsexp<-renderPrint({
     hl<-HLresult()
