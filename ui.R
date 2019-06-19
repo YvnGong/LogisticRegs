@@ -193,7 +193,9 @@ shinyUI <- dashboardPage(
                                                  ),
                                                   selectInput(inputId="residualType", label = "Residual Type",
                                                               choices = c("deviance", "pearson"), selected="deviance"),
-                                                  actionButton("goButton", "Plot it!")
+                                                 br(),
+                                                  actionButton("goButton", "Plot it!", icon("paper-plane"),
+                                                               style="color: #fff; background-color: pink", class = "btn btn-lg")
                                                 ),
                                                 mainPanel(
                                                   plotlyOutput("logplot", width = "98%"),

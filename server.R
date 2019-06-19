@@ -185,6 +185,7 @@ shinyServer(function(input, output,session) {
     df = data.frame(y=y,x1=x1,x2=x2)
     return(df)
   }
+  
   output$multix<-renderPlot({
     df<-df2(input$b02, input$b12, input$b2, input$sampleSize2)
     p<-glm(y~x1+x2,data=df,family="binomial")
