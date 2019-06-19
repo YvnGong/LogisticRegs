@@ -18,7 +18,6 @@ library(ggplot2)
 library(plotly)
 
 #library(rlocker)
-#smiles
 sliderInput2 <- function(inputId, label, min, max, value, step=NULL, from_min, from_max){
   x <- sliderInput(inputId, label, min, max, value, step)
   x$children[[2]]$attribs <- c(x$children[[2]]$attribs, 
@@ -108,8 +107,9 @@ shinyUI <- dashboardPage(
                                     h4(tags$li("After working with the explore section, you can start the game to test your understanding of the concepts.")),
                                     br(),
                                     div(style = "text-align: center",
-                                        bsButton(inputId = "go", label =  "Go",icon("bolt"), style= "danger", size= "large", class='circle grow')
+                                        bsButton(inputId = "go", label =  "Explore", icon("bolt"), style= "danger", size= "large", class='circle grow')
                                     ),
+                                    
                                     br(),
                                     h3(strong("Acknowledgements:")),
                                     h4("This app was developed and coded by Yiyun Gong and Ruisi Wang.")
@@ -185,7 +185,8 @@ shinyUI <- dashboardPage(
                                                               from_max = 0.99
                                                  ),
                                                   selectInput(inputId="residualType", label = "Residual Type",
-                                                              choices = c("deviance", "pearson"), selected="deviance")
+                                                              choices = c("deviance", "pearson"), selected="deviance"),
+                                                  actionButton("goButton", "Plot it!")
                                                 ),
                                                 mainPanel(
                                                   plotlyOutput("logplot", width = "98%"),
@@ -196,8 +197,10 @@ shinyUI <- dashboardPage(
                                                   plotOutput("residualPlot", width = "100%"),
                                                   tags$style(type='text/css', '#lemeshowTest, #obsexp {background-color: rgba(219,193,195,0.20); 
                                                              color: maroon;text-align: center}'), 
-                                                  verbatimTextOutput("lemeshowTest"),
-                                                  verbatimTextOutput("obsexp"),
+                                                  #verbatimTextOutput("lemeshowTest"),
+                                                  tableOutput("lemeshowDF"),
+                                                  tableOutput("obsexpDF"),
+                                                  #verbatimTextOutput("obsexp"),
                                                   bsPopover("lemeshowTest"," ","The Hosmer-Lemeshow Test is a goodness of fit test for the logistic model. Here is the result of the Hosmer-Lemeshow Test for ten groups. Number of subgroups, g, usually uses the formula g > P + 1. P is number of covariates. Degree of freedom equals g-2. ", trigger = "hover",place="left"),
                                                   bsPopover("obsexp"," ","There are 10 rows meaning g=10.", trigger = "hover",place="left")
                                                 )

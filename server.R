@@ -86,21 +86,16 @@ shinyServer(function(input, output,session) {
     df = data.frame(x,y)
     return(df)
   }
-  
-  df2<-function(b0, b1, b2, sampleSize){
-    x1 = rnorm(sampleSize)           
-    x2 = rnorm(sampleSize)
-    z = b0+b1*x1+b2*x2        # linear combination with a bias
-    pr = 1/(1+exp(-z))         # pass through an inv-logit function
-    y = rbinom(sampleSize,1,pr)      # bernoulli response variable
-    df = data.frame(y=y,x1=x1,x2=x2)
-    return(df)
-  }
+
+  ##########common objects
+  commonDf<-reactive({
+    df(input$b0, input$b1, input$sampleSize)
+  })
   
   output$logplot<-renderPlotly({
-    df = df(input$b0, input$b1, input$sampleSize)
+    input$goButton
+    df = isolate(commonDf())
     theme_set(theme_bw())
-    
     p <- ggplot(aes(x=x,y=y),data = df)+
       geom_smooth(aes(linetype="fitted probability"),method = 'glm', size = 1, color="maroon", 
                   method.args=list(family='binomial'), se=FALSE)+
@@ -124,7 +119,8 @@ shinyServer(function(input, output,session) {
   })
   
   output$residualPlot<-renderPlot({
-    df = df(input$b0, input$b1, input$sampleSize)
+    input$goButton
+    df = isolate(commonDf())
     logit <- glm(y ~ x, family=binomial, data=df)
     if(input$residualType == "pearson"){
       plot(residuals(logit, type="pearson"), type="b", 
@@ -140,6 +136,55 @@ shinyServer(function(input, output,session) {
     }
   })
   
+  ##### goodness of fit#####
+  HLresult<-function(){
+    input$goButton
+    df = isolate(commonDf())
+    mod <- glm (y~x, data=df, family = binomial)
+    hl <- hoslem.test(mod$y, fitted(mod))
+    return(hl)
+  }
+  
+  output$lemeshowTest<-renderPrint({
+    hl<-HLresult()
+    hl
+  }
+  )
+  
+  output$lemeshowDF<-renderTable({
+    hl<-HLresult()
+    hs<-data.frame(hl$statistic, hl$parameter, hl$p.value)
+    names(hs)<-c('X-squared', 'df', 'p-value')
+    rownames(hs)<-NULL
+    hs
+  }, striped = TRUE, width = "100%", align = 'c')
+  
+  output$obsexpDF<-renderTable({
+    hl<-HLresult()
+    hob<-data.frame(cbind(hl$expected, hl$observed))
+    hob<-setDT(hob, keep.rownames = TRUE)[]
+    names(hob)<-c("interval","number of 0 expeted", "number of 1 expected", 
+                  "number of 0 in group", "number of 1 in group")
+    hob
+  }, striped = TRUE, width = "100%", align = 'c')
+  
+  output$obsexp<-renderPrint({
+    hl<-HLresult()
+    cbind(hl$expected, hl$observed)
+  })
+  
+  
+
+  #####Multiple Graph
+  df2<-function(b0, b1, b2, sampleSize){
+    x1 = rnorm(sampleSize)           
+    x2 = rnorm(sampleSize)
+    z = b0+b1*x1+b2*x2        # linear combination with a bias
+    pr = 1/(1+exp(-z))         # pass through an inv-logit function
+    y = rbinom(sampleSize,1,pr)      # bernoulli response variable
+    df = data.frame(y=y,x1=x1,x2=x2)
+    return(df)
+  }
   output$multix<-renderPlot({
     df<-df2(input$b02, input$b12, input$b2, input$sampleSize2)
     p<-glm(y~x1+x2,data=df,family="binomial")
@@ -147,24 +192,7 @@ shinyServer(function(input, output,session) {
     plot(p)
   })
   
-  
-  ##### goodness of fit#####
-  output$lemeshowTest<-renderPrint({
-    df = df(input$b0, input$b1, input$sampleSize)
-    mod <- glm (y~x, data=df, family = binomial)
-    hl <- hoslem.test(mod$y, fitted(mod))
-    hl
-  }
-  )
-  
-  output$obsexp<-renderPrint({
-    df = df(input$b0, input$b1, input$sampleSize)
-    mod <- glm (y~x, data=df, family = binomial)
-    hl <- hoslem.test(mod$y, fitted(mod))
-    hl
-    cbind(hl$expected, hl$observed)
-  })
-  
+  #####Multiple Goodness of fit
   output$lemeshowTest2<-renderPrint({
     df<-df2(input$b02, input$b12, input$b2, input$sampleSize2)
     mod<-glm(y~x1+x2,data=df,family="binomial")
