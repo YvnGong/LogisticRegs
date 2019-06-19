@@ -19,7 +19,20 @@ library(plotly)
 
 #library(rlocker)
 #smiles
-
+sliderInput2 <- function(inputId, label, min, max, value, step=NULL, from_min, from_max){
+  x <- sliderInput(inputId, label, min, max, value, step)
+  x$children[[2]]$attribs <- c(x$children[[2]]$attribs, 
+                               "data-from-min" = from_min,
+                               "data-from-shadow" = TRUE)
+  x
+}
+sliderInput3 <- function(inputId, label, min, max, value, step=NULL, from_min, from_max){
+  x <- sliderInput(inputId, label, min, max, value, step)
+  x$children[[2]]$attribs <- c(x$children[[2]]$attribs, 
+                               "data-from-max" = from_max,
+                               "data-from-shadow" = TRUE)
+  x
+}
 shinyUI <- dashboardPage(
                          dashboardHeader(title = "Logistic Regression",
                                          titleWidth = 200),
@@ -149,17 +162,28 @@ shinyUI <- dashboardPage(
                                               br(),
                                               sidebarLayout(
                                                 sidebarPanel(
-                                                  sliderInput("sampleSize", "Sample Size:",
-                                                              min = 0, max = 300, value = 150
-                                                  ),
+                                                 sliderInput2("sampleSize", "Sample Size:",
+                                                              min = 0, 
+                                                              max = 300, 
+                                                              value = 150, 
+                                                              step = 1, 
+                                                              from_min = 2
+                                                 ),
                                                   sliderInput("b0", "β0 (intercept):",
                                                               min = -10, max = 10, value = 0
                                                   ),
                                                   sliderInput("b1", "β1 (coefficient):",
                                                               min = -10, max = 10, value = 3
                                                   ),
-                                                  sliderInput("ci", "confidence interval level",
-                                                              min = 0, max = 0.999, value = 0.95),
+                                                  # sliderInput("ci", "confidence interval level",
+                                                  #             min = 0, max = 0.999, value = 0.95),
+                                                 sliderInput3("ci", "confidence interval level:",
+                                                              min = 0, 
+                                                              max = 1, 
+                                                              value = 0.95, 
+                                                              step = 0.01,  
+                                                              from_max = 0.99
+                                                 ),
                                                   selectInput(inputId="residualType", label = "Residual Type",
                                                               choices = c("deviance", "pearson"), selected="deviance")
                                                 ),
@@ -174,7 +198,7 @@ shinyUI <- dashboardPage(
                                                              color: maroon;text-align: center}'), 
                                                   verbatimTextOutput("lemeshowTest"),
                                                   verbatimTextOutput("obsexp"),
-                                                  bsPopover("lemeshowTest"," ","The Hosmer-Lemeshow Test is a goodness of fit test. Recommended number of groups = 10 which we use here. P is number of covariate. Number of subgroups, g, usually uses the formula g> P + 1. Degree of freedom equals g-2. Null hypothesis assumes that there is no significant difference between the observed and the expected value. ", trigger = "hover",place="left"),
+                                                  bsPopover("lemeshowTest"," ","The Hosmer-Lemeshow Test is a goodness of fit test for the logistic model. Here is the result of the Hosmer-Lemeshow Test for ten groups. Number of subgroups, g, usually uses the formula g > P + 1. P is number of covariates. Degree of freedom equals g-2. ", trigger = "hover",place="left"),
                                                   bsPopover("obsexp"," ","There are 10 rows meaning g=10.", trigger = "hover",place="left")
                                                 )
                                               )
