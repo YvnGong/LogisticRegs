@@ -44,7 +44,7 @@ shinyUI <- dashboardPage(
                            sidebarMenu(id="tabs",
                                        menuItem("Prerequisites", tabName= "prereq", icon=icon("book")),
                                        menuItem("Overview",tabName = "instruction", icon = icon("dashboard")),
-                                       menuItem("Logistic Regression",tabName = "explore", icon = icon("wpexplorer")),
+                                       menuItem("Logistic Regression",tabName = "explore", icon = icon("paw")),
                                        menuItem("Multiple Logistic Regression",tabName = "Multiple", icon = icon("book-open")),
                                        menuItem("Game", tabName = "qqq", icon= icon("gamepad"))
                            )
@@ -58,9 +58,13 @@ shinyUI <- dashboardPage(
                              tags$link(rel = "stylesheet", type = "text/css", href = "Feature.css"), #customised style sheet
                              tags$style(HTML('#start{background-color: #ffb6c1')),
                              tags$style(HTML('#go{background-color: #ffb6c1')),
+                             tags$style(HTML('#goMul{background-color: #ffb6c1')),
+                             tags$style(HTML('#goButton{background-color: #ffb6c1')),
                              tags$style(HTML('#submitD{background-color: #ffb6c1')),
                              tags$style(HTML('#start{border-color:#ffb6c1')),
                              tags$style(HTML('#go{border-color: #ffb6c1')),
+                             tags$style(HTML('#goMul{border-color: #ffb6c1')),
+                             tags$style(HTML('#goButton{border-color: #ffb6c1')),
                              tags$style(HTML('#submitD{border-color: #ffb6c1')),
                              tags$style(HTML('#begin{background-color: #ffb6c1')),
                              tags$style(HTML('#begin{border-color: #ffb6c1')),
@@ -189,8 +193,14 @@ shinyUI <- dashboardPage(
                                                   selectInput(inputId="residualType", label = "Residual Type",
                                                               choices = c("deviance", "pearson"), selected="deviance"),
                                                  br(),
-                                                  actionButton("goButton", "Plot it!", icon("paper-plane"),
-                                                               style="color: #fff; background-color: pink", class = "btn btn-lg")
+                                                      actionButton("goButton", "Plot it!", icon("paper-plane"),
+                                                               class = "btn btn-lg", style="color: #fff", class="circle grow"),
+                                                 br(),
+                                                 br(),
+                                                  bsButton(inputId = "goMul", label="Next Session", icon("book-open"), 
+                                                          class='btn btn-lg', style= "danger", class="circle grow")
+                                                
+                                                 
                                                 ),
                                                 mainPanel(
                                                   plotlyOutput("logplot", width = "98%"),
@@ -231,19 +241,41 @@ shinyUI <- dashboardPage(
                                                    min = -10, max = 10, value = 0
                                        ),
                                        sliderInput("b12", "β1 (coefficient):",
-                                                   min = -10, max = 10, value = 3
+                                                   min = -10, max = 10, value = 4
                                        ),
                                        sliderInput("b2", "β2 (coefficient):",
-                                                   min = -10, max = 10, value = 3
-                                       )
+                                                   min = -10, max = 10, value = -4
+                                       ),
+                                       sliderInput3("ci2", "confidence interval level:",
+                                                    min = 0, 
+                                                    max = 1, 
+                                                    value = 0.95, 
+                                                    step = 0.01,  
+                                                    from_max = 0.99
+                                       ),
+                                      
+                                       br(),
+                                       actionButton("goButtonMul", "Plot it!", icon("paper-plane"), 
+                                                    style="color: #fff; background-color: pink", class="btn btn-lg", class="circle grow"),
+                                       br(),
+                                       br(),
+                                       bsButton(inputId = "begin", label="Game Time!", icon("gamepad"), 
+                                                class='btn btn-lg', style= "danger", class="circle grow")
                                      ),
+                                     
                                      mainPanel(
+                                       plotlyOutput("mulPlot"),
+                                       br(),
+                                       br(),
                                        plotOutput("multix"),
                                        br(),
                                        tags$style(type='text/css', '#lemeshowTest2, #obsexp2 {background-color: rgba(219,193,195,0.20); 
                                                   color: maroon;text-align: center}'), 
-                                       verbatimTextOutput("lemeshowTest2"),
-                                       verbatimTextOutput("obsexp2")
+                                       br(),
+                                       div(style="text-align: center", h3(id='title', "Hosmer and Lemeshow goodness of fit (GOF) test")),
+                                       br(),
+                                       tableOutput("lemeshowDF2"),
+                                       tableOutput("obsexpDF2")
                                        )
                                    )
                            ),

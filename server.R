@@ -56,6 +56,11 @@ shinyServer(function(input, output,session) {
   observeEvent(input$begin,{
     updateTabItems(session, "tabs", "qqq")
   })
+  
+  observeEvent(input$goMul,{
+    updateTabItems(session,"tabs","Multiple")
+  })
+  
  ############################Gray out buttons###############################
  
  
@@ -115,7 +120,7 @@ shinyServer(function(input, output,session) {
     
     p<-
       ggplotly(p)%>%
-      layout(hovermode = 'x', legend = list(x = 0.7, y = 0.15))
+      layout(legend = list(x = 0.7, y = 0.15))
   })
   
   output$residualPlot<-renderPlot({
@@ -186,8 +191,45 @@ shinyServer(function(input, output,session) {
     return(df)
   }
   
+  ##########common objects
+  commonDf2<-reactive({
+    df2(input$b02, input$b12, input$b2, input$sampleSize2)
+  })
+  
+  output$mulPlot<-renderPlotly({
+    input$goButtonMul
+    df = isolate(commonDf2())
+    theme_set(theme_bw())
+    p <- ggplot(aes(x=x1,y=y),data = df)+
+      geom_smooth(aes(linetype="fitted probability"),method = 'glm', size = 1, color="maroon", 
+                  method.args=list(family='binomial'), se=FALSE)+
+      geom_ribbon(aes(linetype="confidence\n interval"),stat="smooth", method="glm", alpha=0.15, 
+                  level=input$ci2, method.args=list(family='binomial'))+
+      geom_point()+
+      geom_smooth(aes(x=x2,y=y, linetype="fitted probability"), data=df, method = 'glm', size = 1, color="lightblue",
+                  method.args=list(family='binomial'), se=FALSE)+
+      geom_ribbon(aes(x=x2,y=y, linetype="confidence\n interval"), data=df,stat="smooth", method="glm", alpha=0.15,
+                  level=input$ci2, method.args=list(family='binomial'))+
+      geom_point(aes(x=x2,y=y), data=df, color="brown", alpha=0.4)+
+      ylab('Observed Bernoulli')+
+      xlab('explanatory variables')+
+      ggtitle("Logistic Regression Model \n")+
+      scale_linetype_manual(values=c("fitted probability", "confidence interval"))+
+      theme(
+        plot.title = element_text(color="black", size=15, face="bold"),
+        axis.text = element_text(color="black", size = 12),
+        axis.title.x = element_text(color="black", size = 15),
+        axis.title.y = element_text(color="black", size = 15)
+      )
+    
+    p<-
+      ggplotly(p)%>%
+      layout(legend = list(x = 0.7, y = 0.15))
+  })
+  
   output$multix<-renderPlot({
-    df<-df2(input$b02, input$b12, input$b2, input$sampleSize2)
+    input$goButtonMul
+    df<-isolate(commonDf2())
     p<-glm(y~x1+x2,data=df,family="binomial")
     par(mfrow=c(1,3))
     # plot(p,which=c(4,2,1), add.smooth = getOption("add.smooth"), 
@@ -200,20 +242,30 @@ shinyServer(function(input, output,session) {
   })
   
   #####Multiple Goodness of fit
-  output$lemeshowTest2<-renderPrint({
-    df<-df2(input$b02, input$b12, input$b2, input$sampleSize2)
+  HLresult2<-function(){
+    input$goButtonMul
+    df<-isolate(commonDf2())
     mod<-glm(y~x1+x2,data=df,family="binomial")
     hl<-hoslem.test(mod$y, fitted(mod), g=10)
-    hl
+    return(hl)
   }
-  )
   
-  output$obsexp2<-renderPrint({
-    df<-df2(input$b02, input$b12, input$b2, input$sampleSize2)
-    p<-glm(y~x1+x2,data=df,family="binomial")
-    hl<-hoslem.test(p$y, fitted(p), g=10)
-    cbind(hl$expected, hl$observed)
-  })
+  output$lemeshowDF2<-renderTable({
+    hl<-HLresult2()
+    hs<-data.frame(hl$statistic, hl$parameter, hl$p.value)
+    names(hs)<-c('χ2', 'df', 'p-value')
+    rownames(hs)<-NULL
+    hs
+  }, striped = TRUE, width = "100%", align = 'c', hover = TRUE, bordered = TRUE)
+  
+  output$obsexpDF2<-renderTable({
+    hl<-HLresult2()
+    hob<-data.frame(cbind(hl$expected, hl$observed))
+    hob<-setDT(hob, keep.rownames = TRUE)[]
+    names(hob)<-c("interval","number of 0s expected", "number of 1s expected", 
+                  "number of 0s in group", "number of 1s in group")
+    hob
+  }, striped = TRUE, width = "100%", align = 'c', hover = TRUE, bordered = TRUE, rownames = TRUE)
   
 
   ##### Draw the Hangman Game#####
