@@ -238,13 +238,13 @@ shinyUI <- dashboardPage(
                                                     from_min = 10
                                        ),
                                        sliderInput("b02", "β0 (intercept):",
-                                                   min = -10, max = 10, value = 0
+                                                   min = -10, max = 10, value = 2
                                        ),
                                        sliderInput("b12", "β1 (coefficient):",
-                                                   min = -10, max = 10, value = 4
+                                                   min = -10, max = 10, value = 8
                                        ),
                                        sliderInput("b2", "β2 (coefficient):",
-                                                   min = -10, max = 10, value = -4
+                                                   min = -10, max = 10, value = -8
                                        ),
                                        sliderInput3("ci2", "confidence interval level:",
                                                     min = 0, 

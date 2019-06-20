@@ -203,18 +203,20 @@ shinyServer(function(input, output,session) {
     p <- ggplot(aes(x=x1,y=y),data = df)+
       geom_smooth(aes(linetype="fitted probability"),method = 'glm', size = 1, color="maroon", 
                   method.args=list(family='binomial'), se=FALSE)+
+      geom_smooth(aes(x=x2,y=y, linetype="fitted probability "), data=df, method = 'glm', size = 1, color="lightblue",
+                  method.args=list(family='binomial'), se=FALSE)+
       geom_ribbon(aes(linetype="confidence\n interval"),stat="smooth", method="glm", alpha=0.15, 
                   level=input$ci2, method.args=list(family='binomial'))+
       geom_point(color="maroon")+
-      geom_smooth(aes(x=x2,y=y, linetype="fitted probability"), data=df, method = 'glm', size = 1, color="lightblue",
-                  method.args=list(family='binomial'), se=FALSE)+
+      # geom_smooth(aes(x=x2,y=y, linetype="fitted probability "), data=df, method = 'glm', size = 1, color="lightblue",
+      #             method.args=list(family='binomial'), se=FALSE)+
       geom_ribbon(aes(x=x2,y=y, linetype="confidence\n interval"), data=df,stat="smooth", method="glm", alpha=0.15,
                   level=input$ci2, method.args=list(family='binomial'))+
       geom_point(aes(x=x2,y=y), data=df, color="lightblue", alpha=0.4)+
       ylab('Observed Bernoulli')+
       xlab('explanatory variables')+
-      ggtitle("Logistic Regression Model \n")+
-      scale_linetype_manual(values=c("fitted probability", "confidence interval"))+
+      ggtitle("Multiple Logistic Regression \n")+
+      scale_linetype_manual(values=c("fitted probability","fitted probability" ,"confidence interval"))+
       theme(
         plot.title = element_text(color="black", size=15, face="bold"),
         axis.text = element_text(color="black", size = 12),
@@ -224,7 +226,7 @@ shinyServer(function(input, output,session) {
     
     p<-
       ggplotly(p)%>%
-      layout(legend = list(x = 0.7, y = 0.15))
+      layout(legend = list("left"))
   })
   
   output$multix<-renderPlot({
