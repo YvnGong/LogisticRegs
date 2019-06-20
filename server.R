@@ -205,12 +205,12 @@ shinyServer(function(input, output,session) {
                   method.args=list(family='binomial'), se=FALSE)+
       geom_ribbon(aes(linetype="confidence\n interval"),stat="smooth", method="glm", alpha=0.15, 
                   level=input$ci2, method.args=list(family='binomial'))+
-      geom_point()+
+      geom_point(color="maroon")+
       geom_smooth(aes(x=x2,y=y, linetype="fitted probability"), data=df, method = 'glm', size = 1, color="lightblue",
                   method.args=list(family='binomial'), se=FALSE)+
       geom_ribbon(aes(x=x2,y=y, linetype="confidence\n interval"), data=df,stat="smooth", method="glm", alpha=0.15,
                   level=input$ci2, method.args=list(family='binomial'))+
-      geom_point(aes(x=x2,y=y), data=df, color="brown", alpha=0.4)+
+      geom_point(aes(x=x2,y=y), data=df, color="lightblue", alpha=0.4)+
       ylab('Observed Bernoulli')+
       xlab('explanatory variables')+
       ggtitle("Logistic Regression Model \n")+
