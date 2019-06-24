@@ -108,14 +108,15 @@ shinyServer(function(input, output,session) {
                   level=input$ci, method.args=list(family='binomial'))+
       geom_point()+
       ylab('Observed Bernoulli')+
-      xlab('explanatory variables')+
+      xlab('explanatory variable')+
       ggtitle("Logistic Regression Model \n")+
       scale_linetype_manual(values=c("fitted probability", "confidence interval"))+
       theme(
-        plot.title = element_text(color="black", size=15, face="bold"),
-        axis.text = element_text(color="black", size = 12),
-        axis.title.x = element_text(color="black", size = 15),
-        axis.title.y = element_text(color="black", size = 15)
+        
+        plot.title = element_text(color="black", size=14, face="bold", hjust = 0),
+        axis.text = element_text(color="black", size = 10),
+        axis.title.x = element_text(color="black", size = 14),
+        axis.title.y = element_text(color="black", size = 14)
       )
     
     p<-
@@ -129,16 +130,23 @@ shinyServer(function(input, output,session) {
     logit <- glm(y ~ x, family=binomial, data=df)
     if(input$residualType == "pearson"){
       plot(residuals(logit, type="pearson"), type="b", 
-           main="Pearson Res- logit", ylab= "Pearson Residual", 
-           cex.axis = 1.3, cex.lab = 1.5, 
-           cex.main =1.5, pch=16, las=1)
+           ylab= "Pearson Residual", 
+           cex.axis = 1.2, cex.lab = 1.4, 
+           pch=16, las=1)
+      title("Pearson Res- logit", adj = 0, cex.main =1.5)
     }
     else{
-      plot(residuals(logit, type="deviance"), 
-           type="b", main="Deviance Res- logit", ylab= "Deviance Residual", 
-           cex.axis = 1.3, cex.lab = 1.5, 
-           cex.main =1.5, pch=16,las=1)  
+      plot(residuals(logit, type="deviance"),
+           type="b", ylab= "Deviance Residual",
+           cex.axis = 1.2, cex.lab = 1.4,
+           pch=16, las=1)
+      title("Deviance Res- logit", adj = 0, cex.main =1.5)
+      # plot(residuals(logit, type="deviance"), 
+      #      type="b", ylab= "Deviance Residual", 
+      #      las=1) 
+      # title("Deviance Res- logit", adj = 0)
     }
+    
   })
   
   ##### goodness of fit#####
@@ -169,7 +177,7 @@ shinyServer(function(input, output,session) {
     hob<-data.frame(cbind(hl$expected, hl$observed))
     hob<-setDT(hob, keep.rownames = TRUE)[]
     names(hob)<-c("interval","number of 0s expected", "number of 1s expected", 
-                  "number of 0s in group", "number of 1s in group")
+                  "number of 0s observed", "number of 1s observed")
     hob
   }, striped = TRUE, width = "100%", align = 'c', hover = TRUE, bordered = TRUE, rownames = TRUE)
   

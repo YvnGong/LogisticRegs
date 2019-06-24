@@ -167,9 +167,10 @@ shinyUI <- dashboardPage(
                                      tabPanel(
                                        ######Single Regression
                                        'Single Regression',
+                                       
                                        h3(strong("Single Logistic Regression")),
-                                       h4("This app will allow you to explore how to create and interprete logistic regression."),
-                                       br(),
+                                       # h4("This app will allow you to explore how to create and interprete logistic regression."),
+                                       # br(),
                                        sidebarLayout(
                                          sidebarPanel(
                                            sliderInput2("sampleSize", "Sample Size:",
@@ -204,17 +205,17 @@ shinyUI <- dashboardPage(
                                            
                                          ),
                                          mainPanel(
-                                           plotlyOutput("logplot", width = "98%"),
-                                           br(),
-                                           br(),
-                                           tableOutput("citable"),
-                                           plotOutput("residualPlot", width = "100%"),
-                                           tags$style(type='text/css', '#lemeshowTest, #obsexp {background-color: rgba(219,193,195,0.20); 
-                                                      color: maroon; text-align: center}', '#title{color: maroon}'), 
+                                           plotlyOutput("logplot", width = "98%", height = "300px"),
                                            
                                            br(),
-                                           div(style="text-align: center", h3(id='title', "Hosmer and Lemeshow goodness of fit (GOF) test")),
+                                           tableOutput("citable"),
+                                           plotOutput("residualPlot", width = "100%",height = "330px"),
+                                           tags$style(type='text/css', '#lemeshowTest, #obsexp {background-color: rgba(219,193,195,0.20); 
+                                                      color: maroon; text-align: center}', '#title{color: blackl; padding-left:2.5em; font-size: 22px}'), 
+                                           
                                            br(),
+                                           h3(strong(id='title', "Hosmer and Lemeshow goodness of fit (GOF) test")),
+                                           #br(),
                                            tableOutput("lemeshowDF"),
                                            tableOutput("obsexpDF"),
                                            #verbatimTextOutput("lemeshowTest"),
