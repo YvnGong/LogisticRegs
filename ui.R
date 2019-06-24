@@ -18,6 +18,8 @@ library(ggplot2)
 library(plotly)
 
 #library(rlocker)
+source("helpers.R") 
+
 sliderInput2 <- function(inputId, label, min, max, value, step=NULL, from_min, from_max){
   x <- sliderInput(inputId, label, min, max, value, step)
   x$children[[2]]$attribs <- c(x$children[[2]]$attribs, 
@@ -197,8 +199,8 @@ shinyUI <- dashboardPage(
                                            selectInput(inputId="residualType", label = "Residual Type",
                                                        choices = c("deviance", "pearson"), selected="deviance"),
                                            br(),
-                                           actionButton("goButton", "Plot it!", icon("paper-plane"),
-                                                        class = "btn btn-lg", style="color: #fff", class="circle grow"),
+                                           withBusyIndicatorUI(actionButton("goButton", "New Data", icon("paper-plane"),
+                                                        class = "btn btn-lg", style="color: #fff", class="circle grow")),
                                            br(),
                                            br()
                                            
@@ -255,8 +257,8 @@ shinyUI <- dashboardPage(
                                                   ),
                                                   
                                                   br(),
-                                                  actionButton("goButtonMul", "Plot it!", icon("paper-plane"), 
-                                                               style="color: #fff; background-color: pink", class="btn btn-lg", class="circle grow"),
+                                                  withBusyIndicatorUI(actionButton("goButtonMul", "New Data", icon("paper-plane"), 
+                                                               style="color: #fff; background-color: pink", class="btn btn-lg", class="circle grow")),
                                                   br(),
                                                   br(),
                                                   bsButton(inputId = "begin", label="Game Time!", icon("gamepad"), 

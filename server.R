@@ -61,6 +61,21 @@ shinyServer(function(input, output,session) {
     updateTabItems(session,"tabs","Multiple")
   })
   
+#####################Processing sign#######################
+  observeEvent(input$goButtonMul, {
+    # When the button is clicked, wrap the code in a call to `withBusyIndicatorServer()`
+    withBusyIndicatorServer("goButtonMul", {
+      Sys.sleep(1)
+    })
+  })
+  
+  observeEvent(input$goButton, {
+    # When the button is clicked, wrap the code in a call to `withBusyIndicatorServer()`
+    withBusyIndicatorServer("goButton", {
+      Sys.sleep(1)
+    })
+  })
+  
  ############################Gray out buttons###############################
  
  
