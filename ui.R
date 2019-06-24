@@ -44,8 +44,7 @@ shinyUI <- dashboardPage(
                            sidebarMenu(id="tabs",
                                        menuItem("Prerequisites", tabName= "prereq", icon=icon("book")),
                                        menuItem("Overview",tabName = "instruction", icon = icon("dashboard")),
-                                       menuItem("Logistic Regression",tabName = "explore", icon = icon("paw")),
-                                       menuItem("Multiple Logistic Regression",tabName = "Multiple", icon = icon("book-open")),
+                                       menuItem("Explore",tabName = "explore", icon = icon("wpexplorer")),
                                        menuItem("Game", tabName = "qqq", icon= icon("gamepad"))
                            )
                          ),
@@ -162,123 +161,125 @@ shinyUI <- dashboardPage(
                                    #     tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19)),
                                    #     circleButton("infoex",icon = icon("info"), status = "myClass",size = "xs")
                                    # ),
-                                     ######Single Regression
-                                              h3(strong("Single Logistic Regression")),
-                                              h4("This app will allow you to explore how to create and interprete logistic regression."),
+                                   
+                                   tabsetPanel(
+                                     type = 'tabs',
+                                     tabPanel(
+                                       ######Single Regression
+                                       'Single Regression',
+                                       h3(strong("Single Logistic Regression")),
+                                       h4("This app will allow you to explore how to create and interprete logistic regression."),
+                                       br(),
+                                       sidebarLayout(
+                                         sidebarPanel(
+                                           sliderInput2("sampleSize", "Sample Size:",
+                                                        min = 0, 
+                                                        max = 300, 
+                                                        value = 150, 
+                                                        step = 1, 
+                                                        from_min = 2
+                                           ),
+                                           sliderInput("b0", "β0 (intercept):",
+                                                       min = -10, max = 10, value = 0
+                                           ),
+                                           sliderInput("b1", "β1 (coefficient):",
+                                                       min = -10, max = 10, value = 3
+                                           ),
+                                           # sliderInput("ci", "confidence interval level",
+                                           #             min = 0, max = 0.999, value = 0.95),
+                                           sliderInput3("ci", "confidence interval level:",
+                                                        min = 0, 
+                                                        max = 1, 
+                                                        value = 0.95, 
+                                                        step = 0.01,  
+                                                        from_max = 0.99
+                                           ),
+                                           selectInput(inputId="residualType", label = "Residual Type",
+                                                       choices = c("deviance", "pearson"), selected="deviance"),
+                                           br(),
+                                           actionButton("goButton", "Plot it!", icon("paper-plane"),
+                                                        class = "btn btn-lg", style="color: #fff", class="circle grow"),
+                                           br(),
+                                           br()
+                                           
+                                         ),
+                                         mainPanel(
+                                           plotlyOutput("logplot", width = "98%"),
+                                           br(),
+                                           br(),
+                                           tableOutput("citable"),
+                                           plotOutput("residualPlot", width = "100%"),
+                                           tags$style(type='text/css', '#lemeshowTest, #obsexp {background-color: rgba(219,193,195,0.20); 
+                                                      color: maroon; text-align: center}', '#title{color: maroon}'), 
+                                           
+                                           br(),
+                                           div(style="text-align: center", h3(id='title', "Hosmer and Lemeshow goodness of fit (GOF) test")),
+                                           br(),
+                                           tableOutput("lemeshowDF"),
+                                           tableOutput("obsexpDF"),
+                                           #verbatimTextOutput("lemeshowTest"),
+                                           #verbatimTextOutput("obsexp"),
+                                           bsPopover("lemeshowDF"," ","The Hosmer-Lemeshow Test is a goodness of fit test for the logistic model. Here is the result of the Hosmer-Lemeshow Test for ten groups. Number of subgroups, g, usually uses the formula g > P + 1. P is number of covariates. Degree of freedom equals g-2. ", trigger = "hover",place="left"),
+                                           bsPopover("obsexpDF"," ","There are 10 rows meaning g=10.", trigger = "hover",place="left")
+                                           )
+                                       )
+                                     ),
+                                     
+                                     tabPanel("Multiple Logistic Regression",
+                                              h3(strong("Multiple Logistic Regression")),
                                               br(),
                                               sidebarLayout(
                                                 sidebarPanel(
-                                                 sliderInput2("sampleSize", "Sample Size:",
-                                                              min = 0, 
-                                                              max = 300, 
-                                                              value = 150, 
-                                                              step = 1, 
-                                                              from_min = 2
-                                                 ),
-                                                  sliderInput("b0", "β0 (intercept):",
-                                                              min = -10, max = 10, value = 0
+                                                  sliderInput2("sampleSize2", "Sample Size:",
+                                                               min = 0, 
+                                                               max = 300, 
+                                                               value = 150, 
+                                                               step = 1, 
+                                                               from_min = 10
                                                   ),
-                                                  sliderInput("b1", "β1 (coefficient):",
-                                                              min = -10, max = 10, value = 3
+                                                  sliderInput("b02", "β0 (intercept):",
+                                                              min = -10, max = 10, value = 2
                                                   ),
-                                                  # sliderInput("ci", "confidence interval level",
-                                                  #             min = 0, max = 0.999, value = 0.95),
-                                                 sliderInput3("ci", "confidence interval level:",
-                                                              min = 0, 
-                                                              max = 1, 
-                                                              value = 0.95, 
-                                                              step = 0.01,  
-                                                              from_max = 0.99
-                                                 ),
-                                                  selectInput(inputId="residualType", label = "Residual Type",
-                                                              choices = c("deviance", "pearson"), selected="deviance"),
-                                                 br(),
-                                                      actionButton("goButton", "Plot it!", icon("paper-plane"),
-                                                               class = "btn btn-lg", style="color: #fff", class="circle grow"),
-                                                 br(),
-                                                 br(),
-                                                  bsButton(inputId = "goMul", label="Next Session", icon("book-open"), 
-                                                          class='btn btn-lg', style= "danger", class="circle grow")
-                                                
-                                                 
-                                                ),
-                                                mainPanel(
-                                                  plotlyOutput("logplot", width = "98%"),
-                                                  br(),
-                                                  br(),
-                                                  tableOutput("citable"),
-                                                  plotOutput("residualPlot", width = "100%"),
-                                                  tags$style(type='text/css', '#lemeshowTest, #obsexp {background-color: rgba(219,193,195,0.20); 
-                                                             color: maroon; text-align: center}', '#title{color: maroon}'), 
+                                                  sliderInput("b12", "β1 (coefficient):",
+                                                              min = -10, max = 10, value = 8
+                                                  ),
+                                                  sliderInput("b2", "β2 (coefficient):",
+                                                              min = -10, max = 10, value = -8
+                                                  ),
+                                                  sliderInput3("ci2", "confidence interval level:",
+                                                               min = 0, 
+                                                               max = 1, 
+                                                               value = 0.95, 
+                                                               step = 0.01,  
+                                                               from_max = 0.99
+                                                  ),
                                                   
+                                                  br(),
+                                                  actionButton("goButtonMul", "Plot it!", icon("paper-plane"), 
+                                                               style="color: #fff; background-color: pink", class="btn btn-lg", class="circle grow"),
+                                                  br(),
+                                                  br(),
+                                                  bsButton(inputId = "begin", label="Game Time!", icon("gamepad"), 
+                                                           class='btn btn-lg', style= "danger", class="circle grow")
+                                                ),
+                                                
+                                                mainPanel(
+                                                  plotlyOutput("mulPlot"),
+                                                  br(),
+                                                  br(),
+                                                  plotOutput("multix"),
+                                                  br(),
+                                                  tags$style(type='text/css', '#lemeshowTest2, #obsexp2 {background-color: rgba(219,193,195,0.20); 
+                                                             color: maroon;text-align: center}'), 
                                                   br(),
                                                   div(style="text-align: center", h3(id='title', "Hosmer and Lemeshow goodness of fit (GOF) test")),
                                                   br(),
-                                                  tableOutput("lemeshowDF"),
-                                                  tableOutput("obsexpDF"),
-                                                  #verbatimTextOutput("lemeshowTest"),
-                                                  #verbatimTextOutput("obsexp"),
-                                                  bsPopover("lemeshowDF"," ","The Hosmer-Lemeshow Test is a goodness of fit test for the logistic model. Here is the result of the Hosmer-Lemeshow Test for ten groups. Number of subgroups, g, usually uses the formula g > P + 1. P is number of covariates. Degree of freedom equals g-2. ", trigger = "hover",place="left"),
-                                                  bsPopover("obsexpDF"," ","There are 10 rows meaning g=10.", trigger = "hover",place="left")
-                                                )
+                                                  tableOutput("lemeshowDF2"),
+                                                  tableOutput("obsexpDF2")
+                                                  )
                                               )
-                                       
-                                     ),
-                           
-                           tabItem(tabName = "Multiple",
-                                   h3(strong("Multiple Logistic Regression")),
-                                   br(),
-                                   sidebarLayout(
-                                     sidebarPanel(
-                                       sliderInput2("sampleSize2", "Sample Size:",
-                                                    min = 0, 
-                                                    max = 300, 
-                                                    value = 150, 
-                                                    step = 1, 
-                                                    from_min = 10
-                                       ),
-                                       sliderInput("b02", "β0 (intercept):",
-                                                   min = -10, max = 10, value = 2
-                                       ),
-                                       sliderInput("b12", "β1 (coefficient):",
-                                                   min = -10, max = 10, value = 8
-                                       ),
-                                       sliderInput("b2", "β2 (coefficient):",
-                                                   min = -10, max = 10, value = -8
-                                       ),
-                                       sliderInput3("ci2", "confidence interval level:",
-                                                    min = 0, 
-                                                    max = 1, 
-                                                    value = 0.95, 
-                                                    step = 0.01,  
-                                                    from_max = 0.99
-                                       ),
-                                      
-                                       br(),
-                                       actionButton("goButtonMul", "Plot it!", icon("paper-plane"), 
-                                                    style="color: #fff; background-color: pink", class="btn btn-lg", class="circle grow"),
-                                       br(),
-                                       br(),
-                                       bsButton(inputId = "begin", label="Game Time!", icon("gamepad"), 
-                                                class='btn btn-lg', style= "danger", class="circle grow")
-                                     ),
-                                     
-                                     mainPanel(
-                                       plotlyOutput("mulPlot"),
-                                       br(),
-                                       br(),
-                                       plotOutput("multix"),
-                                       br(),
-                                       tags$style(type='text/css', '#lemeshowTest2, #obsexp2 {background-color: rgba(219,193,195,0.20); 
-                                                  color: maroon;text-align: center}'), 
-                                       br(),
-                                       div(style="text-align: center", h3(id='title', "Hosmer and Lemeshow goodness of fit (GOF) test")),
-                                       br(),
-                                       tableOutput("lemeshowDF2"),
-                                       tableOutput("obsexpDF2")
-                                       )
-                                   )
-                           ),
+                                              )
+                                   )),
 
                             tabItem(tabName = "qqq",
                                     h3("Game Section"),
