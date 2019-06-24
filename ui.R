@@ -168,7 +168,7 @@ shinyUI <- dashboardPage(
                                      type = 'tabs',
                                      tabPanel(
                                        ######Single Regression
-                                       'Single Regression',
+                                       'Single Logistic Regression',
                                        
                                        h3(strong("Single Logistic Regression")),
                                        # h4("This app will allow you to explore how to create and interprete logistic regression."),
@@ -202,7 +202,6 @@ shinyUI <- dashboardPage(
                                            br(),
                                            withBusyIndicatorUI(actionButton("goButton", "New Data", icon("paper-plane"),
                                                         class = "btn btn-lg", style="color: #fff", class="circle grow")),
-                                           br(),
                                            br()
                                            
                                          ),
@@ -216,7 +215,7 @@ shinyUI <- dashboardPage(
                                                       color: maroon; text-align: center}', '#title{color: blackl; padding-left:2.5em; font-size: 22px}'), 
                                            
                                            br(),
-                                           h3(strong(id='title', "Hosmer and Lemeshow goodness of fit (GOF) test")),
+                                           h3(strong(id='title', "Hosmer and Lemeshow goodness of fit test")),
                                            #br(),
                                            tableOutput("lemeshowDF"),
                                            tableOutput("obsexpDF"),
@@ -230,7 +229,6 @@ shinyUI <- dashboardPage(
                                      
                                      tabPanel("Multiple Logistic Regression",
                                               h3(strong("Multiple Logistic Regression")),
-                                              br(),
                                               sidebarLayout(
                                                 sidebarPanel(
                                                   sliderInput2("sampleSize2", "Sample Size:",
@@ -261,7 +259,6 @@ shinyUI <- dashboardPage(
                                                   withBusyIndicatorUI(actionButton("goButtonMul", "New Data", icon("paper-plane"), 
                                                                style="color: #fff; background-color: pink", class="btn btn-lg", class="circle grow")),
                                                   br(),
-                                                  br(),
                                                   bsButton(inputId = "begin", label="Game Time!", icon("gamepad"), 
                                                            class='btn btn-lg', style= "danger", class="circle grow")
                                                 ),
@@ -275,7 +272,7 @@ shinyUI <- dashboardPage(
                                                   tags$style(type='text/css', '#lemeshowTest2, #obsexp2 {background-color: rgba(219,193,195,0.20); 
                                                              color: maroon;text-align: center}'), 
                                                   br(),
-                                                  div(style="text-align: center", h3(id='title', "Hosmer and Lemeshow goodness of fit (GOF) test")),
+                                                  div(style="text-align: center", h3(id='title', "Hosmer and Lemeshow goodness of fit test")),
                                                   br(),
                                                   tableOutput("lemeshowDF2"),
                                                   tableOutput("obsexpDF2")
