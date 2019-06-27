@@ -286,9 +286,51 @@ shinyServer(function(input, output,session) {
   
 
   ##### Draw the Hangman Game#####
+  output$dice<-renderUI({
+    img(src = "first.png",width = 300)
+  })
+  
+  observeEvent(input$roll,{
+    output$dice<-renderUI({
+      img(src = "rolling.gif",width = 300)
+    })
+  })
+  
+  observeEvent(input$stop,{
+    randnum<-sample(1:6, 1)
+    if(randnum == 1){
+      output$dice<-renderUI({
+        img(src = "one.png",width = 300)
+      })
+    }
+    else if(randnum == 2){
+      output$dice<-renderUI({
+        img(src = "two.png",width = 300)
+      })
+    }
+    else if(randnum == 3){
+      output$dice<-renderUI({
+        img(src = "three.png",width = 300)
+      })
+    }
+    else if(randnum == 4){
+      output$dice<-renderUI({
+        img(src = "four.png",width = 300)
+      })
+    }
+    else if(randnum == 5){
+      output$dice<-renderUI({
+        img(src = "five.png",width = 300)
+      })
+    }
+    else if(randnum == 6){
+      output$dice<-renderUI({
+        img(src = "six.png",width = 300)
+      })
+    }
+  })
   
   output$distPlot <- renderUI({
-    
     mistake = 0
     ## Background
     if(mistake == 0){

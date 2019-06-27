@@ -284,7 +284,7 @@ shinyUI <- dashboardPage(
                             tabItem(tabName = "qqq",
                                     h3("Game Section"),
                                     p("Introduction is still working in progress"),
-                                    
+                  
                                     sidebarLayout(
                                       sidebarPanel(
                                         
@@ -294,9 +294,11 @@ shinyUI <- dashboardPage(
                                         br(),
                                         
                                         fluidRow(
-                                          column(6, offset = 2,
-                                                 uiOutput("distPlot", width = "100%"))),
-                                        
+                                          column(12, uiOutput("dice", width = "100%"))),
+                                          br(),
+                                        fluidRow(
+                                          column(3, actionButton("roll", "roll")),
+                                          column(3, actionButton("stop", "stop"))),
                                         br(),
                                         br()
                                       )
