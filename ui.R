@@ -267,18 +267,18 @@ shinyUI <- dashboardPage(
                                                 ),
                                                 
                                                 mainPanel(
-                                                  plotlyOutput("mulPlot"),
+                                                  plotlyOutput("mulPlot", height = "300px"),
                                                   br(),
                                                   br(),
-                                                  plotOutput("multix"),
-                                                  br(),
-                                                  tags$style(type='text/css', '#lemeshowTest2, #obsexp2 {background-color: rgba(219,193,195,0.20); 
-                                                             color: maroon;text-align: center}'), 
-                                                  br(),
-                                                  div(style="text-align: center", h3(id='title', "Hosmer and Lemeshow goodness of fit (GOF) test")),
-                                                  br(),
-                                                  tableOutput("lemeshowDF2"),
-                                                  tableOutput("obsexpDF2")
+                                                  plotOutput("multix")
+                                                  # br(),
+                                                  # tags$style(type='text/css', '#lemeshowTest2, #obsexp2 {background-color: rgba(219,193,195,0.20); 
+                                                  #            color: maroon;text-align: center}'), 
+                                                  # # br(),
+                                                  # div(style="text-align: center", h3(id='title', "Hosmer and Lemeshow goodness of fit (GOF) test")),
+                                                  # br(),
+                                                  # tableOutput("lemeshowDF2"),
+                                                  # tableOutput("obsexpDF2")
                                                   )
                                               )
                                               )
