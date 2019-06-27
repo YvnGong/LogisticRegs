@@ -115,7 +115,7 @@ shinyUI <- dashboardPage(
                                                 \\(\\beta_1\\) defines the steepness of the curve.")),
                                      div(style="font-size: 1.6em", helpText('$${ln({p\\over1-p})} = {\\beta_0+\\beta_1x}$$')),
                                      h4(tags$li("Deviance Residual and Pearson Residual check the model fit. Best 
-                                                results are no patterns or residual values > |2|")),
+                                                results are no patterns or no extremely large residuals ")),
                                      h4(tags$li("Hosmer and Lemeshow test check the goodness of fit in the model 
                                                 where data is divided into recommended 10 groups. The p-value can 
                                                 determine the significance of the result.")),
@@ -141,7 +141,7 @@ shinyUI <- dashboardPage(
                                     h3(strong("Instructions:")),
                                     h4(tags$li("There are two types of logistic model, Single Logistic Regression and Multiple Logistic Regression, included in this app.")),
                                     h4(tags$li("For each model, adjust the sliders to change the sample size and corresponding beta coefficients.")),
-                                    h4(tags$li("Watch how the plot of Logistic Regression Model changes as well as the plot of Residual and the diagnostic plots changes under the Multiple Logistic Model tab.")),
+                                    h4(tags$li("Click New Data button to generate plot. Watch the change of plot when drag the slider of confidence interval.")),
                                     h4(tags$li("Each Logistic Regression plot is made on a random sample.")),
                                     h4(tags$li("After working with the explore section, you can start the game to test your understanding of the concepts.")),
                                     br(),
