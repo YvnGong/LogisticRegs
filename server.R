@@ -293,7 +293,7 @@ shinyServer(function(input, output,session) {
   })
   
   output$gamescore<-renderUI({
-    h2("Culmutative score is", score())
+    h2("Your cumulative score is", score())
   })
   
   observeEvent(input$restart,{
@@ -379,36 +379,36 @@ shinyServer(function(input, output,session) {
     
   })
   
-  output$distPlot <- renderUI({
-    mistake = 0
-    ## Background
-    if(mistake == 0){
-      img(src = "treegame1.jpg", width = 500)
-      
-    }
-    
-    ## Head
-    else if(mistake == 1 ) {
-      img(src = "treegame2.jpg", width = 500)
-    }
-    
-    ## Arms
-    else if(mistake == 2) {
-      img(src = "treegame3.jpg", width = 500)
-    }
-    
-    ## Body
-    else if(mistake == 3 ) {
-      img(src = "treegame4.jpg", width = 500)
-    }
-    
-    
-    ## Legs
-    else if(mistake == 4) {
-      img(src = "treegame5.jpg", width = 500)
-    }
-    
-  })
+  # output$distPlot <- renderUI({
+  #   mistake = 0
+  #   ## Background
+  #   if(mistake == 0){
+  #     img(src = "treegame1.jpg", width = 500)
+  #     
+  #   }
+  #   
+  #   ## Head
+  #   else if(mistake == 1 ) {
+  #     img(src = "treegame2.jpg", width = 500)
+  #   }
+  #   
+  #   ## Arms
+  #   else if(mistake == 2) {
+  #     img(src = "treegame3.jpg", width = 500)
+  #   }
+  #   
+  #   ## Body
+  #   else if(mistake == 3 ) {
+  #     img(src = "treegame4.jpg", width = 500)
+  #   }
+  #   
+  #   
+  #   ## Legs
+  #   else if(mistake == 4) {
+  #     img(src = "treegame5.jpg", width = 500)
+  #   }
+  #   
+  # })
   
   })
 

@@ -16,8 +16,8 @@ library(rgdal)
 library(shinyWidgets)
 library(ggplot2)
 library(plotly)
+library(rlocker)
 
-#library(rlocker)
 source("helpers.R") 
 
 sliderInput2 <- function(inputId, label, min, max, value, step=NULL, from_min, from_max){
@@ -38,6 +38,11 @@ sliderInput3 <- function(inputId, label, min, max, value, step=NULL, from_min, f
 
 shinyUI <- dashboardPage(
                          dashboardHeader(title = "Logistic Regression",
+                                         tags$li(class="dropdown",
+                                                 tags$a(href="https://shinyapps.science.psu.edu/",
+                                                        icon("home", lib="font-awesome"))),
+                                         tags$li(class="dropdown",
+                                                 actionLink("info", icon("info"), class="myClass")),
                                          titleWidth = 200),
                          #adding prereq pages and game pages
                          dashboardSidebar(
@@ -259,7 +264,7 @@ shinyUI <- dashboardPage(
                                                   withBusyIndicatorUI(actionButton("goButtonMul", "New Data", icon("paper-plane"), 
                                                                style="color: #fff; background-color: pink", class="btn btn-lg", class="circle grow")),
                                                   br(),
-                                                  actionButton(inputId = "begin", label="Game Time!", icon("gamepad"), 
+                                                  bsButton(inputId = "begin", label="Game Time!", icon("gamepad"), 
                                                            class='btn btn-lg', style= "danger", class="circle grow")
                                                 ),
                                                 
