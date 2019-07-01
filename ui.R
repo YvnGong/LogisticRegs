@@ -259,7 +259,7 @@ shinyUI <- dashboardPage(
                                                   withBusyIndicatorUI(actionButton("goButtonMul", "New Data", icon("paper-plane"), 
                                                                style="color: #fff; background-color: pink", class="btn btn-lg", class="circle grow")),
                                                   br(),
-                                                  bsButton(inputId = "begin", label="Game Time!", icon("gamepad"), 
+                                                  actionButton(inputId = "begin", label="Game Time!", icon("gamepad"), 
                                                            class='btn btn-lg', style= "danger", class="circle grow")
                                                 ),
                                                 
@@ -292,13 +292,22 @@ shinyUI <- dashboardPage(
                                       
                                       mainPanel(
                                         br(),
+                                        uiOutput('gamescore'),
+                                        tags$head(tags$style(HTML(mycss))),
+                                        div(id = "plot-container",
+                                            tags$img(src = "spinner.gif",
+                                                     id = "loading-spinner"),
+                                            uiOutput("dice", width = "100%")
+                                        ),
                                         
-                                        fluidRow(
-                                          column(12, uiOutput("dice", width = "100%"))),
+                                        # fluidRow(
+                                        #   column(12, uiOutput("dice", width = "100%"))),
                                           br(),
                                         fluidRow(
-                                          column(3, actionButton("roll", "roll")),
-                                          column(3, actionButton("stop", "stop"))),
+                                          column(2, actionButton("roll", "roll")),
+                                          column(2, actionButton("stop", "stop")),
+                                          column(2, bsButton("restart", "restart", style="danger", disabled = TRUE))
+                                          ),
                                         br(),
                                         br()
                                       )

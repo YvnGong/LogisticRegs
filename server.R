@@ -286,8 +286,25 @@ shinyServer(function(input, output,session) {
   
 
   ##### Draw the Hangman Game#####
+  score <- reactiveVal(0)  
+  
   output$dice<-renderUI({
     img(src = "first.png",width = 300)
+  })
+  
+  output$gamescore<-renderUI({
+    h2("Culmutative score is", score())
+  })
+  
+  observeEvent(input$restart,{
+    newvalue<-score()-score()
+    score(newvalue)
+    output$dice<-renderUI({
+      img(src = "first.png",width = 300)
+    })
+    updateButton(session, "roll", disabled = FALSE)
+    updateButton(session, "stop", disabled = TRUE)
+    updateButton(session, "restart", disabled = TRUE)
   })
   
   observeEvent(input$roll,{
@@ -296,38 +313,70 @@ shinyServer(function(input, output,session) {
     })
   })
   
+  observeEvent(input$roll,{
+    updateButton(session, "roll", disabled = TRUE)
+    updateButton(session, "stop", disabled = FALSE)
+  })
+  
+  observeEvent(input$stop,{
+    updateButton(session, "stop", disabled = TRUE)
+    updateButton(session, "roll", disabled = FALSE)
+  })
+  
   observeEvent(input$stop,{
     randnum<-sample(1:6, 1)
-    if(randnum == 1){
+    newvalue<-score()+isolate(randnum)
+    score(newvalue)
+    
+    if(as.numeric(score())>=50){
       output$dice<-renderUI({
-        img(src = "one.png",width = 300)
+        Sys.sleep(1)
+        img(src = "congrats.jpg",width = 300)
       })
+      updateButton(session, "roll", disabled = TRUE)
+      updateButton(session, "stop", disabled = TRUE)
+      updateButton(session, "restart", disabled = FALSE)
     }
-    else if(randnum == 2){
-      output$dice<-renderUI({
-        img(src = "two.png",width = 300)
-      })
+    
+    else{
+      if(randnum == 1){
+        output$dice<-renderUI({
+          Sys.sleep(1)
+          img(src = "one.png",width = 300)
+        })
+      }
+      else if(randnum == 2){
+        output$dice<-renderUI({
+          Sys.sleep(1)
+          img(src = "two.png",width = 300)
+        })
+      }
+      else if(randnum == 3){
+        output$dice<-renderUI({
+          Sys.sleep(1)
+          img(src = "three.png",width = 300)
+        })
+      }
+      else if(randnum == 4){
+        output$dice<-renderUI({
+          Sys.sleep(1)
+          img(src = "four.png",width = 300)
+        })
+      }
+      else if(randnum == 5){
+        output$dice<-renderUI({
+          Sys.sleep(1)
+          img(src = "five.png",width = 300)
+        })
+      }
+      else if(randnum == 6){
+        output$dice<-renderUI({
+          Sys.sleep(1)
+          img(src = "six.png",width = 300)
+        })
+      }
     }
-    else if(randnum == 3){
-      output$dice<-renderUI({
-        img(src = "three.png",width = 300)
-      })
-    }
-    else if(randnum == 4){
-      output$dice<-renderUI({
-        img(src = "four.png",width = 300)
-      })
-    }
-    else if(randnum == 5){
-      output$dice<-renderUI({
-        img(src = "five.png",width = 300)
-      })
-    }
-    else if(randnum == 6){
-      output$dice<-renderUI({
-        img(src = "six.png",width = 300)
-      })
-    }
+    
   })
   
   output$distPlot <- renderUI({
