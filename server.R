@@ -292,7 +292,7 @@ shinyServer(function(input, output,session) {
   
   observeEvent(input$roll,{
     output$dice<-renderUI({
-      img(src = "rolling.gif",width = 300)
+      img(src = "rolling15x.gif",width = 300)
     })
   })
   
