@@ -1,0 +1,17 @@
+﻿id,question,A,B,C,Answer
+1,"When log(p/1-p)=a+bx, what does ""a"" represent? ",Log of odds ratio,log of odds when x=0,Change in log of odds for one unit of x,B
+2,"When log(p/1-p)=a+bx, what does ""b"" represent?",Change in log of odds for one unit of x,odds ratio ,Log of odds ratio,A
+3,"Suppose x=0 for the treatment group and x=0 for the control group. When log(p/1-p)=a+bx, what does ""b"" represent?",log of odds when x=0,Change in log of odds for one unit of x,Log of odds ratio,C
+4,"Suppose x=0 for the treatment group and x=0 for the control group. When log(p/1-p)=a+bx, what does e^b represent?",odds ratio ,Log of odds ratio ,log of odds when x=0,A
+5,"If you increase the value of x by one unit, how does the estimated odds change?",by a factor of exp(b),Empty Cell,Empty Cell,A
+6,"In the simple logistic regression, what is a when p equals to 0.5?",a=0.5,a=1,a=0,C
+7,What does Log(P(Y)/1-P(Y))=β0+β1x1+…+βnxn represent? ,Odds ratio ,Logistic Regression Model,Log of odds ratio,B
+8,What is the recommended value of g for Hosmer and Lemeshow test?,8,12,10,C
+9,When will hosmer and lemeshow test not apply?,5 covariantes and g=10,12 covariantes and g=10,8 covariantes and g=10,B
+10,When does the residual plot indicate a good model fit?,no pattern and no extremely large residuals,non-linear pattern ,residual value > 0 ,A
+11,"A binary logistic model has a dependent variable with two possible values which are labeled ""0"" and ""1""",TRUE,FALSE,,A
+12,Which plot below indicates a negative β1?,b1neg1.png,b1pos1.png,,A
+13,Which plot below indicates a positive β1?,b1pos2.png,b1neg2.png,,A
+14,Which plot below indicates a negative β1?,b1pos3.png,b1neg3.png,,B
+15,Which plot should have a larger sample size?,smallersample1.png,largersample2.png,,B
+16,Which plot should have a smaller sample size?,largersample1.png,smallersample2.png,,B

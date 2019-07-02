@@ -16,12 +16,10 @@ library(plotly)
 library(data.table)
 library(ResourceSelection)
 
-#bankc for challenge bank
+#bank for question
 
-bankc <- 
-  read.csv("ChallengeOutput.csv")
-bankc = 
-  data.frame(lapply(bankc, as.character), stringsAsFactors = FALSE)
+bank <- read.csv("questionbank.csv")
+bank = data.frame(lapply(bank, as.character), stringsAsFactors = FALSE)
 
 
 # Define server logic required to draw a histogram

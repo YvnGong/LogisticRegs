@@ -293,7 +293,12 @@ shinyUI <- dashboardPage(
                   
                                     sidebarLayout(
                                       sidebarPanel(
-                                        
+                                        selectInput("answer", "pick an answer from below", c("","A", "B", "C")),
+                                        div(style="display: inline-block; ", actionButton(inputId = 'submit', label = 'Submit')),
+                                        div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
+                                        div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='warning', disabled = TRUE)),
+                                        div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
+                                        div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger", disabled = TRUE))
                                       ),
                                       
                                       mainPanel(
@@ -310,9 +315,9 @@ shinyUI <- dashboardPage(
                                         
                                           br(),
                                         fluidRow(
-                                          column(5, align="right", actionButton("roll", "roll")),
-                                          column(2, align="center", actionButton("stop", "stop", disabled=TRUE)),
-                                          column(5, align="left", bsButton("restart", "restart", style="danger", disabled = TRUE))
+                                          column(6, align="center", actionButton("roll", "roll")),
+                                          column(6, align="center", actionButton("stop", "stop", disabled=TRUE))
+                                          # column(5, align="left", bsButton("restart", "restart", style="danger", disabled = TRUE))
                                           ),
                                         br(),
                                         br()
