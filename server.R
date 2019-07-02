@@ -321,6 +321,7 @@ shinyServer(function(input, output,session) {
   observeEvent(input$stop,{
     updateButton(session, "stop", disabled = TRUE)
     updateButton(session, "roll", disabled = FALSE)
+    updateButton(session, "restart", disabled = FALSE)
   })
   
   observeEvent(input$stop,{
