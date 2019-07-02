@@ -287,8 +287,9 @@ shinyUI <- dashboardPage(
                                    )),
 
                             tabItem(tabName = "qqq",
-                                    h3("Game Section"),
-                                    p("Introduction is still working in progress"),
+                                    h2(strong("Game Section")),
+                                    h4("Practice the following questions. Once you got one question right, you would get a chance to roll the dice. 
+                                       Once the culmutative number of dice rolling reach 50. You Win!"),
                   
                                     sidebarLayout(
                                       sidebarPanel(
@@ -297,21 +298,21 @@ shinyUI <- dashboardPage(
                                       
                                       mainPanel(
                                         br(),
-                                        uiOutput('gamescore'),
                                         tags$head(tags$style(HTML(mycss))),
-                                        div(id = "plot-container",
-                                            tags$img(src = "spinner.gif",
-                                                     id = "loading-spinner"),
-                                            uiOutput("dice", width = "100%")
+                                        fluidRow(
+                                          column(12, align="center", uiOutput('gamescore')),
+                                          column(12, align="center", div(id = "plot-container",
+                                                         tags$img(src = "spinner.gif",
+                                                                  id = "loading-spinner"),
+                                                         uiOutput("dice", width = "100%")
+                                          ))
                                         ),
                                         
-                                        # fluidRow(
-                                        #   column(12, uiOutput("dice", width = "100%"))),
                                           br(),
                                         fluidRow(
-                                          column(2, actionButton("roll", "roll")),
-                                          column(2, actionButton("stop", "stop")),
-                                          column(2, bsButton("restart", "restart", style="danger", disabled = TRUE))
+                                          column(5, align="right", actionButton("roll", "roll")),
+                                          column(2, align="center", actionButton("stop", "stop", disabled=TRUE)),
+                                          column(5, align="left", bsButton("restart", "restart", style="danger", disabled = TRUE))
                                           ),
                                         br(),
                                         br()

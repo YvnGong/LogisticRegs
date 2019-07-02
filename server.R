@@ -289,7 +289,7 @@ shinyServer(function(input, output,session) {
   score <- reactiveVal(0)  
   
   output$dice<-renderUI({
-    img(src = "first.png",width = 300)
+    img(src = "first.png",width = '60%')
   })
   
   output$gamescore<-renderUI({
@@ -300,7 +300,7 @@ shinyServer(function(input, output,session) {
     newvalue<-score()-score()
     score(newvalue)
     output$dice<-renderUI({
-      img(src = "first.png",width = 300)
+      img(src = "first.png", width = '60%')
     })
     updateButton(session, "roll", disabled = FALSE)
     updateButton(session, "stop", disabled = TRUE)
@@ -309,7 +309,7 @@ shinyServer(function(input, output,session) {
   
   observeEvent(input$roll,{
     output$dice<-renderUI({
-      img(src = "rolling15x.gif",width = 300)
+      img(src = "rolling15x.gif", width = '60%')
     })
   })
   
@@ -332,7 +332,7 @@ shinyServer(function(input, output,session) {
     if(as.numeric(score())>=50){
       output$dice<-renderUI({
         Sys.sleep(1)
-        img(src = "congrats.jpg",width = 300)
+        img(src = "congrats.jpg", width = '60%')
       })
       updateButton(session, "roll", disabled = TRUE)
       updateButton(session, "stop", disabled = TRUE)
@@ -343,73 +343,42 @@ shinyServer(function(input, output,session) {
       if(randnum == 1){
         output$dice<-renderUI({
           Sys.sleep(1)
-          img(src = "one.png",width = 300)
+          img(src = "one.png",width = '60%')
         })
       }
       else if(randnum == 2){
         output$dice<-renderUI({
           Sys.sleep(1)
-          img(src = "two.png",width = 300)
+          img(src = "two.png",width = '60%')
         })
       }
       else if(randnum == 3){
         output$dice<-renderUI({
           Sys.sleep(1)
-          img(src = "three.png",width = 300)
+          img(src = "three.png",width = '60%')
         })
       }
       else if(randnum == 4){
         output$dice<-renderUI({
           Sys.sleep(1)
-          img(src = "four.png",width = 300)
+          img(src = "four.png",width = '60%')
         })
       }
       else if(randnum == 5){
         output$dice<-renderUI({
           Sys.sleep(1)
-          img(src = "five.png",width = 300)
+          img(src = "five.png",width = '60%')
         })
       }
       else if(randnum == 6){
         output$dice<-renderUI({
           Sys.sleep(1)
-          img(src = "six.png",width = 300)
+          img(src = "six.png",width = '60%')
         })
       }
     }
     
   })
-  
-  # output$distPlot <- renderUI({
-  #   mistake = 0
-  #   ## Background
-  #   if(mistake == 0){
-  #     img(src = "treegame1.jpg", width = 500)
-  #     
-  #   }
-  #   
-  #   ## Head
-  #   else if(mistake == 1 ) {
-  #     img(src = "treegame2.jpg", width = 500)
-  #   }
-  #   
-  #   ## Arms
-  #   else if(mistake == 2) {
-  #     img(src = "treegame3.jpg", width = 500)
-  #   }
-  #   
-  #   ## Body
-  #   else if(mistake == 3 ) {
-  #     img(src = "treegame4.jpg", width = 500)
-  #   }
-  #   
-  #   
-  #   ## Legs
-  #   else if(mistake == 4) {
-  #     img(src = "treegame5.jpg", width = 500)
-  #   }
-  #   
-  # })
   
   })
 
