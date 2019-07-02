@@ -88,10 +88,7 @@ shinyServer(function(input, output,session) {
   observeEvent(input$answer, {
     updateButton(session, "answer", disabled=TRUE)
   })
-  
-  observeEvent(input$begin, {
-    updateButton(session, "submit", disabled = TRUE)
-  })
+
   
   
 #############################plot outputs#################################
@@ -401,22 +398,31 @@ shinyServer(function(input, output,session) {
     updateButton(session, "restart", disabled = TRUE)
   })
   
-  observeEvent(input$roll,{
-    output$dice<-renderUI({
-      img(src = "rolling15x.gif", width = '60%')
-    })
+  autoInvalidate <- reactiveTimer(2000)
+  observe({
+    autoInvalidate()
   })
   
   observeEvent(input$roll,{
+    
+    output$dice<-renderUI({
+      autoInvalidate()
+      img(src = "rolling15x.gif", width = '60%')
+    })
+    
     updateButton(session, "roll", disabled = TRUE)
     updateButton(session, "stop", disabled = FALSE)
   })
+  
   
   observeEvent(input$stop,{
     updateButton(session, "stop", disabled = TRUE)
     updateButton(session, "roll", disabled = FALSE)
     updateButton(session, "restart", disabled = FALSE)
   })
+  
+  
+  
   
   observeEvent(input$stop,{
     randnum<-sample(1:6, 1)
