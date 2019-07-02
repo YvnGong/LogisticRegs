@@ -13,5 +13,5 @@
 12,Which plot below indicates a negative β1?,b1neg1.png,b1pos1.png,,A
 13,Which plot below indicates a positive β1?,b1pos2.png,b1neg2.png,,A
 14,Which plot below indicates a negative β1?,b1pos3.png,b1neg3.png,,B
-15,Which plot should have a larger sample size?,smallersample1.png,largersample2.png,,B
-16,Which plot should have a smaller sample size?,largersample1.png,smallersample2.png,,B
+15,Which plot should have a larger sample size?,smallersample1.png,largesample2.png,,B
+16,Which plot should have a smaller sample size?,largesample1.png,smallersample2.png,,B

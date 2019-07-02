@@ -293,15 +293,24 @@ shinyUI <- dashboardPage(
                   
                                     sidebarLayout(
                                       sidebarPanel(
+                                        width = 6,
+                                        uiOutput("question"),
+                                        uiOutput("options"),
+                                        br(),
+                                        
                                         selectInput("answer", "pick an answer from below", c("","A", "B", "C")),
+                                        # br(),
+                                        uiOutput("mark"),
+                                        br(),
                                         div(style="display: inline-block; ", actionButton(inputId = 'submit', label = 'Submit')),
                                         div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
-                                        div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='warning', disabled = TRUE)),
+                                        div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='warning')),
                                         div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
-                                        div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger", disabled = TRUE))
+                                        div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger"))
                                       ),
                                       
                                       mainPanel(
+                                        width = 6,
                                         br(),
                                         tags$head(tags$style(HTML(mycss))),
                                         fluidRow(
@@ -315,15 +324,14 @@ shinyUI <- dashboardPage(
                                         
                                           br(),
                                         fluidRow(
-                                          column(6, align="center", actionButton("roll", "roll")),
-                                          column(6, align="center", actionButton("stop", "stop", disabled=TRUE))
+                                          column(6, actionButton("roll", "roll")),
+                                          column(6, actionButton("stop", "stop", disabled=TRUE))
                                           # column(5, align="left", bsButton("restart", "restart", style="danger", disabled = TRUE))
                                           ),
                                         br(),
                                         br()
                                       )
                                     )
-                                    
                            )
                          )
                          )

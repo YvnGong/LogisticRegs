@@ -283,6 +283,102 @@ shinyServer(function(input, output,session) {
   }, striped = TRUE, width = "100%", align = 'c', hover = TRUE, bordered = TRUE, rownames = TRUE)
   
 
+  #####Buttons Handle#######
+  observeEvent(input$nextq,{
+    value$answerbox <- value$index
+    index_list$list=index_list$list[-1]   
+    value$index<-index_list$list[1]
+    value$answerbox<-value$index
+    
+    # updateButton(session, "nextq", disabled = TRUE)
+    updateButton(session,"submit", disabled = FALSE)
+    updateSelectInput(session,"answer", "pick an answer from below", c("","A", "B", "C"))
+    output$mark <- renderUI({
+      img(src = NULL,width = 30)
+    })
+  })
+  
+  observeEvent(input$submit,{
+    if(length(index_list$list) == 1){
+      updateButton(session, "nextq", disabled = TRUE)
+      updateButton(session,"submit", disabled = TRUE)
+      # updateButton(session, "restart", disabled = FALSE)
+    }
+    else{
+      updateButton(session, "nextq", disabled = FALSE)
+      updateButton(session,"submit", disabled = TRUE)
+    }
+    
+    answer<-isolate(input$answer)
+    output$mark <- renderUI({
+      if (any(answer == ans[value$index,1])){
+        img(src = "correct.png",width = 30)
+      }
+      else{
+        img(src = "incorrect.png",width = 30)
+        # w<-paste("You picked", answer, ", The correct answer is", ans[value$index, 1])
+        # HTML(paste(ig, w), sep = ' ')
+      }
+    })
+  })
+  
+  observeEvent(input$restart,{
+    updateButton(session, "submit", disabled = FALSE)
+    updateButton(session,"restart",disable =FALSE)
+    updateSelectInput(session,"answer", "pick an answer from below", c("","A", "B", "C"))
+    index_list$list<-c(index_list$list,sample(2:14,13,replace=FALSE))
+    value$index <- 1
+    value$answerbox = value$index
+    ans <- as.matrix(bank[1:16,6])
+    index_list<-reactiveValues(list=sample(1:16,16,replace=FALSE))
+    output$mark <- renderUI({
+      img(src = NULL,width = 30)
+    })
+  })
+  
+  #####Question Part########
+  value <- reactiveValues(index =  1, mistake = 0,correct = 0)
+  ans <- as.matrix(bank[1:16,6])
+  index_list<-reactiveValues(list=sample(1:16,16,replace=FALSE))
+  
+  output$question <- renderUI({
+    h4(bank[value$index, 2])
+  })
+  
+  output$options <- renderUI({
+    if(value$index == 11){
+      str1 <- paste("A.", bank[value$index, 3])
+      str2 <- paste("B.", bank[value$index, 4])
+      HTML(paste(str1, str2, sep = '<br/>'))
+    }
+    else if(value$index %in% c(12:16)){
+      Apic<-
+        img(src = bank[value$index, 3], 
+            width = "50%")
+      Bpic<-
+        img(src = bank[value$index, 4], 
+            width = "50%")
+      str1 <- paste("A.", Apic)
+      str2 <- paste("B.", Bpic)
+      HTML(paste(str1, str2, sep = '<br/>'))
+    }
+    
+    else if(value$index %in% c(1:10)){
+      str1 <- paste("A.", bank[value$index, 3])
+      str2 <- paste("B.", bank[value$index, 4])
+      str3 <- paste("C.", bank[value$index, 5])
+      HTML(paste(str1, str2, str3, sep = '<br/>'))
+    }
+    else{
+      h4("reach the end")
+    }
+  })
+  
+  output$gameplot1<-renderUI(
+    img(src = bank[value$index, 3], 
+        width = "100%", height = "107%", style = "text-align: center")
+  )
+  
   ##### Draw the Hangman Game#####
   score <- reactiveVal(0)  
   
@@ -327,7 +423,7 @@ shinyServer(function(input, output,session) {
     newvalue<-score()+isolate(randnum)
     score(newvalue)
     
-    if(as.numeric(score())>=50){
+    if(as.numeric(score())>=20){
       output$dice<-renderUI({
         Sys.sleep(1)
         img(src = "congrats.jpg", width = '60%')
