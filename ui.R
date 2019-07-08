@@ -63,6 +63,7 @@ shinyUI <- dashboardPage(
                            tags$head(
                              tags$link(rel = "stylesheet", type = "text/css", href = "Feature.css"), #customised style sheet
                              tags$style(HTML('#start{background-color: #ffb6c1')),
+                             tags$style(HTML('#submit{color: white')),
                              tags$style(HTML('#go{background-color: #ffb6c1')),
                              tags$style(HTML('#goMul{background-color: #ffb6c1')),
                              tags$style(HTML('#goButton{background-color: #ffb6c1')),
@@ -78,8 +79,8 @@ shinyUI <- dashboardPage(
                              tags$style(HTML('#challenge{border-color: #ffb6c1')),
                              tags$style(HTML('#answer{background-color: #ffb6c1')),
                              tags$style(HTML('#answer{border-color: #ffb6c1')),
-                             tags$style(HTML('#submit{background-color: #ffb6c1')),
-                             tags$style(HTML('#submit{border-color: #ffb6c1')),
+                             tags$style(HTML('#submit{background-color: #f78b9b')),
+                             tags$style(HTML('#submit{border-color: #f78b9b')),
                              tags$style(HTML('#nextButton{background-color: #ffb6c1')),
                              tags$style(HTML('#nextButton{border-color: #ffb6c1')),
                              tags$style(HTML('#reset{background-color: #ffb6c1')),
@@ -289,7 +290,7 @@ shinyUI <- dashboardPage(
                             tabItem(tabName = "qqq",
                                     h2(strong("Game Section")),
                                     h4("Practice the following questions. Once you got one question right, you would get a chance to roll the dice. 
-                                       Once the culmutative number of dice rolling reach 50. You Win!"),
+                                       Once the culmutative number of dice rolling reach 20. You Win!"),
                   
                                     sidebarLayout(
                                       sidebarPanel(
@@ -324,8 +325,8 @@ shinyUI <- dashboardPage(
                                         
                                           br(),
                                         fluidRow(
-                                          column(6, actionButton("roll", "roll")),
-                                          column(6, actionButton("stop", "stop", disabled=TRUE))
+                                          # column(6, actionButton("roll", "roll")),
+                                          column(12, align="center", actionButton("stop", "stop"))
                                           # column(5, align="left", bsButton("restart", "restart", style="danger", disabled = TRUE))
                                           ),
                                         br(),

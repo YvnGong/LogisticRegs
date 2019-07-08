@@ -307,6 +307,14 @@ shinyServer(function(input, output,session) {
     }
     
     answer<-isolate(input$answer)
+    
+    if (any(answer == ans[value$index,1])){
+      output$dice<-renderUI({
+        autoInvalidate()
+        img(src = "rolling15x.gif", width = '60%')
+      })
+    }
+
     output$mark <- renderUI({
       if (any(answer == ans[value$index,1])){
         img(src = "correct.png",width = 30)
@@ -393,8 +401,8 @@ shinyServer(function(input, output,session) {
     output$dice<-renderUI({
       img(src = "first.png", width = '60%')
     })
-    updateButton(session, "roll", disabled = FALSE)
-    updateButton(session, "stop", disabled = TRUE)
+    # updateButton(session, "roll", disabled = FALSE)
+    # updateButton(session, "stop", disabled = TRUE)
     updateButton(session, "restart", disabled = TRUE)
   })
   
@@ -403,21 +411,20 @@ shinyServer(function(input, output,session) {
     autoInvalidate()
   })
   
-  observeEvent(input$roll,{
-    
-    output$dice<-renderUI({
-      autoInvalidate()
-      img(src = "rolling15x.gif", width = '60%')
-    })
-    
-    updateButton(session, "roll", disabled = TRUE)
-    updateButton(session, "stop", disabled = FALSE)
-  })
-  
+  # observeEvent(input$roll,{
+  #   
+  #   output$dice<-renderUI({
+  #     autoInvalidate()
+  #     img(src = "rolling15x.gif", width = '60%')
+  #   })
+  #   
+  #   updateButton(session, "roll", disabled = TRUE)
+  # })
+  # 
   
   observeEvent(input$stop,{
-    updateButton(session, "stop", disabled = TRUE)
-    updateButton(session, "roll", disabled = FALSE)
+    # updateButton(session, "stop", disabled = TRUE)
+    # updateButton(session, "roll", disabled = FALSE)
     updateButton(session, "restart", disabled = FALSE)
   })
   
@@ -434,8 +441,8 @@ shinyServer(function(input, output,session) {
         Sys.sleep(1)
         img(src = "congrats.jpg", width = '60%')
       })
-      updateButton(session, "roll", disabled = TRUE)
-      updateButton(session, "stop", disabled = TRUE)
+      # updateButton(session, "roll", disabled = TRUE)
+      # updateButton(session, "stop", disabled = TRUE)
       updateButton(session, "restart", disabled = FALSE)
     }
     
