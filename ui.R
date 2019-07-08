@@ -305,7 +305,7 @@ shinyUI <- dashboardPage(
                                         br(),
                                         div(style="display: inline-block; ", actionButton(inputId = 'submit', label = 'Submit')),
                                         div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
-                                        div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='warning')),
+                                        div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='warning', disabled = TRUE)),
                                         div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
                                         div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger"))
                                       ),
@@ -326,7 +326,7 @@ shinyUI <- dashboardPage(
                                           br(),
                                         fluidRow(
                                           # column(6, actionButton("roll", "roll")),
-                                          column(12, align="center", actionButton("stop", "stop"))
+                                          # column(12, align="center", actionButton("stop", "stop"))
                                           # column(5, align="left", bsButton("restart", "restart", style="danger", disabled = TRUE))
                                           ),
                                         br(),

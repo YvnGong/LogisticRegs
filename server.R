@@ -280,6 +280,83 @@ shinyServer(function(input, output,session) {
   }, striped = TRUE, width = "100%", align = 'c', hover = TRUE, bordered = TRUE, rownames = TRUE)
   
 
+  
+  ######TIMER########
+  timer<-reactiveVal(1.5)
+  active<-reactiveVal(FALSE)
+
+  # observer that invalidates every second. If timer is active, decrease by one.
+  observe({
+    invalidateLater(1000, session)
+    isolate({
+      if(active())
+      {
+        timer(timer()-1)
+        if(timer()<1)
+        {
+          active(FALSE)
+          
+          randnum<-sample(1:6, 1)
+          newvalue<-score()+isolate(randnum)
+          score(newvalue)
+
+          if(as.numeric(score())>=20){
+            output$dice<-renderUI({
+              Sys.sleep(1)
+              img(src = "congrats.jpg", width = '60%')
+            })
+            updateButton(session, "nextq", disabled = TRUE)
+            updateButton(session,"submit", disabled = TRUE)
+            updateButton(session, "restart", disabled = FALSE)
+          }
+
+          else{
+            updateButton(session, "nextq", disabled = FALSE)
+            if(randnum == 1){
+              output$dice<-renderUI({
+                Sys.sleep(1)
+                img(src = "one.png",width = '60%')
+              })
+            }
+            else if(randnum == 2){
+              output$dice<-renderUI({
+                Sys.sleep(1)
+                img(src = "two.png",width = '60%')
+              })
+            }
+            else if(randnum == 3){
+              output$dice<-renderUI({
+                Sys.sleep(1)
+                img(src = "three.png",width = '60%')
+              })
+            }
+            else if(randnum == 4){
+              output$dice<-renderUI({
+                Sys.sleep(1)
+                img(src = "four.png",width = '60%')
+              })
+            }
+            else if(randnum == 5){
+              output$dice<-renderUI({
+                Sys.sleep(1)
+                img(src = "five.png",width = '60%')
+              })
+            }
+            else if(randnum == 6){
+              output$dice<-renderUI({
+                Sys.sleep(1)
+                img(src = "six.png",width = '60%')
+              })
+            }
+            
+          }
+          
+          
+        }
+      }
+    })
+  })
+  
   #####Buttons Handle#######
   observeEvent(input$nextq,{
     value$answerbox <- value$index
@@ -287,7 +364,7 @@ shinyServer(function(input, output,session) {
     value$index<-index_list$list[1]
     value$answerbox<-value$index
     
-    # updateButton(session, "nextq", disabled = TRUE)
+    updateButton(session, "nextq", disabled = TRUE)
     updateButton(session,"submit", disabled = FALSE)
     updateSelectInput(session,"answer", "pick an answer from below", c("","A", "B", "C"))
     output$mark <- renderUI({
@@ -296,23 +373,24 @@ shinyServer(function(input, output,session) {
   })
   
   observeEvent(input$submit,{
+    
+    
     if(length(index_list$list) == 1){
       updateButton(session, "nextq", disabled = TRUE)
-      updateButton(session,"submit", disabled = TRUE)
-      # updateButton(session, "restart", disabled = FALSE)
-    }
-    else{
-      updateButton(session, "nextq", disabled = FALSE)
       updateButton(session,"submit", disabled = TRUE)
     }
     
     answer<-isolate(input$answer)
-    
     if (any(answer == ans[value$index,1])){
       output$dice<-renderUI({
-        autoInvalidate()
         img(src = "rolling15x.gif", width = '60%')
       })
+      active(TRUE)
+      updateButton(session,"submit", disabled = TRUE)
+    }
+    else{
+      updateButton(session, "nextq", disabled = FALSE)
+      updateButton(session,"submit", disabled = TRUE)
     }
 
     output$mark <- renderUI({
@@ -335,7 +413,7 @@ shinyServer(function(input, output,session) {
     value$index <- 1
     value$answerbox = value$index
     ans <- as.matrix(bank[1:16,6])
-    index_list<-reactiveValues(list=sample(1:16,16,replace=FALSE))
+    index_list<-reactiveValues(list=sample(1:16,10,replace=FALSE))
     output$mark <- renderUI({
       img(src = NULL,width = 30)
     })
@@ -344,7 +422,7 @@ shinyServer(function(input, output,session) {
   #####Question Part########
   value <- reactiveValues(index =  1, mistake = 0,correct = 0)
   ans <- as.matrix(bank[1:16,6])
-  index_list<-reactiveValues(list=sample(1:16,16,replace=FALSE))
+  index_list<-reactiveValues(list=sample(1:16,10,replace=FALSE))
   
   output$question <- renderUI({
     h4(bank[value$index, 2])
@@ -385,6 +463,7 @@ shinyServer(function(input, output,session) {
   )
   
   ##### Draw the Hangman Game#####
+  
   score <- reactiveVal(0)  
   
   output$dice<-renderUI({
@@ -404,87 +483,6 @@ shinyServer(function(input, output,session) {
     # updateButton(session, "roll", disabled = FALSE)
     # updateButton(session, "stop", disabled = TRUE)
     updateButton(session, "restart", disabled = TRUE)
-  })
-  
-  autoInvalidate <- reactiveTimer(2000)
-  observe({
-    autoInvalidate()
-  })
-  
-  # observeEvent(input$roll,{
-  #   
-  #   output$dice<-renderUI({
-  #     autoInvalidate()
-  #     img(src = "rolling15x.gif", width = '60%')
-  #   })
-  #   
-  #   updateButton(session, "roll", disabled = TRUE)
-  # })
-  # 
-  
-  observeEvent(input$stop,{
-    # updateButton(session, "stop", disabled = TRUE)
-    # updateButton(session, "roll", disabled = FALSE)
-    updateButton(session, "restart", disabled = FALSE)
-  })
-  
-  
-  
-  
-  observeEvent(input$stop,{
-    randnum<-sample(1:6, 1)
-    newvalue<-score()+isolate(randnum)
-    score(newvalue)
-    
-    if(as.numeric(score())>=20){
-      output$dice<-renderUI({
-        Sys.sleep(1)
-        img(src = "congrats.jpg", width = '60%')
-      })
-      # updateButton(session, "roll", disabled = TRUE)
-      # updateButton(session, "stop", disabled = TRUE)
-      updateButton(session, "restart", disabled = FALSE)
-    }
-    
-    else{
-      if(randnum == 1){
-        output$dice<-renderUI({
-          Sys.sleep(1)
-          img(src = "one.png",width = '60%')
-        })
-      }
-      else if(randnum == 2){
-        output$dice<-renderUI({
-          Sys.sleep(1)
-          img(src = "two.png",width = '60%')
-        })
-      }
-      else if(randnum == 3){
-        output$dice<-renderUI({
-          Sys.sleep(1)
-          img(src = "three.png",width = '60%')
-        })
-      }
-      else if(randnum == 4){
-        output$dice<-renderUI({
-          Sys.sleep(1)
-          img(src = "four.png",width = '60%')
-        })
-      }
-      else if(randnum == 5){
-        output$dice<-renderUI({
-          Sys.sleep(1)
-          img(src = "five.png",width = '60%')
-        })
-      }
-      else if(randnum == 6){
-        output$dice<-renderUI({
-          Sys.sleep(1)
-          img(src = "six.png",width = '60%')
-        })
-      }
-    }
-    
   })
   
   })
