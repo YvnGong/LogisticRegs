@@ -322,13 +322,13 @@ shinyUI <- dashboardPage(
                                           ))
                                         ),
                                         
-                                          br(),
-                                        fluidRow(
-                                          # column(6, actionButton("roll", "roll")),
-                                          # column(12, align="center", actionButton("stop", "stop"))
-                                          # column(5, align="left", bsButton("restart", "restart", style="danger", disabled = TRUE))
-                                          ),
-                                        br(),
+                                          # br(),
+                                        # fluidRow(
+                                        #   # column(6, actionButton("roll", "roll")),
+                                        #   # column(12, align="center", actionButton("stop", "stop"))
+                                        #   # column(5, align="left", bsButton("restart", "restart", style="danger", disabled = TRUE))
+                                        #   ),
+                                        # br(),
                                         br()
                                       )
                                     )
