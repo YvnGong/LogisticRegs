@@ -303,7 +303,7 @@ shinyServer(function(input, output,session) {
           if(as.numeric(score())>=20){
             output$dice<-renderUI({
               Sys.sleep(1)
-              img(src = "congrats.jpg", width = '60%')
+              img(src = "congrats.png", width = '60%')
             })
             updateButton(session, "nextq", disabled = TRUE)
             updateButton(session,"submit", disabled = TRUE)
