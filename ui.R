@@ -35,7 +35,6 @@ sliderInput3 <- function(inputId, label, min, max, value, step=NULL, from_min, f
   x
 }
 
-
 shinyUI <- dashboardPage(
                          dashboardHeader(title = "Logistic Regression",
                                          tags$li(class="dropdown",

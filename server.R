@@ -366,15 +366,20 @@ shinyServer(function(input, output,session) {
     
     updateButton(session, "nextq", disabled = TRUE)
     updateButton(session,"submit", disabled = FALSE)
-    updateSelectInput(session,"answer", "pick an answer from below", c("","A", "B", "C"))
+    
+    if(value$index %in% c(11:16)){
+      updateSelectInput(session,"answer", "pick an answer from below", c("","A", "B"))
+    }
+    else{
+      updateSelectInput(session,"answer", "pick an answer from below", c("","A", "B", "C"))
+    }
+    
     output$mark <- renderUI({
       img(src = NULL,width = 30)
     })
   })
   
   observeEvent(input$submit,{
-    
-    
     if(length(index_list$list) == 1){
       updateButton(session, "nextq", disabled = TRUE)
       updateButton(session,"submit", disabled = TRUE)
