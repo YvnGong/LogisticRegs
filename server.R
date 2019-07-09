@@ -315,37 +315,37 @@ shinyServer(function(input, output,session) {
             if(randnum == 1){
               output$dice<-renderUI({
                 Sys.sleep(1)
-                img(src = "one.png",width = '60%')
+                img(src = "21.png",width = '30%')
               })
             }
             else if(randnum == 2){
               output$dice<-renderUI({
                 Sys.sleep(1)
-                img(src = "two.png",width = '60%')
+                img(src = "22.png",width = '30%')
               })
             }
             else if(randnum == 3){
               output$dice<-renderUI({
                 Sys.sleep(1)
-                img(src = "three.png",width = '60%')
+                img(src = "23.png",width = '30%')
               })
             }
             else if(randnum == 4){
               output$dice<-renderUI({
                 Sys.sleep(1)
-                img(src = "four.png",width = '60%')
+                img(src = "24.png",width = '30%')
               })
             }
             else if(randnum == 5){
               output$dice<-renderUI({
                 Sys.sleep(1)
-                img(src = "five.png",width = '60%')
+                img(src = "25.png",width = '30%')
               })
             }
             else if(randnum == 6){
               output$dice<-renderUI({
                 Sys.sleep(1)
-                img(src = "six.png",width = '60%')
+                img(src = "26.png",width = '30%')
               })
             }
             
@@ -388,7 +388,7 @@ shinyServer(function(input, output,session) {
     answer<-isolate(input$answer)
     if (any(answer == ans[value$index,1])){
       output$dice<-renderUI({
-        img(src = "rolling15x.gif", width = '60%')
+        img(src = "newdice1.gif", width = '30%')
       })
       active(TRUE)
       updateButton(session,"submit", disabled = TRUE)
@@ -472,7 +472,7 @@ shinyServer(function(input, output,session) {
   score <- reactiveVal(0)  
   
   output$dice<-renderUI({
-    img(src = "first.png",width = '60%')
+    img(src = "21.png",width = '30%')
   })
   
   output$gamescore<-renderUI({
@@ -483,7 +483,7 @@ shinyServer(function(input, output,session) {
     newvalue<-score()-score()
     score(newvalue)
     output$dice<-renderUI({
-      img(src = "first.png", width = '60%')
+      img(src = "21.png", width = '30%')
     })
     # updateButton(session, "roll", disabled = FALSE)
     # updateButton(session, "stop", disabled = TRUE)
