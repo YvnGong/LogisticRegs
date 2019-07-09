@@ -17,10 +17,8 @@ library(data.table)
 library(ResourceSelection)
 
 #bank for question
-
 bank <- read.csv("questionbank.csv")
 bank = data.frame(lapply(bank, as.character), stringsAsFactors = FALSE)
-
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output,session) {
@@ -75,8 +73,6 @@ shinyServer(function(input, output,session) {
   })
   
  ############################Gray out buttons###############################
- 
- 
   observeEvent(input$start, {
     updateButton(session, "answer", disabled = TRUE)
   })
@@ -364,8 +360,10 @@ shinyServer(function(input, output,session) {
     value$index<-index_list$list[1]
     value$answerbox<-value$index
     
+
     updateButton(session, "nextq", disabled = TRUE)
     updateButton(session,"submit", disabled = FALSE)
+    
     
     if(value$index %in% c(11:16)){
       updateSelectInput(session,"answer", "pick an answer from below", c("","A", "B"))
@@ -380,22 +378,26 @@ shinyServer(function(input, output,session) {
   })
   
   observeEvent(input$submit,{
-    if(length(index_list$list) == 1){
-      updateButton(session, "nextq", disabled = TRUE)
-      updateButton(session,"submit", disabled = TRUE)
-    }
-    
+
+  })
+  
+  observeEvent(input$submit,{
     answer<-isolate(input$answer)
     if (any(answer == ans[value$index,1])){
       output$dice<-renderUI({
         img(src = "rolling15x.gif", width = '60%')
       })
       active(TRUE)
-      updateButton(session,"submit", disabled = TRUE)
     }
     else{
-      updateButton(session, "nextq", disabled = FALSE)
-      updateButton(session,"submit", disabled = TRUE)
+      if(length(index_list$list) == 1){
+        updateButton(session, "nextq", disabled = TRUE)
+        updateButton(session,"submit", disabled = TRUE)
+      }
+      else{
+        updateButton(session,"submit", disabled = TRUE)
+        updateButton(session, "nextq", disabled = FALSE)
+      }
     }
 
     output$mark <- renderUI({
@@ -487,7 +489,7 @@ shinyServer(function(input, output,session) {
     })
     # updateButton(session, "roll", disabled = FALSE)
     # updateButton(session, "stop", disabled = TRUE)
-    updateButton(session, "restart", disabled = TRUE)
+    # updateButton(session, "restart", disabled = TRUE)
   })
   
   })
