@@ -288,11 +288,20 @@ shinyUI <- dashboardPage(
 
                             tabItem(tabName = "qqq",
                                     h2(strong("Game Section")),
-                                    h4("Practice the following questions. Once you got one question right, you would get a chance to roll the dice. 
-                                       Once the culmutative number of dice rolling reach 20. You Win!"),
-                  
+                                    wellPanel(
+                                      style = "background-color: #ffd0d7; border:1px solid #ffb6c1",
+                                      tags$li("Practice the following questions. Once you got one question right, you would get a chance to roll the dice."),
+                                      tags$li("In each turn 10 questions will be randomly draw from the bank."),
+                                      tags$li("Once the culmutative number of dice rolling reach 20. You Win!")
+                                    ),
+                                    br(),
+                                    h3(strong("Problems")),
                                     sidebarLayout(
                                       sidebarPanel(
+                                        id="sidebar",
+                                        tags$head(tags$style(
+                                          HTML("#sidebar{background-color:#ffd4d0; border:1px solid #ffd4d0}")
+                                        )),
                                         width = 6,
                                         uiOutput("question"),
                                         uiOutput("options"),
