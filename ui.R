@@ -66,11 +66,13 @@ shinyUI <- dashboardPage(
                              tags$style(HTML('#go{background-color: #ffb6c1')),
                              tags$style(HTML('#goMul{background-color: #ffb6c1')),
                              tags$style(HTML('#goButton{background-color: #ffb6c1')),
+                             tags$style(HTML('#goButtonMul{background-color: #ffb6c1')),
                              tags$style(HTML('#submitD{background-color: #ffb6c1')),
                              tags$style(HTML('#start{border-color:#ffb6c1')),
                              tags$style(HTML('#go{border-color: #ffb6c1')),
                              tags$style(HTML('#goMul{border-color: #ffb6c1')),
                              tags$style(HTML('#goButton{border-color: #ffb6c1')),
+                             tags$style(HTML('#goButtonMul{border-color: #ffb6c1')),
                              tags$style(HTML('#submitD{border-color: #ffb6c1')),
                              tags$style(HTML('#begin{background-color: #ffb6c1')),
                              tags$style(HTML('#begin{border-color: #ffb6c1')),
@@ -174,10 +176,16 @@ shinyUI <- dashboardPage(
                                      tabPanel(
                                        ######Single Regression
                                        'Single Logistic Regression',
-                                       
-                                       h3(strong("Single Logistic Regression")),
-                                       # h4("This app will allow you to explore how to create and interprete logistic regression."),
-                                       # br(),
+                                       # h4(tags$li("For each model, ")),
+                                       # h4(tags$li("")),
+                                       # h4(tags$li("Each Logistic Regression plot is made on a random sample.")),
+                                       # h4(tags$li("After working with the explore section, you can start the game to test your understanding of the concepts.")),
+                                      h3(strong("Single Logistic Regression")),
+                                      h4(tags$li("Adjust the sliders to change the sample size and corresponding 
+                                                 beta coefficients.")),
+                                      h4(tags$li("Click 'New Data' button to generate plot.")),
+                                      br(),
+                                      
                                        sidebarLayout(
                                          sidebarPanel(
                                            sliderInput2("sampleSize", "Sample Size:",
@@ -234,6 +242,11 @@ shinyUI <- dashboardPage(
                                      
                                      tabPanel("Multiple Logistic Regression",
                                               h3(strong("Multiple Logistic Regression")),
+                                              h4(tags$li("Adjust the sliders to change the sample size and corresponding 
+                                                 beta coefficients.")),
+                                              h4(tags$li("After working with the explore section, you can start the game to test your understanding.")),
+                                              br(),
+                                              
                                               sidebarLayout(
                                                 sidebarPanel(
                                                   sliderInput2("sampleSize2", "Sample Size:",
@@ -261,8 +274,8 @@ shinyUI <- dashboardPage(
                                                   ),
                                                   
                                                   br(),
-                                                  withBusyIndicatorUI(actionButton("goButtonMul", "New Data", icon("paper-plane"), 
-                                                               style="color: #fff; background-color: pink", class="btn btn-lg", class="circle grow")),
+                                                  withBusyIndicatorUI(actionButton("goButtonMul", "New Data", icon("paper-plane"),
+                                                                                   class = "btn btn-lg", style="color: #fff", class="circle grow")),
                                                   br(),
                                                   bsButton(inputId = "begin", label="Game Time!", icon("gamepad"), 
                                                            class='btn btn-lg', style= "danger", class="circle grow")
