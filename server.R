@@ -207,9 +207,9 @@ shinyServer(function(input, output,session) {
     df = isolate(commonDf2())
     theme_set(theme_bw())
     p <- ggplot(aes(x=x1,y=y),data = df)+
-      geom_smooth(aes(linetype="X1's fitted probability"),method = 'glm', size = 1, color="maroon", 
+      geom_smooth(aes(linetype="X1's fitted\n probability"),method = 'glm', size = 1, color="maroon", 
                   method.args=list(family='binomial'), se=FALSE)+
-      geom_smooth(aes(x=x2,y=y, linetype="X2's fitted probability "), data=df, method = 'glm', size = 1, color="lightblue",
+      geom_smooth(aes(x=x2,y=y, linetype="X2's fitted\n probability "), data=df, method = 'glm', size = 1, color="lightblue",
                   method.args=list(family='binomial'), se=FALSE)+
       geom_ribbon(aes(linetype="confidence\n interval"),stat="smooth", method="glm", alpha=0.15, 
                   level=input$ci2, method.args=list(family='binomial'))+
@@ -222,7 +222,7 @@ shinyServer(function(input, output,session) {
       ylab('Observed Bernoulli')+
       xlab('explanatory variables')+
       ggtitle("Multiple Logistic Regression \n")+
-      scale_linetype_manual(values=c("X1's fitted probability","X2's fitted probability" ,"confidence interval"))+
+      scale_linetype_manual(values=c("X1's fitted\n probability","X2's fitted\n probability" ,"confidence\n interval"))+
       theme(
         plot.title = element_text(color="black", size=15, face="bold"),
         axis.text = element_text(color="black", size = 12),
