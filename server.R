@@ -278,7 +278,7 @@ shinyServer(function(input, output,session) {
 
   
   ######TIMER########
-  timer<-reactiveVal(1.5)
+  timer<-reactiveVal(1)
   active<-reactiveVal(FALSE)
 
   # observer that invalidates every second. If timer is active, decrease by one.
@@ -424,6 +424,12 @@ shinyServer(function(input, output,session) {
       img(src = NULL,width = 30)
     })
   })
+  
+  ####mark at the beginning
+  output$mark <- renderUI({
+    img(src = NULL,width = 30)
+  })
+  
   
   #####Question Part########
   value <- reactiveValues(index =  1, mistake = 0,correct = 0)

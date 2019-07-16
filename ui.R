@@ -321,14 +321,7 @@ shinyUI <- dashboardPage(
                                         br(),
                                         
                                         selectInput("answer", "pick an answer from below", c("","A", "B", "C")),
-                                        # br(),
-                                        uiOutput("mark"),
-                                        br(),
-                                        div(style="display: inline-block; ", actionButton(inputId = 'submit', label = 'Submit')),
-                                        div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
-                                        div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='warning', disabled = TRUE)),
-                                        div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
-                                        div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger"))
+                                        uiOutput("mark")
                                       ),
                                       
                                       mainPanel(
@@ -353,6 +346,14 @@ shinyUI <- dashboardPage(
                                         # br(),
                                         br()
                                       )
+                                    ),
+                                    fluidRow(
+                                      column(6, align="center",
+                                             div(style="display: inline-block", actionButton(inputId = 'submit', label = 'Submit')),
+                                             div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
+                                             div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='warning', disabled = TRUE)),
+                                             div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
+                                             div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger")))
                                     )
                            )
                          )
