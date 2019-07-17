@@ -18,6 +18,9 @@ library(ggplot2)
 library(plotly)
 library(rlocker)
 
+library(dplyr)
+library(shinycssloaders)
+
 source("helpers.R") 
 
 sliderInput2 <- function(inputId, label, min, max, value, step=NULL, from_min, from_max){
@@ -213,17 +216,17 @@ shinyUI <- dashboardPage(
                                            selectInput(inputId="residualType", label = "Residual Type",
                                                        choices = c("deviance", "pearson"), selected="deviance"),
                                            br(),
-                                           withBusyIndicatorUI(actionButton("goButton", "New Data", icon("paper-plane"),
-                                                        class = "btn btn-lg", style="color: #fff", class="circle grow")),
+                                           actionButton("goButton", "New Data", icon("paper-plane"),
+                                                        class = "btn btn-lg", style="color: #fff", class="circle grow"),
                                            br()
                                            
                                          ),
                                          mainPanel(
-                                           plotlyOutput("logplot", width = "98%", height = "300px"),
+                                           plotlyOutput("logplot", width = "98%", height = "300px")%>% withSpinner(color="#ffb6c1"),
                                            
                                            br(),
                                            tableOutput("citable"),
-                                           plotOutput("residualPlot", width = "100%",height = "330px"),
+                                           plotOutput("residualPlot", width = "100%",height = "330px")%>% withSpinner(color="#ffb6c1"),
                                            tags$style(type='text/css', '#lemeshowTest, #obsexp {background-color: rgba(219,193,195,0.20); 
                                                       color: maroon; text-align: center}', '#title{color: blackl; padding-left:2.5em; font-size: 22px}'), 
                                            
@@ -274,18 +277,19 @@ shinyUI <- dashboardPage(
                                                   ),
                                                   
                                                   br(),
-                                                  withBusyIndicatorUI(actionButton("goButtonMul", "New Data", icon("paper-plane"),
-                                                                                   class = "btn btn-lg", style="color: #fff", class="circle grow")),
+                                                  actionButton("goButtonMul", "New Data", icon("paper-plane"),
+                                                                                   class = "btn btn-lg", style="color: #fff", class="circle grow"),
+                                                  br(),
                                                   br(),
                                                   bsButton(inputId = "begin", label="Game Time!", icon("gamepad"), 
                                                            class='btn btn-lg', style= "danger", class="circle grow")
                                                 ),
                                                 
                                                 mainPanel(
-                                                  plotlyOutput("mulPlot", height = "300px"),
+                                                  plotlyOutput("mulPlot", height = "300px")%>% withSpinner(color="#ffb6c1"),
                                                   br(),
                                                   br(),
-                                                  plotOutput("multix")
+                                                  plotOutput("multix")%>% withSpinner(color="#ffb6c1")
                                                   # br(),
                                                   # tags$style(type='text/css', '#lemeshowTest2, #obsexp2 {background-color: rgba(219,193,195,0.20); 
                                                   #            color: maroon;text-align: center}'), 
