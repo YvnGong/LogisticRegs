@@ -29,7 +29,7 @@ shinyServer(function(input, output,session) {
       session = session,
       title = "Instructions:",
       text = " Move the sliders to see their effect on the diagnostic plots.",
-      type = "info"
+      type = NULL
     )
   })
   
@@ -38,7 +38,7 @@ shinyServer(function(input, output,session) {
       session = session,
       title = "Instructions:",
       text = "Click on desired square, answer the question, then hit submit and go to next question.",
-      type = "info"
+      type = NULL
     )
   })
   observeEvent(input$go,{
@@ -404,9 +404,9 @@ shinyServer(function(input, output,session) {
         img(src = "correct.png",width = 30)
       }
       else{
-        img(src = "incorrect.png",width = 30)
-        # w<-paste("You picked", answer, ", The correct answer is", ans[value$index, 1])
-        # HTML(paste(ig, w), sep = ' ')
+        ig<-img(src = "incorrect.png",width = 30)
+        w<-paste("You picked", answer, ", The correct answer is", ans[value$index, 1])
+        HTML(paste(ig, w), sep = ' ')
       }
     })
   })
