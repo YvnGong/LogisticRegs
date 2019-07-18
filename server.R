@@ -20,8 +20,25 @@ library(ResourceSelection)
 bank <- read.csv("questionbank.csv")
 bank = data.frame(lapply(bank, as.character), stringsAsFactors = FALSE)
 
+source("helpers.R")
+
 # Define server logic required to draw a histogram
 shinyServer(function(input, output,session) {
+  
+  #Initialized learning  locker connection
+  connection <- rlocker::connect(session, list(
+    base_url = "https://learning-locker.stat.vmhost.psu.edu/",
+    auth = "Basic ZDQ2OTNhZWZhN2Q0ODRhYTU4OTFmOTlhNWE1YzBkMjQxMjFmMGZiZjo4N2IwYzc3Mjc1MzU3MWZkMzc1ZDliY2YzOTNjMGZiNzcxOThiYWU2",
+    agent = rlocker::createAgent()
+  ))
+  
+  # Setup demo app and user.
+  currentUser <- 
+    connection$agent
+  
+  if(connection$status != 200){
+    warning(paste(connection$status, "\nTry checking your auth token.")) 
+  }
   
   ##########################Go buttons##################################### 
   observeEvent(input$infoex,{
@@ -349,6 +366,57 @@ shinyServer(function(input, output,session) {
         }
       }
     })
+  })
+  
+  #####Rlocker observe Event##
+  # Gets current page address from the current session
+  getCurrentAddress <- function(session){
+    return(paste0(
+      session$clientData$url_protocol, "//",
+      session$clientData$url_hostname,
+      session$clientData$url_pathname, ":",
+      session$clientData$url_port,
+      session$clientData$url_search
+    ))
+  }
+  
+  # Pulls corresponding answer values from question bank and returns its text
+  
+  getResponseText <- function(index, answer){
+    if(answer == 'A'){
+      key = 3
+    } else if(answer == 'B'){
+      key = 4
+    } else {
+      key = 5
+    }
+    return(bank[index, key])
+  }
+  
+  observeEvent(input$goButton,{
+    interacted_statement <- rlocker::createStatement(
+      list(
+        verb = list(
+          display = "newData"
+        ),
+        object = list(
+          id = paste0(getCurrentAddress(session)),
+          name = 'new data plot',
+          description = paste('SampleSize:',input$sampleSize, "beta0:",
+                              input$b0, "beta1:",input$b1, "confidence interval:", input$ci)
+        ),
+        result = list(
+          success = TRUE,
+          response = paste(as.character(Sys.time()))
+        )
+      )
+    )
+    
+    # Store statement in locker and return status
+    status <- rlocker::store(session, interacted_statement)
+    
+    print(interacted_statement) # remove me
+    print(status) # remove me
   })
   
   #####Buttons Handle#######

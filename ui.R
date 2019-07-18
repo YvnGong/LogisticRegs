@@ -189,9 +189,9 @@ shinyUI <- dashboardPage(
                                       h4(tags$li("Click 'New Data' button to generate plot.")),
                                       br(),
                                       
-                                       sidebarLayout(
-                                         sidebarPanel(
-                                           sliderInput2("sampleSize", "Sample Size:",
+                                      sidebarLayout(
+                                        sidebarPanel(
+                                          sliderInput2("sampleSize", "Sample Size:",
                                                         min = 0, 
                                                         max = 300, 
                                                         value = 150, 
