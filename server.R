@@ -73,17 +73,17 @@ shinyServer(function(input, output,session) {
   })
   
  ############################Gray out buttons###############################
-  observeEvent(input$start, {
-    updateButton(session, "answer", disabled = TRUE)
-  })
+  # observeEvent(input$start, {
+  #   updateButton(session, "answer", disabled = TRUE)
+  # })
   
-  observeEvent(input$challenge, {
-    updateButton(session, "answer", disabled = FALSE)
-  })
+  # observeEvent(input$challenge, {
+  #   updateButton(session, "answer", disabled = FALSE)
+  # })
   
-  observeEvent(input$answer, {
-    updateButton(session, "answer", disabled=TRUE)
-  })
+  # observeEvent(input$answer, {
+  #   updateButton(session, "answer", disabled=TRUE)
+  # })
 
   
   
