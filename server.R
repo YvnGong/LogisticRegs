@@ -393,21 +393,22 @@ shinyServer(function(input, output,session) {
     return(bank[index, key])
   }
   
-  observeEvent(input$goButton,{
+  observeEvent(input$ci,{
     interacted_statement <- rlocker::createStatement(
       list(
         verb = list(
-          display = "newData"
+          display = "interacted"
         ),
         object = list(
           id = paste0(getCurrentAddress(session)),
-          name = 'new data plot',
-          description = paste('SampleSize:',input$sampleSize, "beta0:",
-                              input$b0, "beta1:",input$b1, "confidence interval:", input$ci)
+          name = 'confidence interval',
+          description = 'single logistic Regression'
         ),
         result = list(
-          success = TRUE,
-          response = paste(as.character(Sys.time()))
+          success = NULL,
+          response = input$ci
+          # response = paste(paste('SampleSize:',input$sampleSize, "beta0:",
+          #                        input$b0, "beta1:",input$b1, "confidence interval:", input$ci))
         )
       )
     )
@@ -443,9 +444,6 @@ shinyServer(function(input, output,session) {
     })
   })
   
-  observeEvent(input$submit,{
-
-  })
   
   observeEvent(input$submit,{
     updateButton(session, "submit", disabled = TRUE)
