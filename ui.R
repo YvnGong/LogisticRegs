@@ -311,7 +311,7 @@ shinyUI <- dashboardPage(
                                       tags$li("In each turn 10 questions will be randomly draw from the bank."),
                                       tags$li("Once the total of the dice roll reach 20. You Win!")
                                     ),
-                                    br(),
+                                    # br(),
                                     h3(strong("Problems")),
                                     sidebarLayout(
                                       sidebarPanel(

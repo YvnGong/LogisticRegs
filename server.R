@@ -416,8 +416,8 @@ shinyServer(function(input, output,session) {
     # Store statement in locker and return status
     status <- rlocker::store(session, interacted_statement)
     
-    print(interacted_statement) # remove me
-    print(status) # remove me
+    # print(interacted_statement) # remove me
+    # print(status) # remove me
   })
   
   #####Buttons Handle#######
@@ -475,6 +475,32 @@ shinyServer(function(input, output,session) {
         HTML(paste(ig, w), sep = ' ')
       }
     })
+  })
+  
+  observeEvent(input$submit,{
+    answer<-isolate(input$answer)
+    statement <- rlocker::createStatement(
+      list(
+        verb = list(
+          display = "answered"
+        ),
+        object = list(
+          id = paste0(getCurrentAddress(session), "#", value$index),
+          name = paste('Question', value$index),
+          description = bank[value$index, 2]
+        ),
+        result = list(
+          success = any(answer == ans[value$index,1]),
+          response = paste(getResponseText(value$index, answer))
+        )
+      )
+    )
+    
+    # Store statement in locker and return status
+    status <- rlocker::store(session, statement)
+    
+    # print(statement) # remove me
+    # print(status) # remove me
   })
   
   observeEvent(input$restart,{
