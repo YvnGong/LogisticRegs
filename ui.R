@@ -11,7 +11,7 @@ library(raster)
 library(DT)
 
 library(RColorBrewer)
-library(car)
+#library(car)
 library(rgdal)
 library(shinyWidgets)
 library(ggplot2)
@@ -83,8 +83,8 @@ shinyUI <- dashboardPage(
                              tags$style(HTML('#challenge{border-color: #ffb6c1')),
                              tags$style(HTML('#answer{background-color: #ffb6c1')),
                              tags$style(HTML('#answer{border-color: #ffb6c1')),
-                             tags$style(HTML('#submit{background-color: #f78b9b')),
-                             tags$style(HTML('#submit{border-color: #f78b9b')),
+                             tags$style(HTML('#submit{background-color: #D01C1C')),
+                             tags$style(HTML('#submit{border-color: #D01C1C')),
                              tags$style(HTML('#nextButton{background-color: #ffb6c1')),
                              tags$style(HTML('#nextButton{border-color: #ffb6c1')),
                              tags$style(HTML('#reset{background-color: #ffb6c1')),
@@ -154,6 +154,8 @@ shinyUI <- dashboardPage(
                                     h4(tags$li("Click New Data button to generate plot. Watch the change of plot when drag the slider of confidence interval.")),
                                     h4(tags$li("Each Logistic Regression plot is made on a random sample.")),
                                     h4(tags$li("After working with the explore section, you can start the game to test your understanding of the concepts.")),
+                                    h4(tags$li("Practice the questions in Game Section. For each question you get right, you would get a chance to roll the dice.")),
+                                    h4(tags$li("If the cumulative total for your dice roll reaches 20 within 10 questions, YOU WIN!")),
                                     br(),
                                     div(style = "text-align: center",
                                         bsButton(inputId = "go", label =  "Explore", icon("bolt"), style= "danger", size= "large", class='circle grow')
@@ -216,7 +218,7 @@ shinyUI <- dashboardPage(
                                            selectInput(inputId="residualType", label = "Residual Type",
                                                        choices = c("deviance", "pearson"), selected="deviance"),
                                            br(),
-                                           actionButton("goButton", "New Data", icon("paper-plane"),
+                                           actionButton("goButton", "New Sample", icon("paper-plane"),
                                                         class = "btn btn-lg", style="color: #fff", class="circle grow"),
                                            br()
                                            
@@ -277,7 +279,7 @@ shinyUI <- dashboardPage(
                                                   ),
                                                   
                                                   br(),
-                                                  actionButton("goButtonMul", "New Data", icon("paper-plane"),
+                                                  actionButton("goButtonMul", "New Sample", icon("paper-plane"),
                                                                                    class = "btn btn-lg", style="color: #fff", class="circle grow"),
                                                   br(),
                                                   br(),
@@ -305,14 +307,13 @@ shinyUI <- dashboardPage(
 
                             tabItem(tabName = "qqq",
                                     h2(strong("Game Section")),
-                                    wellPanel(
-                                      style = "background-color: #ffd0d7; border:1px solid #ffb6c1",
-                                      tags$li("Practice the following questions. Once you got one question right, you would get a chance to roll the dice."),
-                                      tags$li("In each turn 10 questions will be randomly draw from the bank."),
-                                      tags$li("Once the total of the dice roll reach 20. You Win!")
-                                    ),
-                                    # br(),
-                                    h3(strong("Problems")),
+                                    # wellPanel(
+                                    #   style = "background-color: #ffd0d7; border:1px solid #ffb6c1",
+                                    #   tags$li("Practice the following questions. For each question you get right, you would get a chance to roll the dice."),
+                                    #   tags$li("If the cumulative total for your dice roll reaches 20 within 10 questions, YOU WIN!"),
+                                    # ),
+                                    br(),
+                                    # h3(strong("Problems")),
                                     sidebarLayout(
                                       sidebarPanel(
                                         id="sidebar",
@@ -353,11 +354,13 @@ shinyUI <- dashboardPage(
                                     ),
                                     fluidRow(
                                       column(6, align="center",
+                                             div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger")),
+                                             div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
                                              div(style="display: inline-block", actionButton(inputId = 'submit', label = 'Submit')),
                                              div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
-                                             div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='warning', disabled = TRUE)),
-                                             div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
-                                             div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger")))
+                                             div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='danger', disabled = TRUE))
+                                             
+                                             )
                                     )
                            )
                          )
