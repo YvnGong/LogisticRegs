@@ -11,19 +11,23 @@ color: white;
 .skin-blue .main-header .logo:hover {
 background-color: black;
 }
+
 aside.main-sidebar {
 background-color: black !important;
 }
+
 .main-header .logo {
 font-family: "Georgia", Times, "Times New Roman", serif;
 font-weight: bold;
 font-size: 15px;
 }
+
 .popover-title {
 color: white;
 font-size: 15px;
-background-color:#ffb6c1;
+background-color:purple;
 }
+
 .popover-content {
 color: #1C2C5B;
 font-size: 13px;
@@ -38,6 +42,6 @@ font-size: 13px;
 }
 #gameMessage {
   font-family: "Georgia", Times, "Times New Roman", serif;
-font-weight: bold;
-font-size: 15px;
+  font-weight: bold;
+  font-size: 15px;
 }

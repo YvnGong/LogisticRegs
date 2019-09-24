@@ -4,7 +4,7 @@ library(png)
 library(shinyBS)
 library(V8)
 library(shinyjs)
-library(car)
+# library(car)
 library(discrimARTs)
 library(leaflet)
 library(raster)
@@ -20,8 +20,25 @@ library(ResourceSelection)
 bank <- read.csv("questionbank.csv")
 bank = data.frame(lapply(bank, as.character), stringsAsFactors = FALSE)
 
+source("helpers.R")
+
 # Define server logic required to draw a histogram
 shinyServer(function(input, output,session) {
+  
+  #Initialized learning  locker connection
+  connection <- rlocker::connect(session, list(
+    base_url = "https://learning-locker.stat.vmhost.psu.edu/",
+    auth = "Basic ZDQ2OTNhZWZhN2Q0ODRhYTU4OTFmOTlhNWE1YzBkMjQxMjFmMGZiZjo4N2IwYzc3Mjc1MzU3MWZkMzc1ZDliY2YzOTNjMGZiNzcxOThiYWU2",
+    agent = rlocker::createAgent()
+  ))
+  
+  # Setup demo app and user.
+  currentUser <- 
+    connection$agent
+  
+  if(connection$status != 200){
+    warning(paste(connection$status, "\nTry checking your auth token.")) 
+  }
   
   ##########################Go buttons##################################### 
   observeEvent(input$infoex,{
@@ -29,7 +46,7 @@ shinyServer(function(input, output,session) {
       session = session,
       title = "Instructions:",
       text = " Move the sliders to see their effect on the diagnostic plots.",
-      type = "info"
+      type = NULL
     )
   })
   
@@ -38,7 +55,7 @@ shinyServer(function(input, output,session) {
       session = session,
       title = "Instructions:",
       text = "Click on desired square, answer the question, then hit submit and go to next question.",
-      type = "info"
+      type = NULL
     )
   })
   observeEvent(input$go,{
@@ -73,17 +90,17 @@ shinyServer(function(input, output,session) {
   })
   
  ############################Gray out buttons###############################
-  observeEvent(input$start, {
-    updateButton(session, "answer", disabled = TRUE)
-  })
+  # observeEvent(input$start, {
+  #   updateButton(session, "answer", disabled = TRUE)
+  # })
   
-  observeEvent(input$challenge, {
-    updateButton(session, "answer", disabled = FALSE)
-  })
+  # observeEvent(input$challenge, {
+  #   updateButton(session, "answer", disabled = FALSE)
+  # })
   
-  observeEvent(input$answer, {
-    updateButton(session, "answer", disabled=TRUE)
-  })
+  # observeEvent(input$answer, {
+  #   updateButton(session, "answer", disabled=TRUE)
+  # })
 
   
   
@@ -207,9 +224,9 @@ shinyServer(function(input, output,session) {
     df = isolate(commonDf2())
     theme_set(theme_bw())
     p <- ggplot(aes(x=x1,y=y),data = df)+
-      geom_smooth(aes(linetype="X1's fitted probability"),method = 'glm', size = 1, color="maroon", 
+      geom_smooth(aes(linetype="X1's fitted\n probability"),method = 'glm', size = 1, color="maroon", 
                   method.args=list(family='binomial'), se=FALSE)+
-      geom_smooth(aes(x=x2,y=y, linetype="X2's fitted probability "), data=df, method = 'glm', size = 1, color="lightblue",
+      geom_smooth(aes(x=x2,y=y, linetype="X2's fitted\n probability "), data=df, method = 'glm', size = 1, color="lightblue",
                   method.args=list(family='binomial'), se=FALSE)+
       geom_ribbon(aes(linetype="confidence\n interval"),stat="smooth", method="glm", alpha=0.15, 
                   level=input$ci2, method.args=list(family='binomial'))+
@@ -222,7 +239,7 @@ shinyServer(function(input, output,session) {
       ylab('Observed Bernoulli')+
       xlab('explanatory variables')+
       ggtitle("Multiple Logistic Regression \n")+
-      scale_linetype_manual(values=c("X1's fitted probability","X2's fitted probability" ,"confidence interval"))+
+      scale_linetype_manual(values=c("X1's fitted\n probability","X2's fitted\n probability" ,"confidence\n interval"))+
       theme(
         plot.title = element_text(color="black", size=15, face="bold"),
         axis.text = element_text(color="black", size = 12),
@@ -278,7 +295,7 @@ shinyServer(function(input, output,session) {
 
   
   ######TIMER########
-  timer<-reactiveVal(1.5)
+  timer<-reactiveVal(1)
   active<-reactiveVal(FALSE)
 
   # observer that invalidates every second. If timer is active, decrease by one.
@@ -353,6 +370,58 @@ shinyServer(function(input, output,session) {
     })
   })
   
+  #####Rlocker observe Event##
+  # Gets current page address from the current session
+  getCurrentAddress <- function(session){
+    return(paste0(
+      session$clientData$url_protocol, "//",
+      session$clientData$url_hostname,
+      session$clientData$url_pathname, ":",
+      session$clientData$url_port,
+      session$clientData$url_search
+    ))
+  }
+  
+  # Pulls corresponding answer values from question bank and returns its text
+  
+  getResponseText <- function(index, answer){
+    if(answer == 'A'){
+      key = 3
+    } else if(answer == 'B'){
+      key = 4
+    } else {
+      key = 5
+    }
+    return(bank[index, key])
+  }
+  
+  observeEvent(input$ci,{
+    interacted_statement <- rlocker::createStatement(
+      list(
+        verb = list(
+          display = "interacted"
+        ),
+        object = list(
+          id = paste0(getCurrentAddress(session)),
+          name = 'confidence interval',
+          description = 'single logistic Regression'
+        ),
+        result = list(
+          success = NULL,
+          response = input$ci
+          # response = paste(paste('SampleSize:',input$sampleSize, "beta0:",
+          #                        input$b0, "beta1:",input$b1, "confidence interval:", input$ci))
+        )
+      )
+    )
+    
+    # Store statement in locker and return status
+    status <- rlocker::store(session, interacted_statement)
+    
+    # print(interacted_statement) # remove me
+    # print(status) # remove me
+  })
+  
   #####Buttons Handle#######
   observeEvent(input$nextq,{
     value$answerbox <- value$index
@@ -377,9 +446,6 @@ shinyServer(function(input, output,session) {
     })
   })
   
-  observeEvent(input$submit,{
-
-  })
   
   observeEvent(input$submit,{
     answer<-isolate(input$answer)
@@ -405,11 +471,37 @@ shinyServer(function(input, output,session) {
         img(src = "correct.png",width = 30)
       }
       else{
-        img(src = "incorrect.png",width = 30)
-        # w<-paste("You picked", answer, ", The correct answer is", ans[value$index, 1])
-        # HTML(paste(ig, w), sep = ' ')
+        ig<-img(src = "incorrect.png",width = 30)
+        w<-paste("You picked", answer, ", The correct answer is", ans[value$index, 1])
+        HTML(paste(ig, w), sep = ' ')
       }
     })
+  })
+  
+  observeEvent(input$submit,{
+    answer<-isolate(input$answer)
+    statement <- rlocker::createStatement(
+      list(
+        verb = list(
+          display = "answered"
+        ),
+        object = list(
+          id = paste0(getCurrentAddress(session), "#", value$index),
+          name = paste('Question', value$index),
+          description = bank[value$index, 2]
+        ),
+        result = list(
+          success = any(answer == ans[value$index,1]),
+          response = paste(getResponseText(value$index, answer))
+        )
+      )
+    )
+    
+    # Store statement in locker and return status
+    status <- rlocker::store(session, statement)
+    
+    # print(statement) # remove me
+    # print(status) # remove me
   })
   
   observeEvent(input$restart,{
@@ -425,6 +517,12 @@ shinyServer(function(input, output,session) {
       img(src = NULL,width = 30)
     })
   })
+  
+  ####mark at the beginning
+  output$mark <- renderUI({
+    img(src = NULL,width = 30)
+  })
+  
   
   #####Question Part########
   value <- reactiveValues(index =  1, mistake = 0,correct = 0)

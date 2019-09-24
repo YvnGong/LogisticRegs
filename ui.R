@@ -11,12 +11,15 @@ library(raster)
 library(DT)
 
 library(RColorBrewer)
-library(car)
+#library(car)
 library(rgdal)
 library(shinyWidgets)
 library(ggplot2)
 library(plotly)
 library(rlocker)
+
+library(dplyr)
+library(shinycssloaders)
 
 source("helpers.R") 
 
@@ -67,11 +70,13 @@ shinyUI <- dashboardPage(
                              tags$style(HTML('#go{background-color: #ffb6c1')),
                              tags$style(HTML('#goMul{background-color: #ffb6c1')),
                              tags$style(HTML('#goButton{background-color: #ffb6c1')),
+                             tags$style(HTML('#goButtonMul{background-color: #ffb6c1')),
                              tags$style(HTML('#submitD{background-color: #ffb6c1')),
                              tags$style(HTML('#start{border-color:#ffb6c1')),
                              tags$style(HTML('#go{border-color: #ffb6c1')),
                              tags$style(HTML('#goMul{border-color: #ffb6c1')),
                              tags$style(HTML('#goButton{border-color: #ffb6c1')),
+                             tags$style(HTML('#goButtonMul{border-color: #ffb6c1')),
                              tags$style(HTML('#submitD{border-color: #ffb6c1')),
                              tags$style(HTML('#begin{background-color: #ffb6c1')),
                              tags$style(HTML('#begin{border-color: #ffb6c1')),
@@ -79,8 +84,8 @@ shinyUI <- dashboardPage(
                              tags$style(HTML('#challenge{border-color: #ffb6c1')),
                              tags$style(HTML('#answer{background-color: #ffb6c1')),
                              tags$style(HTML('#answer{border-color: #ffb6c1')),
-                             tags$style(HTML('#submit{background-color: #f78b9b')),
-                             tags$style(HTML('#submit{border-color: #f78b9b')),
+                             tags$style(HTML('#submit{background-color: #D01C1C')),
+                             tags$style(HTML('#submit{border-color: #D01C1C')),
                              tags$style(HTML('#nextButton{background-color: #ffb6c1')),
                              tags$style(HTML('#nextButton{border-color: #ffb6c1')),
                              tags$style(HTML('#reset{background-color: #ffb6c1')),
@@ -149,6 +154,8 @@ shinyUI <- dashboardPage(
                                     h4(tags$li("Click the New Data button to generate a plot with a new sample. ")),
                                     h4(tags$li("Watch how the plot changes when you adjust each slider.")),
                                     h4(tags$li("After working with the explore section, you can start the game to test your understanding of the concepts.")),
+                                    h4(tags$li("Practice the questions in Game Section. For each question you get right, you would get a chance to roll the dice.")),
+                                    h4(tags$li("If the cumulative total for your dice roll reaches 20 within 10 questions, YOU WIN!")),
                                     br(),
                                     div(style = "text-align: center",
                                         bsButton(inputId = "go", label =  "Explore", icon("bolt"), style= "danger", size= "large", class='circle grow')
@@ -174,13 +181,19 @@ shinyUI <- dashboardPage(
                                      tabPanel(
                                        ######Single Regression
                                        'Single Logistic Regression',
-                                       
-                                       h3(strong("Single Logistic Regression")),
-                                       # h4("This app will allow you to explore how to create and interprete logistic regression."),
-                                       # br(),
-                                       sidebarLayout(
-                                         sidebarPanel(
-                                           sliderInput2("sampleSize", "Sample Size:",
+                                       # h4(tags$li("For each model, ")),
+                                       # h4(tags$li("")),
+                                       # h4(tags$li("Each Logistic Regression plot is made on a random sample.")),
+                                       # h4(tags$li("After working with the explore section, you can start the game to test your understanding of the concepts.")),
+                                      h3(strong("Single Logistic Regression")),
+                                      h4(tags$li("Adjust the sliders to change the sample size and corresponding 
+                                                 beta coefficients.")),
+                                      h4(tags$li("Click 'New Data' button to generate plot.")),
+                                      br(),
+                                      
+                                      sidebarLayout(
+                                        sidebarPanel(
+                                          sliderInput2("sampleSize", "Sample Size:",
                                                         min = 0, 
                                                         max = 300, 
                                                         value = 150, 
@@ -205,17 +218,17 @@ shinyUI <- dashboardPage(
                                            selectInput(inputId="residualType", label = "Residual Type",
                                                        choices = c("deviance", "pearson"), selected="deviance"),
                                            br(),
-                                           withBusyIndicatorUI(actionButton("goButton", "New Data", icon("paper-plane"),
-                                                        class = "btn btn-lg", style="color: #fff", class="circle grow")),
+                                           actionButton("goButton", "New Sample", icon("paper-plane"),
+                                                        class = "btn btn-lg", style="color: #fff", class="circle grow"),
                                            br()
                                            
                                          ),
                                          mainPanel(
-                                           plotlyOutput("logplot", width = "98%", height = "300px"),
+                                           plotlyOutput("logplot", width = "98%", height = "300px")%>% withSpinner(color="#ffb6c1"),
                                            
                                            br(),
                                            tableOutput("citable"),
-                                           plotOutput("residualPlot", width = "100%",height = "330px"),
+                                           plotOutput("residualPlot", width = "100%",height = "330px")%>% withSpinner(color="#ffb6c1"),
                                            tags$style(type='text/css', '#lemeshowTest, #obsexp {background-color: rgba(219,193,195,0.20); 
                                                       color: maroon; text-align: center}', '#title{color: blackl; padding-left:2.5em; font-size: 22px}'), 
                                            
@@ -234,6 +247,11 @@ shinyUI <- dashboardPage(
                                      
                                      tabPanel("Multiple Logistic Regression",
                                               h3(strong("Multiple Logistic Regression")),
+                                              h4(tags$li("Adjust the sliders to change the sample size and corresponding 
+                                                 beta coefficients.")),
+                                              h4(tags$li("After working with the explore section, you can start the game to test your understanding.")),
+                                              br(),
+                                              
                                               sidebarLayout(
                                                 sidebarPanel(
                                                   sliderInput2("sampleSize2", "Sample Size:",
@@ -261,18 +279,19 @@ shinyUI <- dashboardPage(
                                                   ),
                                                   
                                                   br(),
-                                                  withBusyIndicatorUI(actionButton("goButtonMul", "New Data", icon("paper-plane"), 
-                                                               style="color: #fff; background-color: pink", class="btn btn-lg", class="circle grow")),
+                                                  actionButton("goButtonMul", "New Sample", icon("paper-plane"),
+                                                                                   class = "btn btn-lg", style="color: #fff", class="circle grow"),
+                                                  br(),
                                                   br(),
                                                   bsButton(inputId = "begin", label="Game Time!", icon("gamepad"), 
                                                            class='btn btn-lg', style= "danger", class="circle grow")
                                                 ),
                                                 
                                                 mainPanel(
-                                                  plotlyOutput("mulPlot", height = "300px"),
+                                                  plotlyOutput("mulPlot", height = "300px")%>% withSpinner(color="#ffb6c1"),
                                                   br(),
                                                   br(),
-                                                  plotOutput("multix")
+                                                  plotOutput("multix")%>% withSpinner(color="#ffb6c1")
                                                   # br(),
                                                   # tags$style(type='text/css', '#lemeshowTest2, #obsexp2 {background-color: rgba(219,193,195,0.20); 
                                                   #            color: maroon;text-align: center}'), 
@@ -288,14 +307,13 @@ shinyUI <- dashboardPage(
 
                             tabItem(tabName = "qqq",
                                     h2(strong("Game Section")),
-                                    wellPanel(
-                                      style = "background-color: #ffd0d7; border:1px solid #ffb6c1",
-                                      tags$li("Practice the following questions. Once you got one question right, you would get a chance to roll the dice."),
-                                      tags$li("In each turn 10 questions will be randomly draw from the bank."),
-                                      tags$li("Once the culmutative number of dice rolling reach 20. You Win!")
-                                    ),
+                                    # wellPanel(
+                                    #   style = "background-color: #ffd0d7; border:1px solid #ffb6c1",
+                                    #   tags$li("Practice the following questions. For each question you get right, you would get a chance to roll the dice."),
+                                    #   tags$li("If the cumulative total for your dice roll reaches 20 within 10 questions, YOU WIN!"),
+                                    # ),
                                     br(),
-                                    h3(strong("Problems")),
+                                    # h3(strong("Problems")),
                                     sidebarLayout(
                                       sidebarPanel(
                                         id="sidebar",
@@ -308,14 +326,7 @@ shinyUI <- dashboardPage(
                                         br(),
                                         
                                         selectInput("answer", "pick an answer from below", c("","A", "B", "C")),
-                                        # br(),
-                                        uiOutput("mark"),
-                                        br(),
-                                        div(style="display: inline-block; ", actionButton(inputId = 'submit', label = 'Submit')),
-                                        div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
-                                        div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='warning', disabled = TRUE)),
-                                        div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
-                                        div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger"))
+                                        uiOutput("mark")
                                       ),
                                       
                                       mainPanel(
@@ -340,6 +351,16 @@ shinyUI <- dashboardPage(
                                         # br(),
                                         br()
                                       )
+                                    ),
+                                    fluidRow(
+                                      column(6, align="center",
+                                             div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger")),
+                                             div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
+                                             div(style="display: inline-block", actionButton(inputId = 'submit', label = 'Submit')),
+                                             div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
+                                             div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='danger', disabled = TRUE))
+                                             
+                                             )
                                     )
                            )
                          )
