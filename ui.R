@@ -38,10 +38,11 @@ sliderInput3 <- function(inputId, label, min, max, value, step=NULL, from_min, f
 shinyUI <- dashboardPage(
                          dashboardHeader(title = "Logistic Regression",
                                          tags$li(class="dropdown",
+                                                 actionLink("info", icon("info"), class="myClass")),
+                                         tags$li(class="dropdown",
                                                  tags$a(href="https://shinyapps.science.psu.edu/",
                                                         icon("home", lib="font-awesome"))),
-                                         tags$li(class="dropdown",
-                                                 actionLink("info", icon("info"), class="myClass")),
+                                         
                                          titleWidth = 200),
                          #adding prereq pages and game pages
                          dashboardSidebar(
@@ -111,19 +112,18 @@ shinyUI <- dashboardPage(
                                      h3(strong("Background: Logistic Regression Analysis")),
                                      br(),
                                      h4(tags$li("The logistic regression model explains the relationship 
-                                                between one (or more) explanatory variable and the binary outcome.")),
+                                                between one (or more) explanatory variables and the binary outcome.")),
                                      
                                      br(),
                                      withMathJax(),
-                                     h4(tags$li("In the logistic regression the constant \\(\\beta_0\\)
+                                     h4(tags$li("In the logistic regression model, the constant  \\(\\beta_0\\)
                                                 moves the curve left and right and the slope
                                                 \\(\\beta_1\\) defines the steepness of the curve.")),
                                      div(style="font-size: 1.6em", helpText('$${ln({p\\over1-p})} = {\\beta_0+\\beta_1x}$$')),
-                                     h4(tags$li("Deviance Residual and Pearson Residual check the model fit. Best 
-                                                results are no patterns or no extremely large residuals ")),
-                                     h4(tags$li("Hosmer and Lemeshow test check the goodness of fit in the model 
-                                                where data is divided into recommended 10 groups. The p-value can 
-                                                determine the significance of the result.")),
+                                     h4(tags$li("Deviance and Pearson Residuals can be used to check the model fit. With a good fit,
+                                                there should be no obvious patterns or extremely large residuals. ")),
+                                     h4(tags$li("The Hosmer and Lemeshow test checks the goodness of fit in the model where data is divided into a recommended g=10 groups. 
+                                                The p-value shows the compatibility of the model with the data.")),
                                      br(),
                                      h4(tags$li("Hosmer-Lemeshow Test Statstics")),
                                      div(style="font-size: 1.6em", helpText('$${\\sum_{i=1}^g}{\\sum_{j=1}^2}{{(obs_{ij} - exp_{ij})^2} 
@@ -141,13 +141,13 @@ shinyUI <- dashboardPage(
                                      tags$a(href='http://stat.psu.edu/',tags$img(src='logo.png', align = "left", width = 180)),
                                     br(),br(),br(),
                                     h3(strong("About:")),
-                                    h4("This app allows you to explore how different factors can affect the outcome of the Logistic Regression Model and Multiple Logistic Model."),
+                                    h4("This app allows you to explore how different factors can affect the outcome of a Logistic Regression Model with one or two explanatory variables."),
                                     br(),
                                     h3(strong("Instructions:")),
-                                    h4(tags$li("There are two types of logistic model, Single Logistic Regression and Multiple Logistic Regression, included in this app.")),
+                                    h4(tags$li("Select the tab to explore either a Single Logistic Regression with one X variable or a Multiple Logistic Regression with two X variables.")),
                                     h4(tags$li("For each model, adjust the sliders to change the sample size and corresponding beta coefficients.")),
-                                    h4(tags$li("Click New Data button to generate plot. Watch the change of plot when drag the slider of confidence interval.")),
-                                    h4(tags$li("Each Logistic Regression plot is made on a random sample.")),
+                                    h4(tags$li("Click the New Data button to generate a plot with a new sample. ")),
+                                    h4(tags$li("Watch how the plot changes when you adjust each slider.")),
                                     h4(tags$li("After working with the explore section, you can start the game to test your understanding of the concepts.")),
                                     br(),
                                     div(style = "text-align: center",
