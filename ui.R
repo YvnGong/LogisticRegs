@@ -151,7 +151,7 @@ shinyUI <- dashboardPage(
                                     h3(strong("Instructions:")),
                                     h4(tags$li("There are two types of logistic model, Single Logistic Regression and Multiple Logistic Regression, included in this app.")),
                                     h4(tags$li("For each model, adjust the sliders to change the sample size and corresponding beta coefficients.")),
-                                    h4(tags$li("Click New Data button to generate plot. Watch the change of plot when drag the slider of confidence interval.")),
+                                    h4(tags$li("Click New Sample button to generate plot. Watch the change of plot when drag the slider of confidence interval.")),
                                     h4(tags$li("Each Logistic Regression plot is made on a random sample.")),
                                     h4(tags$li("After working with the explore section, you can start the game to test your understanding of the concepts.")),
                                     h4(tags$li("Practice the questions in Game Section. For each question you get right, you would get a chance to roll the dice.")),
@@ -188,7 +188,7 @@ shinyUI <- dashboardPage(
                                       h3(strong("Single Logistic Regression")),
                                       h4(tags$li("Adjust the sliders to change the sample size and corresponding 
                                                  beta coefficients.")),
-                                      h4(tags$li("Click 'New Data' button to generate plot.")),
+                                      h4(tags$li("Click 'New Sample' button to generate plot.")),
                                       br(),
                                       
                                       sidebarLayout(
