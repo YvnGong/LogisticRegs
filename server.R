@@ -308,6 +308,7 @@ shinyServer(function(input, output,session) {
         if(timer()<1)
         {
           active(FALSE)
+          
           randnum<-sample(1:6, 1)
           newvalue<-score()+isolate(randnum)
           score(newvalue)
@@ -318,6 +319,7 @@ shinyServer(function(input, output,session) {
               img(src = "congrats.png", width = '60%')
             })
             updateButton(session, "nextq", disabled = TRUE)
+            updateButton(session,"submit", disabled = TRUE)
             updateButton(session, "restart", disabled = FALSE)
           }
 
@@ -446,7 +448,6 @@ shinyServer(function(input, output,session) {
   
   
   observeEvent(input$submit,{
-    updateButton(session, "submit", disabled = TRUE)
     answer<-isolate(input$answer)
     if (any(answer == ans[value$index,1])){
       output$dice<-renderUI({
@@ -457,10 +458,10 @@ shinyServer(function(input, output,session) {
     else{
       if(length(index_list$list) == 1){
         updateButton(session, "nextq", disabled = TRUE)
-        # updateButton(session,"submit", disabled = TRUE)
+        updateButton(session,"submit", disabled = TRUE)
       }
       else{
-        # updateButton(session,"submit", disabled = TRUE)
+        updateButton(session,"submit", disabled = TRUE)
         updateButton(session, "nextq", disabled = FALSE)
       }
     }
