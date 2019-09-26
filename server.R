@@ -448,6 +448,7 @@ shinyServer(function(input, output,session) {
   
   
   observeEvent(input$submit,{
+    updateButton(session,"submit", disabled = TRUE)
     answer<-isolate(input$answer)
     if (any(answer == ans[value$index,1])){
       output$dice<-renderUI({
