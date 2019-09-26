@@ -325,7 +325,7 @@ shinyUI <- dashboardPage(
                                         uiOutput("options"),
                                         br(),
                                         
-                                        selectInput("answer", "pick an answer from below", c("","A", "B", "C")),
+                                        selectInput("answer", "Select your answer from below", c("","A", "B", "C")),
                                         uiOutput("mark")
                                       ),
                                       
@@ -354,11 +354,12 @@ shinyUI <- dashboardPage(
                                     ),
                                     fluidRow(
                                       column(6, align="center",
-                                             div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger")),
-                                             div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
                                              div(style="display: inline-block", actionButton(inputId = 'submit', label = 'Submit')),
                                              div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
-                                             div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='danger', disabled = TRUE))
+                                             div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='danger', disabled = TRUE)),
+                                             div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
+                                             div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger"))
+                                             
                                              
                                              )
                                     )
