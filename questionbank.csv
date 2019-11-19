@@ -1,14 +1,14 @@
 id,question,A,B,C,Answer
-1,"When log(p/1-p)=a+bx, what does ""a"" represent? ",Log of odds ratio,log of odds when x=0,Change in log of odds for one unit of x,B
-2,"When log(p/1-p)=a+bx, what does ""b"" represent?",Change in log of odds for one unit of x,odds ratio ,Log of odds ratio,A
+1,"When log(p/1-p)=a+bx, what does ""a"" represent?",Log of odds ratio,log of odds when x=0,Change in log of odds for one unit of x,B
+2,"Suppose p is the probability of acceptance of Med school and x is GPA. If log(p/1-p)=a+bx, what does ""b"" represent?",Change in log of odds for one unit of x,odds ratio ,Log of odds ratio,A
 3,"Suppose x=1 for the treatment group and x=0 for the control group. When log(p/1-p)=a+bx, what does ""b"" represent?",log of odds when x=0,Change in odds for one unit of x,Log of odds ratio,C
 4,"Suppose x=1 for the treatment group and x=0 for the control group. When log(p/1-p)=a+bx, what does exp(b) represent?",odds ratio ,Log of odds ratio ,log of odds when x=0,A
 5,"When log(p/1-p)=a+bx and you increase the value of x by one unit, how does the estimated odds change?",by a factor of exp(b),by a factor of - exp(b),by a factor of exp(a),A
 6,"In the simple logistic regression, log(p/1-p)=a+bx, what is ""a"" when p equals 0.5?",a=0.5,a=1,a=0,C
-7,What does log(p/1-p)=a+bx represent? ,Odds ratio ,Logistic Regression Model,Log of odds ratio,B
+7,What does log(p/1-p)=a+bx represent?,Odds ratio ,Logistic Regression Model,Log of odds ratio,B
 8,What is the recommended value of g for Hosmer and Lemeshow test?,8,12,10,C
 9,When will the Hosmer and Lemeshow test not apply?,5 covariantes and g=10,12 covariantes and g=10,8 covariantes and g=10,B
-10,When does the residual plot indicate a good model fit?,no pattern and no extremely large residuals,non-linear pattern ,all residual values > 0 ,A
+10,When does the residual plot indicate a good model fit?,no pattern and no extremely large residuals,non-linear pattern ,all residual values > 0,A
 11,"A binary logistic model has a dependent variable with two possible values which are labeled ""0"" and ""1""",TRUE,FALSE,,A
 12,"When log(p/1-p)=a+bx, which plot below indicates a negative ""b""?",b1neg1.png,b1pos1.png,,A
 13,"When log(p/1-p)=a+bx, which plot below indicates a positive ""b""?",b1pos2.png,b1neg2.png,,A

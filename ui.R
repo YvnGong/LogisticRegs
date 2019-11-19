@@ -124,6 +124,11 @@ shinyUI <- dashboardPage(
                                                 moves the curve left and right and the slope
                                                 \\(\\beta_1\\) defines the steepness of the curve.")),
                                      div(style="font-size: 1.6em", helpText('$${ln({p\\over1-p})} = {\\beta_0+\\beta_1x}$$')),
+                                     # h4(tags$li("Empirical logit plot is used to check the linearity for datasets")),
+                                     # div(style="font-size: 1.6em", helpText('$$logit ( \hat {p} )=log(\frac{\hat p}{1-\hat p})$$')),
+                                     withMathJax(),
+                                     h4(tags$li("Empirical logit plot is used to check the linearity for datasets.")),
+                                     div(style="font-size: 1.6em", helpText('$$ {logit ( \\hat p )=log({ \\hat p\\over1-\\hat p})}$$')),
                                      h4(tags$li("Deviance Residual and Pearson Residual check the model fit. Best 
                                                 results are no patterns or no extremely large residuals ")),
                                      h4(tags$li("Hosmer and Lemeshow test check the goodness of fit in the model 
@@ -146,14 +151,14 @@ shinyUI <- dashboardPage(
                                      tags$a(href='http://stat.psu.edu/',tags$img(src='logo.png', align = "left", width = 180)),
                                     br(),br(),br(),
                                     h3(strong("About:")),
-                                    h4("This app allows you to explore how different factors can affect the outcome of the Logistic Regression Model and Multiple Logistic Model."),
+                                    h4("This app allows you to explore how different factors can affect the outcome of the Logistic Regression Model and Empirical Logit Plot."),
                                     br(),
                                     h3(strong("Instructions:")),
-                                    h4(tags$li("There are two types of logistic model, Single Logistic Regression and Multiple Logistic Regression, included in this app.")),
-                                    h4(tags$li("For each model, adjust the sliders to change the sample size and corresponding beta coefficients.")),
+                                    h4(tags$li("This app includes Single Logistic Regression with simulated data and the Empirical Logit Plot with real datasets.")),
+                                    #h4(tags$li("For each model, adjust the sliders to change the sample size and corresponding beta coefficients.")),
                                     h4(tags$li("Click New Sample button to generate plot. Watch the change of plot when drag the slider of confidence interval.")),
-                                    h4(tags$li("Each Logistic Regression plot is made on a random sample.")),
-                                    h4(tags$li("After working with the explore section, you can start the game to test your understanding of the concepts.")),
+                                    h4(tags$li("In Empirical Logit Plot, select interested predictors from the menu and see how the plot changes accordingly")),
+                                    h4(tags$li("After working with the Explore section, you can start the game to test your understanding of the concepts.")),
                                     h4(tags$li("Practice the questions in Game Section. For each question you get right, you would get a chance to roll the dice.")),
                                     h4(tags$li("If the cumulative total for your dice roll reaches 20 within 10 questions, YOU WIN!")),
                                     br(),
@@ -163,7 +168,11 @@ shinyUI <- dashboardPage(
                                     
                                     br(),
                                     h3(strong("Acknowledgements:")),
-                                    h4("This app was developed and coded by Yiyun Gong and Ruisi Wang.")
+                                    h4("This app was developed and coded by Yiyun Gong and Ruisi Wang."),
+                                    
+                                    br(),
+                                    h3(strong("About the data:")),
+                                    h4("The datasets and the procedures for the empirical logit plot are adopted from Stat2: Models for a World of Data by Cannon, Cobb, Hartlaub, Legler, Lock, Moore, Rossman, and Witmer.  "),
 
                              ),
 
@@ -252,7 +261,36 @@ shinyUI <- dashboardPage(
                                        #h4(tags$li("Adjust the sliders to change the sample size and corresponding 
                                        #           beta coefficients.")),
                                        #h4(tags$li("Click 'New Sample' button to generate plot.")),
+                                       # fluidRow(column(width=12,                                        wellPanel(
+                                       #   style = "background-color: #ffb6c1",
+                                       #   tags$div(
+                                       #     h4("Process of creating an empirical logit plot for quantitative predictors"),
+                                       #     tags$ul(
+                                       #       tags$li("Divide the range of the predictor into intervals with roughly equal numbers of cases."),
+                                       #       tags$li("Compute the mean value of the predictor and the empirical logit for each interval."),
+                                       #       tags$li("Plot logit versus the mean value of the predictor, with one point for each interval.")
+                                       #     ),
+                                       #     style = "background-color: #ffb6c1")))),
+
+#                                        box(width =4,background = "maroon", 
+#                                            title = "Process of creating an empirical logit plot for quantitative predictors", "
+# 1) Divide the range of the predictor into intervals with roughly equal numbers of cases. 
+# 2) Compute the mean value of the predictor and the empirical logit for each interval. 
+# 3) Plot logit versus the mean value of the predictor, with one point for each interval."),
+#   
+
+                                       h3("Process of creating an empirical logit plot for quantitative predictors"),
+                                       h4("1. Divide the range of the predictor into intervals with roughly equal numbers of cases."),
+                                       h4("2. Compute the mean value of the predictor and the empirical logit for each interval."),
+                                       h4("3. Plot logit versus the mean value of the predictor, with one point for each interval."),
                                        br(),
+#                                        box(width = 6, background = "maroon", title = "How many intervals should we use for the Empirical Logit Plot?",
+#                                            "Two intervals give you a sense of the direction and size of the relationship.
+# Three intervals give you an indication of departures from linearity. 
+# Four or five intervals is better when you have enough cases. "),
+#                                        br(),
+                                       
+                                       
                             
                                        sidebarLayout(
                                          sidebarPanel(

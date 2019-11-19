@@ -56,7 +56,7 @@ shinyServer(function(input, output,session) {
     sendSweetAlert(
       session = session,
       title = "Instructions:",
-      text = "Click on desired square, answer the question, then hit submit and go to next question.",
+      text = "This app explores Simple Logistic Regression with simulated data and real data",
       type = NULL
     )
   })
@@ -231,32 +231,32 @@ shinyServer(function(input, output,session) {
       if (input$datatable == 'MedGPA'){
         if (input$MedYvar == 'Acceptance'){
           if(input$MedXvar == 'GPA'){
-            emplogitplot1(Acceptance~GPA, ngroups=input$ngroups, out=TRUE, data=MedGPA)
+            emplogitplot1(Acceptance~GPA, ngroups=input$ngroups, out=TRUE, data=MedGPA, main="Empirical Logit Plot")
           }
           else if(input$MedXvar == 'MCAT'){
-            emplogitplot1(Acceptance~MCAT, ngroups=input$ngroups, out=TRUE, data=MedGPA)
+            emplogitplot1(Acceptance~MCAT, ngroups=input$ngroups, out=TRUE, data=MedGPA, main="Empirical Logit Plot")
           }
           else if(input$MedXvar == 'BCPM'){
-            emplogitplot1(Acceptance~BCPM, ngroups=input$ngroups, out=TRUE, data=MedGPA)
+            emplogitplot1(Acceptance~BCPM, ngroups=input$ngroups, out=TRUE, data=MedGPA, main="Empirical Logit Plot")
           }
         }
       }
       else if (input$datatable == 'Titanic'){
         if (input$TitanicYvar == 'Survived'){
           if(input$TitanicXvar == 'Age'){
-            emplogitplot1(Survived~Age,ngroups=input$ngroups, out=TRUE, data=Titanic)
+            emplogitplot1(Survived~Age,ngroups=input$ngroups, out=TRUE, data=Titanic, main="Empirical Logit Plot")
           }
       }}
       else if (input$datatable == 'Leukemia'){
           if (input$LeukemiaYvar == 'Status'){
             if(input$LeukemiaXvar == 'Blasts'){
-              emplogitplot1(Status~Blasts, ngroups=input$ngroups, out=TRUE, data=Leukemia)
+              emplogitplot1(Status~Blasts, ngroups=input$ngroups, out=TRUE, data=Leukemia, main="Empirical Logit Plot")
             }
             else if(input$LeukemiaXvar == 'Age'){
-              emplogitplot1(Status~Age, ngroups=input$ngroups, out=TRUE, data=Leukemia)
+              emplogitplot1(Status~Age, ngroups=input$ngroups, out=TRUE, data=Leukemia, main="Empirical Logit Plot")
             }
             else if(input$LeukemiaXvar == 'Infil(perceptage of infiltrate)'){
-              emplogitplot1(Status~Infil, ngroups=input$ngroups, out=TRUE, data=Leukemia)
+              emplogitplot1(Status~Infil, ngroups=input$ngroups, out=TRUE, data=Leukemia, main="Empirical Logit Plot")
             }
           }
       }
