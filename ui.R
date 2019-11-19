@@ -245,64 +245,132 @@ shinyUI <- dashboardPage(
                                        )
                                      ),
                                      
-                                     tabPanel("Multiple Logistic Regression",
-                                              h3(strong("Multiple Logistic Regression")),
-                                              h4(tags$li("Adjust the sliders to change the sample size and corresponding 
-                                                 beta coefficients.")),
-                                              h4(tags$li("After working with the explore section, you can start the game to test your understanding.")),
-                                              br(),
-                                              
-                                              sidebarLayout(
-                                                sidebarPanel(
-                                                  sliderInput2("sampleSize2", "Sample Size:",
-                                                               min = 0, 
-                                                               max = 300, 
-                                                               value = 150, 
-                                                               step = 1, 
-                                                               from_min = 10
-                                                  ),
-                                                  sliderInput("b02", "β0 (intercept):",
-                                                              min = -10, max = 10, value = 2
-                                                  ),
-                                                  sliderInput("b12", "β1 (coefficient):",
-                                                              min = -10, max = 10, value = 8
-                                                  ),
-                                                  sliderInput("b2", "β2 (coefficient):",
-                                                              min = -10, max = 10, value = -8
-                                                  ),
-                                                  sliderInput3("ci2", "confidence interval level:",
-                                                               min = 0, 
-                                                               max = 1, 
-                                                               value = 0.95, 
-                                                               step = 0.01,  
-                                                               from_max = 0.99
-                                                  ),
-                                                  
-                                                  br(),
-                                                  actionButton("goButtonMul", "New Sample", icon("paper-plane"),
-                                                                                   class = "btn btn-lg", style="color: #fff", class="circle grow"),
-                                                  br(),
-                                                  br(),
-                                                  bsButton(inputId = "begin", label="Game Time!", icon("gamepad"), 
-                                                           class='btn btn-lg', style= "danger", class="circle grow")
-                                                ),
-                                                
-                                                mainPanel(
-                                                  plotlyOutput("mulPlot", height = "300px")%>% withSpinner(color="#ffb6c1"),
-                                                  br(),
-                                                  br(),
-                                                  plotOutput("multix")%>% withSpinner(color="#ffb6c1")
-                                                  # br(),
-                                                  # tags$style(type='text/css', '#lemeshowTest2, #obsexp2 {background-color: rgba(219,193,195,0.20); 
-                                                  #            color: maroon;text-align: center}'), 
-                                                  # # br(),
-                                                  # div(style="text-align: center", h3(id='title', "Hosmer and Lemeshow goodness of fit (GOF) test")),
-                                                  # br(),
-                                                  # tableOutput("lemeshowDF2"),
-                                                  # tableOutput("obsexpDF2")
-                                                  )
-                                              )
-                                              )
+                                     tabPanel(
+                                       ###Emperical Logit Plot
+                                       'Emperical Logit Plot',
+                                       h3(strong("Emperical Logit Plot")),
+                                       #h4(tags$li("Adjust the sliders to change the sample size and corresponding 
+                                       #           beta coefficients.")),
+                                       #h4(tags$li("Click 'New Sample' button to generate plot.")),
+                                       br(),
+                            
+                                       sidebarLayout(
+                                         sidebarPanel(
+                                           ####select datasets
+                                           selectInput(inputId="datatable", label="Select Dataset:", 
+                                                       choices= c('MedGPA', 'Titanic', 'Leukemia'), 
+                                                       selected = 'MedGPA'),
+                                           
+                                           ####variable options for 'MedGPA' dataset
+                                           conditionalPanel(
+                                             condition = "input.datatable == 'MedGPA'",
+                                             selectInput(inputId="MedYvar", label="Select Response Variable Y",
+                                                         choices = c("Acceptance"),
+                                                         selected = 'Acceptance'),
+                                             selectInput(inputId="MedXvar", label="Select Quantitative Predictor X",
+                                                         choices = c("GPA", "MCAT", "BCPM"),
+                                                         selected = 'GPA')
+                                           ),
+                                           
+                                           ####variable option for 'Titanic' dataset
+                                           conditionalPanel(
+                                             condition = "input.datatable == 'Titanic'",
+                                             selectInput(inputId="TitanicYvar", label="Select Response Variable Y",
+                                                         choices = c("Survived"),
+                                                         selected = 'Survived'),
+                                             selectInput(inputId="TitanicXvar", label="Select Quantitative Predictor X",
+                                                         choices = c("Age"),
+                                                         selected = 'Age')
+                                           ),
+
+                                           ####variable option for 'Leukemia' dataset
+                                           conditionalPanel(
+                                             condition = "input.datatable == 'Leukemia'",
+                                             selectInput(inputId="LeukemiaYvar", label="Select Response Variable Y",
+                                                         choices = c("Status"),
+                                                         selected = 'Status'),
+                                             selectInput(inputId="LeukemiaXvar", label="Select Quantitative Predictor X",
+                                                         choices = c("Blasts", "Age", "Infil(perceptage of infiltrate)"),
+                                                         selected = "Blasts")
+                                           ),
+                                           
+                                           ###number of groups
+                                           sliderInput("ngroups", "Number of Groups (Intervals):",
+                                                       min = 2, max = 8,
+                                                       value = 4, step = 1),
+                                           
+                                           br()
+                                           
+                                         ),
+                                         mainPanel(
+                                           plotOutput("empericalLogitPlot", width = "100%")%>% withSpinner(color="#ffb6c1")
+                                         )
+                                       )
+                                       )
+                                     
+                                     # tabPanel("Multiple Logistic Regression",
+                                     #          h3(strong("Multiple Logistic Regression")),
+                                     #          h4(tags$li("Adjust the sliders to change the sample size and corresponding 
+                                     #             beta coefficients.")),
+                                     #          h4(tags$li("After working with the explore section, you can start the game to test your understanding.")),
+                                     #          br(),
+                                     #          
+                                     #          sidebarLayout(
+                                     #            sidebarPanel(
+                                     #              sliderInput2("sampleSize2", "Sample Size:",
+                                     #                           min = 0, 
+                                     #                           max = 300, 
+                                     #                           value = 150, 
+                                     #                           step = 1, 
+                                     #                           from_min = 10
+                                     #              ),
+                                     #              sliderInput("b02", "β0 (intercept):",
+                                     #                          min = -10, max = 10, value = 2
+                                     #              ),
+                                     #              sliderInput("b12", "β1 (coefficient):",
+                                     #                          min = -10, max = 10, value = 8
+                                     #              ),
+                                     #              sliderInput("b2", "β2 (coefficient):",
+                                     #                          min = -10, max = 10, value = -8
+                                     #              ),
+                                     #              sliderInput3("ci2", "confidence interval level:",
+                                     #                           min = 0, 
+                                     #                           max = 1, 
+                                     #                           value = 0.95, 
+                                     #                           step = 0.01,  
+                                     #                           from_max = 0.99
+                                     #              ),
+                                     #              
+                                     #              br(),
+                                     #              actionButton("goButtonMul", "New Sample", icon("paper-plane"),
+                                     #                                               class = "btn btn-lg", style="color: #fff", class="circle grow"),
+                                     #              br(),
+                                     #              br(),
+                                     #              bsButton(inputId = "begin", label="Game Time!", icon("gamepad"), 
+                                     #                       class='btn btn-lg', style= "danger", class="circle grow")
+                                     #            ),
+                                     #            
+                                     #            mainPanel(
+                                     #              plotOutput("emplogit
+                                     #                         ")%>% withSpinner(color="#ffb6c1"),
+                                     #              br(),
+                                     #              br(),
+                                     #              plotlyOutput("mulPlot", height = "300px")%>% withSpinner(color="#ffb6c1"),
+                                     #              br(),
+                                     #              br(),
+                                     #              plotOutput("multix")%>% withSpinner(color="#ffb6c1")
+                                     #              
+                                     #              # br(),
+                                     #              # tags$style(type='text/css', '#lemeshowTest2, #obsexp2 {background-color: rgba(219,193,195,0.20); 
+                                     #              #            color: maroon;text-align: center}'), 
+                                     #              # # br(),
+                                     #              # div(style="text-align: center", h3(id='title', "Hosmer and Lemeshow goodness of fit (GOF) test")),
+                                     #              # br(),
+                                     #              # tableOutput("lemeshowDF2"),
+                                     #              # tableOutput("obsexpDF2")
+                                     #              )
+                                     #          )
+                                     #          )
                                    )),
 
                             tabItem(tabName = "qqq",

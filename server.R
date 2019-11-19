@@ -15,6 +15,8 @@ library(ggplot2)
 library(plotly)
 library(data.table)
 library(ResourceSelection)
+library(Stat2Data)
+
 
 #bank for question
 bank <- read.csv("questionbank.csv")
@@ -218,6 +220,48 @@ shinyServer(function(input, output,session) {
   commonDf2<-reactive({
     df2(input$b02, input$b12, input$b2, input$sampleSize2)
   })
+  
+  #####read in datatable############
+  data(MedGPA)
+  data("Titanic")
+  data("Leukemia")
+  ###empircal logit plot############
+  output$empericalLogitPlot<-
+    renderPlot({
+      if (input$datatable == 'MedGPA'){
+        if (input$MedYvar == 'Acceptance'){
+          if(input$MedXvar == 'GPA'){
+            emplogitplot1(Acceptance~GPA, ngroups=input$ngroups, out=TRUE, data=MedGPA)
+          }
+          else if(input$MedXvar == 'MCAT'){
+            emplogitplot1(Acceptance~MCAT, ngroups=input$ngroups, out=TRUE, data=MedGPA)
+          }
+          else if(input$MedXvar == 'BCPM'){
+            emplogitplot1(Acceptance~BCPM, ngroups=input$ngroups, out=TRUE, data=MedGPA)
+          }
+        }
+      }
+      else if (input$datatable == 'Titanic'){
+        if (input$TitanicYvar == 'Survived'){
+          if(input$TitanicXvar == 'Age'){
+            emplogitplot1(Survived~Age,ngroups=input$ngroups, out=TRUE, data=Titanic)
+          }
+      }}
+      else if (input$datatable == 'Leukemia'){
+          if (input$LeukemiaYvar == 'Status'){
+            if(input$LeukemiaXvar == 'Blasts'){
+              emplogitplot1(Status~Blasts, ngroups=input$ngroups, out=TRUE, data=Leukemia)
+            }
+            else if(input$LeukemiaXvar == 'Age'){
+              emplogitplot1(Status~Age, ngroups=input$ngroups, out=TRUE, data=Leukemia)
+            }
+            else if(input$LeukemiaXvar == 'Infil(perceptage of infiltrate)'){
+              emplogitplot1(Status~Infil, ngroups=input$ngroups, out=TRUE, data=Leukemia)
+            }
+          }
+      }
+        
+    })
   
   output$mulPlot<-renderPlotly({
     input$goButtonMul
